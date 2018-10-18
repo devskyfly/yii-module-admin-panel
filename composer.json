@@ -1,5 +1,5 @@
 {
-	"name" : "devskyfly/yiiModuleAdminPanel",
+	"name" : "devskyfly/yii-module-admin-panel",
 	"type" : "module",
 	"license" : "MIT",
 	"authors" : [{
