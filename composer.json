@@ -1,6 +1,6 @@
 {
 	"name" : "devskyfly/yii-module-admin-panel",
-	"type" : "library",
+	"type" : "module",
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Ivan",
@@ -10,5 +10,10 @@
 	"require" : {
 		"php" : ">=5.6.0",
 		"devskyfly/php56" : "dev-dev"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"devskyfly\\yiiModuleAdminPanel\\" : ""
+		}
 	}
 }
