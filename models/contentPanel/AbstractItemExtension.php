@@ -15,6 +15,19 @@ use yii\helpers\ArrayHelper;
 abstract class AbstractItemExtension extends ActiveRecord
 {
     /**
+     * Keep reference to master item
+     * 
+     * @var AbstractItem
+     */
+    public $master_item;
+    
+    /**
+     * Keep extension name that specified in AbstractItem::extensions()
+     *
+     * @var AbstractItem
+     */
+    public $extension_name;
+    /**
      * Return class name
      *
      * @return string
@@ -37,11 +50,12 @@ abstract class AbstractItemExtension extends ActiveRecord
      * Init extension by its related item
      * 
      * @param \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem $item
+     * @param string $extension_name
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItemExtension
      */
-    public function initByItem($item)
+    public function initByItem($item,$extension_name)
     {
         $cls=static::getItemCls();
         
@@ -53,6 +67,8 @@ abstract class AbstractItemExtension extends ActiveRecord
             throw new \LogicException('Param $item is not save.');
         }
         
+        $this->master_item=$item;
+        $this->extension_name=$extension_name;
         $this->__id=$item->id;
         $this->item_table=$item::shortTableName();
         return $this;
@@ -62,11 +78,12 @@ abstract class AbstractItemExtension extends ActiveRecord
      * Find extension record using its item id and table name
      * 
      * @param \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem $item
+     * @param string $extension_name
      * @throws \InvalidArgumentException
      * @throws \LogicException
      * @return null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractExtension
      */
-    public static function findByItem($item)
+    public static function findByItem($item,$extension_name)
     {
         $cls=static::getItemCls();
         
@@ -78,7 +95,12 @@ abstract class AbstractItemExtension extends ActiveRecord
             throw new \LogicException('Param $item is not save.');
         }
         
-        return static::find()->where(['item_table'=>$item::shortTableName(),'__id'=>$item->id])->one();
+        $result=static::find()->where(['item_table'=>$item::shortTableName(),'__id'=>$item->id])->one();
+        if($result){
+            $result->master_item=$item;
+            $result->extension_name=$extension_name;
+        } 
+        return $result;
     }
     
     /**********************************************************************/

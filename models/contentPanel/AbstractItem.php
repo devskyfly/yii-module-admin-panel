@@ -88,8 +88,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         $transaction=$this->db->beginTransaction();
         try{
             $result=$this->insert();
-            foreach ($this->extensions as $extension){
-                $extension->initByItem($this);
+            foreach ($this->extensions as $name=>$extension){
+                $extension->initByItem($this,$name);
                 $result=$result&&$extension->insert();
             }
             $transaction->commit();
@@ -258,11 +258,11 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                     if(!Str::isString($val)){
                         throw new \InvalidArgumentException('Param $val is not string type.');
                     }
-                    $this->extensions[$key]=Yii::createObject($val);
+                    $this->extensions[$key]=Yii::createObject(["class"=>$val,"master_item"=>$this,"extension_name"=>$key]);
                 }
             }else{
                 foreach ($extensions as $key=>$val){
-                    $extension=$val::findByItem($this);
+                    $extension=$val::findByItem($this,$key);
                     if(Vrbl::isNull($extension)){
                         throw new \InvalidArgumentException('Variable $extension is null.');
                     }

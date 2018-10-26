@@ -1,7 +1,10 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel;
 
+use devskyfly\php56\types\Str;
+use devskyfly\php56\types\Vrbl;
 use Yii;
+use yii\helpers\FileHelper;
 
 /**
  * This module give opportunity to create admin panel
@@ -10,19 +13,27 @@ use Yii;
  *
  */
 class Module extends \yii\base\Module
-{
+{   
+    /**
+     * Upload dir path for application need to configurate
+     * @var string
+     */
+    public $upload_dir='';
+    
     /**
      * Store absolute path of current module view path
      * 
      * Because AbstractContentPanelController is used by external controllers
      * @var string
      */
-    private $_module_view_path;
+    private $_module_view_path='';
+    
     
     public function init()
     {
         parent::init();
         
+        $this->initUploadDir();
         /**
          * Define controller namespace
          */
@@ -31,6 +42,40 @@ class Module extends \yii\base\Module
         }
         
         $this->setAbsoluteViewPath();
+    }
+    
+    /**
+     * Return upload_dir property value.
+     * 
+     * @return string
+     */
+    public function getUploadDir()
+    {
+        return $this->upload_dir;
+    }
+    
+    /**
+     * 
+     * @throws \InvalidArgumentException
+     * @throws \yii\base\Exception
+     */
+    public function initUploadDir()
+    {
+        if(Vrbl::isEmpty($this->upload_dir)){
+            $this->upload_dir="@common/upload";
+        }
+        if(!Str::isString($this->upload_dir)){
+            throw new \InvalidArgumentException('Param $path is not string type.');
+        }
+        
+        $path=Yii::getAlias($this->upload_dir);
+        
+        if(!file_exists(Yii::getAlias($this->upload_dir))){
+            $result=FileHelper::createDirectory($path);
+            if(!$result){
+                throw new \Exception("Can't create dir $path");
+            }
+        }
     }
     
     /**

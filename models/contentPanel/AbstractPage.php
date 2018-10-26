@@ -8,7 +8,8 @@ use yii\helpers\StringHelper;
 /**
  * 
  * @author devskyfly
- *
+ * @property string $item_table
+ * @property string $__id
  * @property string $preview_text
  * @property string $detail_text
  * @property string $title
