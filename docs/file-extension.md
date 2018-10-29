@@ -56,4 +56,28 @@ public function extensions()
 }
 ?>
 ```
+3. Дополнить правила валидации
 
+```php
+public function rules()
+{
+    $rules=parent::rules();
+
+    $new_rules=[
+        [['file'],'file','skipOnEmpty'=>true,'extensions'=>'png, jpg']
+    ];
+    
+    $rules=ArrayHelper::merge($rules, $new_rules);
+    return $rules;
+}
+```
+### Виджет
+
+```php
+FileUpload::widget([
+    "form"=>$form,
+    "item"=>$item,
+    "attribute"=>'file'
+])
+
+```

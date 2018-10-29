@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\StringHelper;
 use yii\helpers\FileHelper;
+use devskyfly\php56\types\Vrbl;
 
 /* @var $view \yii\web\View */
 /* @var $form \yii\widgets\ActiveForm */
@@ -18,11 +19,13 @@ use yii\helpers\FileHelper;
 
 <?php 
 $images_extensions=['png','jpg','jpeg','gif'];
-$extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file->path));
+if(!$file->isNewRecord){
+    $extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file->path));
+}
 ?>
 <div>
 	<label><?=StringHelper::mb_ucfirst($attribute)?></label>
-	
+	<?if(!$file->isNewRecord):?>
 	<div>
 		<?if(in_array($extension[0], $images_extensions)):?>
 			<img 
@@ -35,6 +38,6 @@ $extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file->pa
 			File path: <?=$file->path?>
 		</span>
 	</div>
-	
+	<?endif;?>
 	<?=$form->field($item, $attribute)->fileInput()->label('')?>
 </div>

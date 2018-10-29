@@ -44,6 +44,10 @@ class Module extends \yii\base\Module
         $this->setAbsoluteViewPath();
     }
     
+    /**********************************************************************/
+     /** UploadDir **/
+     /**********************************************************************/
+    
     /**
      * Return upload_dir property value.
      * 
@@ -77,6 +81,10 @@ class Module extends \yii\base\Module
             }
         }
     }
+    
+    /**********************************************************************/
+     /** AbsoluteViewPath **/
+     /**********************************************************************/
     
     /**
      * Set _module_view_path property

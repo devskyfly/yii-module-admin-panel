@@ -2,12 +2,14 @@
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use Ramsey\Uuid\Uuid;
+use devskyfly\php56\libs\fileSystem\Files;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
+use yii\db\AfterSaveEvent;
 
 
 /**
@@ -75,6 +77,13 @@ abstract class AbstractFile extends AbstractItemExtension
     /** REDECLARATION **/
     /**********************************************************************/
     
+   public function afterDelete()
+   {
+       parent::afterDelete();
+       $file_path=$this->path;
+       $result=Files::deleteFile($file_path);
+   }
+    
    public function beforeSave($insert)
    {
        if(!parent::beforeSave($insert)){
@@ -94,12 +103,6 @@ abstract class AbstractFile extends AbstractItemExtension
     public function rules()
     {
         $rules=parent::rules();
-        
-        //$file_extensions=$this->fileValidationRules();
-        
-        /* if(!Str::isString()){
-            throw \InvalidArgumentException('Param $file_extensions is not string type.');
-        } */
         
         $new_rules=[
             [["guid"],"required"],
