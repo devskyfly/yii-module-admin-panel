@@ -24,7 +24,7 @@ abstract class AbstractItemExtension extends ActiveRecord
     /**
      * Keep extension name that specified in AbstractItem::extensions()
      *
-     * @var AbstractItem
+     * @var string
      */
     public $extension_name;
     /**

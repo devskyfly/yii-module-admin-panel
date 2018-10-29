@@ -4,8 +4,11 @@ namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 use Ramsey\Uuid\Uuid;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
+use Yii;
 use yii\helpers\ArrayHelper;
-use GuzzleHttp\Psr7\UploadedFile;
+use yii\web\UploadedFile;
+use yii\helpers\FileHelper;
+
 
 /**
  * 
@@ -17,16 +20,6 @@ use GuzzleHttp\Psr7\UploadedFile;
  */
 abstract class AbstractFile extends AbstractItemExtension
 {
-    /**
-     * File property to make upload and validation
-     * 
-     * @var string
-     */
-    public $file;
-    
-    /**********************************************************************/
-    /** REDECLARATE **/
-    /**********************************************************************/
     
     /**
      * 
@@ -44,6 +37,56 @@ abstract class AbstractFile extends AbstractItemExtension
     }
     
     /**
+     * File upload handler
+     * @throws \Exception
+     */
+    protected function handleFileUpload()
+    {
+        $master_item=$this->master_item;
+        //module
+        $module=Yii::$app->getModule('admin-panel');
+        
+        if(Vrbl::isNull($module)){
+            throw \Exception('admin-panel module is not loaded.');
+        }
+        $module->initUploadDir();
+        $upload_dir=$module->upload_dir;
+        //dir_path
+        $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::shortTableName().'/'.$master_item->id);
+        if(!file_exists($dir_path)){
+            $result=FileHelper::createDirectory($dir_path);
+            if(!$result){
+                throw new \Exception("Can't create dir $dir_path.");
+            }
+        }
+        //file
+        $file= UploadedFile::getInstance($this->master_item,$this->extension_name);
+        $path=$dir_path.'/'.$file->baseName.'.'.$file->extension;
+        
+        $this->path=$path;
+        
+        $result=$file->saveAs(Yii::getAlias($path));
+        if(!$result){
+            throw new \Exception("Can't create file $path.");
+        }
+    } 
+    
+    /**********************************************************************/
+    /** REDECLARATION **/
+    /**********************************************************************/
+    
+   public function beforeSave($insert)
+   {
+       if(!parent::beforeSave($insert)){
+           return false;
+       }
+       
+       $this->handleFileUpload();
+       
+       return true;
+   }
+    
+    /**
      *
      * {@inheritDoc}
      * @see \yii\base\Model::rules()
@@ -52,11 +95,11 @@ abstract class AbstractFile extends AbstractItemExtension
     {
         $rules=parent::rules();
         
-        $file_extensions=$this->fileValidationRules();
+        //$file_extensions=$this->fileValidationRules();
         
-        if(!Str::isString()){
-            throw \InvalidArgumentException('Param $$file_extensions is not string type.');
-        }
+        /* if(!Str::isString()){
+            throw \InvalidArgumentException('Param $file_extensions is not string type.');
+        } */
         
         $new_rules=[
             [["guid"],"required"],
@@ -65,29 +108,6 @@ abstract class AbstractFile extends AbstractItemExtension
         
         $rules=ArrayHelper::merge($rules, $new_rules);
         return $rules;
-    }
-    
-     /**
-     * Return file extensions for validation separated by comma
-     * 
-     * @return string 
-     */
-    //abstract protected function fileExtensions(); 
-    
-    protected function handleFileUpload()
-    {
-        $module=Yii::$app->getModule('admin-panel');
-        
-        if(Vrbl::isNull($module)){
-            throw \Exception('admin-panel module is not loaded.');
-        }
-        
-        $upload_dir=$module->upload_dir;
-        $this->master_item[$this->extension_name]= UploadedFile::detInstance($this->master_item,$this->extension_name);
-        
-        if($this->master_item->validate()){
-            
-        }
     }
     
     public static function tableName()
