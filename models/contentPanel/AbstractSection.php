@@ -149,7 +149,7 @@ abstract class AbstractSection extends AbstractItem
         if(!$this->isNewRecord){
             $guid=$this->id;
         }
-        return $this::find()->where(['__id'=>$guid])->all();
+        return $this::find()->andWhere(['__id'=>$guid])->all();
     }
     
     /**
