@@ -12,7 +12,7 @@
 ```php
 <?php
 $fields=$this->getFieldsDefinition();
-$this->createTable($this->table, fields);
+$this->createTable($this->table, $fields);
 ?>
 ```
 

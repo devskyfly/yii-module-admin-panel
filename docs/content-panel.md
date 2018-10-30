@@ -233,13 +233,14 @@ N.B. При удалении сущности к которой привязан
 * devskyfly\yiiModuleAdminPanel\migrations\helpers\EntityMigrationHelper
 * devskyfly\yiiModuleAdminPanel\migrations\helpers\SectionMigrationHelper
 * devskyfly\yiiModuleAdminPanel\migrations\helpers\PageMigrationHelper
+* devskyfly\yiiModuleAdminPanel\migrations\helpers\FileMigrationHelper
 
 В методе up() записать команду 
 
 ```php
 <?php
 $fields=$this->getFieldsDefinition();
-$this->createTable($this->table, fields);
+$this->createTable($this->table, $fields);
 ?>
 ```
 

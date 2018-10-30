@@ -24,7 +24,7 @@ if(!$file->isNewRecord){
 }
 ?>
 <div>
-	<label><?=StringHelper::mb_ucfirst($attribute)?></label>
+	<label><?=ucfirst($attribute)?></label>
 	<?if(!$file->isNewRecord):?>
 	<div>
 		<?if(in_array($extension[0], $images_extensions)):?>
