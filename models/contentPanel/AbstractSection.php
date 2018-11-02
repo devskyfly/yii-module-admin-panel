@@ -255,5 +255,9 @@ abstract class AbstractSection extends AbstractItem
         $rules=ArrayHelper::merge($rules, $new_rules);
         return $rules;
     }
-
+    
+    public static function tableName()
+    {
+        return 'section';
+    }
 }
