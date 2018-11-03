@@ -90,15 +90,22 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             $result=$this->insert();
             foreach ($this->extensions as $name=>$extension){
                 $extension->initByItem($this,$name);
-                $result=$result&&$extension->insert();
+                if($extension->validate()){
+                    $result=$result&&$extension->insert();
+                }else{
+                    ArrayHelper::merge($this->errors,$extension->errors);
+                }
+                
             }
             $transaction->commit();
         }catch(\Exception $e){
             $transaction->rollBack();
-            return false;
+            throw $e;
+            //return false;
         }catch(\Throwable $e){
+            throw $e;
             $transaction->rollBack();
-            return false;
+            //return false;
         }
         return $result;
     }
@@ -120,15 +127,21 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         try{
             
             $result=$this->save();
-            foreach ($this->extensions as $extension){
-                $extension->initByItem($this);
-                $result=$result&&$extension->save();
+            foreach ($this->extensions as $name=>$extension){
+                $extension->initByItem($this,$name);
+                if($extension->validate()){
+                    $result=$result&&$extension->save();
+                }else{
+                    ArrayHelper::merge($this->errors,$extension->errors);
+                }
             }
             $transaction->commit();
         }catch(\Exception $e){
             $transaction->rollBack();
+            throw $e;
         }catch(\Throwable $e){
             $transaction->rollBack();
+            throw $e;
         }
         return $result;
     }

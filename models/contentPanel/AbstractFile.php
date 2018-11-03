@@ -45,31 +45,33 @@ abstract class AbstractFile extends AbstractItemExtension
     protected function handleFileUpload()
     {
         $master_item=$this->master_item;
-        //module
-        $module=Yii::$app->getModule('admin-panel');
-        
-        if(Vrbl::isNull($module)){
-            throw \Exception('admin-panel module is not loaded.');
-        }
-        $module->initUploadDir();
-        $upload_dir=$module->upload_dir;
-        //dir_path
-        $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::shortTableName().'/'.$master_item->id);
-        if(!file_exists($dir_path)){
-            $result=FileHelper::createDirectory($dir_path);
-            if(!$result){
-                throw new \Exception("Can't create dir $dir_path.");
-            }
-        }
-        //file
         $file= UploadedFile::getInstance($this->master_item,$this->extension_name);
-        $path=$dir_path.'/'.$file->baseName.'.'.$file->extension;
-        
-        $this->path=$path;
-        
-        $result=$file->saveAs(Yii::getAlias($path));
-        if(!$result){
-            throw new \Exception("Can't create file $path.");
+        if($file){
+            
+            //module
+            $module=Yii::$app->getModule('admin-panel');
+            
+            if(Vrbl::isNull($module)){
+                throw \Exception('admin-panel module is not loaded.');
+            }
+            $module->initUploadDir();
+            $upload_dir=$module->upload_dir;
+            //dir_path
+            $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::shortTableName().'/'.$master_item->id);
+            if(!file_exists($dir_path)){
+                $result=FileHelper::createDirectory($dir_path);
+                if(!$result){
+                    throw new \Exception("Can't create dir $dir_path.");
+                }
+            }
+            //file
+            $path=$dir_path.'/'.$file->baseName.'.'.$file->extension;
+            $this->path=$path;
+            
+            $result=$file->saveAs(Yii::getAlias($path));
+            if(!$result){
+                throw new \Exception("Can't create file $path.");
+            }
         }
     } 
     
