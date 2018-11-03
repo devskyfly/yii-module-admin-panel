@@ -39,6 +39,20 @@ abstract class AbstractFile extends AbstractItemExtension
     }
     
     /**
+     * 
+     * @param string$guid
+     * @throws \InvalidArgumentException
+     * @return AbstractFile | null
+     */
+    public static function getByGuid($guid)
+    {
+        if(!Str::isString($guid)){
+            throw new \InvalidArgumentException('Param $guid is not string type.');
+        }
+        return static::find()->where(['guid'=>$guid])->one();
+    }
+    
+    /**
      * File upload handler
      * @throws \Exception
      */
