@@ -220,14 +220,23 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     }
     
     /**
+     * 
+     * @return string
+     */
+    public static function tableName()
+    {
+        return Inflector::camel2id(StringHelper::basename(get_called_class()), '_');
+    }
+    
+    /**
      * Return table name
      * 
      * @return string
      */
-    public static function shortTableName()
+    /* public static function shortTableName()
     {
         return Inflector::camel2id(StringHelper::basename(get_called_class()), '_');
-    }
+    } */
     
     /**
      * Return route for item select

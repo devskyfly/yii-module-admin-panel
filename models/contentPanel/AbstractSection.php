@@ -58,7 +58,7 @@ abstract class AbstractSection extends AbstractItem
         $this->entity_cls=static::getEntityCls();
         
         $entity=$this->entity_cls;
-        $this->entity_table=$entity::shortTableName();
+        $this->entity_table=$entity::tableName();
         
         if($this->isNewRecord){
             $this->create_date_time=(new \DateTime())->format(\DateTime::ATOM);
@@ -86,8 +86,8 @@ abstract class AbstractSection extends AbstractItem
             }
             
             //delete current section extensions
-            foreach ($this->extensions as $extension){
-                $extension=$extension::findByItem($this);
+            foreach ($this->extensions as $name=>$extension){
+                $extension=$extension::findByItem($this,$name);
                 if($extension->delete()===false){
                     throw new \yii\db\Exception('Can\'t delete extension');
                 }
@@ -238,7 +238,7 @@ abstract class AbstractSection extends AbstractItem
     public static function find()
     {
         $cls=static::getEntityCls();
-        return parent::find()->where(['entity_table'=>$cls::shortTableName()]);
+        return parent::find()->where(['entity_table'=>$cls::tableName()]);
     } 
 
     /**

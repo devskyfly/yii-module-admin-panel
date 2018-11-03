@@ -10,8 +10,8 @@ use yii\helpers\Url;
 ?>
 
 <?
-$content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::shortTableName()."-".$property;
-$master_item_table_name=$master_item::shortTableName();
+$content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
+$master_item_table_name=$master_item::tableName();
 ?>
 
 <div style="padding-bottom:30px" class="content-panel-item-selector" id="<?=$content_panel_item_selector_id?>">
@@ -35,7 +35,7 @@ $master_item_table_name=$master_item::shortTableName();
 <?
 
 $url=Url::toRoute($slave_item_cls::selectListRoute());
-$table_name=$slave_item_cls::shortTableName();
+$table_name=$slave_item_cls::tableName();
 $script = <<<JS_SCRIPT
 var content_panel_item_selector=$("#$content_panel_item_selector_id");
 var slave_id=$(content_panel_item_selector).find("#$master_item_table_name-$property");

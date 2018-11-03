@@ -71,7 +71,7 @@ abstract class AbstractFile extends AbstractItemExtension
             $module->initUploadDir();
             $upload_dir=$module->upload_dir;
             //dir_path
-            $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::shortTableName().'/'.$master_item->id);
+            $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::tableName().'/'.$master_item->id);
             if(!file_exists($dir_path)){
                 $result=FileHelper::createDirectory($dir_path);
                 if(!$result){

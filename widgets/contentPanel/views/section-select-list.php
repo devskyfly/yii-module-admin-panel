@@ -41,7 +41,7 @@ use yii\helpers\Html;
 </div>
 
 <?
-$table_name=$section_cls::shortTableName();
+$table_name=$section_cls::tableName();
 
 $script = <<<JS_SCRIPT
     var container=$(".content-panel-section-list-for-select");

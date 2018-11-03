@@ -1,7 +1,7 @@
 ## File transfer
 
 Если необходимо дать пользователям возможность скачивать файлы, но не хотелось бы светить папку в web,
-то можно использовать FileTransferControllerTrait.
+то можно использовать AbstractFileTransferControllerTrait.
 
 ```php
 public function fileClass()

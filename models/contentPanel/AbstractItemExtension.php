@@ -70,7 +70,7 @@ abstract class AbstractItemExtension extends ActiveRecord
         $this->master_item=$item;
         $this->extension_name=$extension_name;
         $this->__id=$item->id;
-        $this->item_table=$item::shortTableName();
+        $this->item_table=$item::tableName();
         return $this;
     }
 
@@ -95,7 +95,7 @@ abstract class AbstractItemExtension extends ActiveRecord
             throw new \LogicException('Param $item is not save.');
         }
         
-        $result=static::find()->where(['item_table'=>$item::shortTableName(),'__id'=>$item->id])->one();
+        $result=static::find()->where(['item_table'=>$item::tableName(),'__id'=>$item->id])->one();
         if($result){
             $result->master_item=$item;
             $result->extension_name=$extension_name;
