@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/php56.git",
-                "reference": "a8e06bbae24088b8280901a27618a7341e1763b0"
+                "reference": "0f6e512ef2d4943046bc775fea432572370f6364"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devskyfly/php56/zipball/a8e06bbae24088b8280901a27618a7341e1763b0",
-                "reference": "a8e06bbae24088b8280901a27618a7341e1763b0",
+                "url": "https://api.github.com/repos/devskyfly/php56/zipball/0f6e512ef2d4943046bc775fea432572370f6364",
+                "reference": "0f6e512ef2d4943046bc775fea432572370f6364",
                 "shasum": ""
             },
             "require": {
@@ -43,7 +43,7 @@
                 }
             ],
             "description": "Represent core php function and constants by namespaces and classes like static members.",
-            "time": "2018-10-18T10:21:09+00:00"
+            "time": "2018-10-29T12:49:26+00:00"
         },
         {
             "name": "paragonie/random_compat",
