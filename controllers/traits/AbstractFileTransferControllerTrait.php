@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\controllers;
+namespace devskyfly\yiiModuleAdminPanel\controllers\traits;
 
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\libs\fileSystem\Files;
@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 
-abstract class AbstractFileTransferController extends Controller
+trait AbstractFileTransferControllerTrait
 {
     /**
      * Keep classname that extends AbstractFile
