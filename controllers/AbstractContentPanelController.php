@@ -93,7 +93,9 @@ abstract class AbstractContentPanelController extends Controller
     public static function getEntityCls()
     {
         $cls=static::entityCls();
-        if(!(Cls::isSubClassOf($cls, AbstractEntity::class))&&(!Vrbl::isEmpty($cls))){
+        $emty=Vrbl::isEmpty($cls);
+        $sbcls=Cls::isSubClassOf($cls, AbstractEntity::class);
+        if((!Cls::isSubClassOf($cls, AbstractEntity::class))&&(!Vrbl::isEmpty($cls))){
             throw new \InvalidArgumentException('$cls is not '.AbstractEntity::class.' type.');
         }
         return $cls;

@@ -34,19 +34,20 @@ class Module extends \yii\base\Module
         parent::init();
         
         $this->initUploadDir();
+        
         /**
          * Define controller namespace
          */
         if(Yii::$app instanceof \yii\console\Application){
-            $this->controllerNamespace='devskyfly\yiiMuduleContenPanel\console';
+            $this->controllerNamespace='devskyfly\yiiModuleAdminPanel\console';
+        }else{
+            $this->setAbsoluteViewPath();
         }
-        
-        $this->setAbsoluteViewPath();
     }
     
     /**********************************************************************/
-     /** UploadDir **/
-     /**********************************************************************/
+    /** UploadDir **/
+    /**********************************************************************/
     
     /**
      * Return upload_dir property value.
