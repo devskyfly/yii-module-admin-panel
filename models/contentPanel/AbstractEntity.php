@@ -117,6 +117,11 @@ abstract class AbstractEntity extends AbstractItem
             return null;
         }else{
             $section=$this->section_cls;
+            
+            if(Vrbl::isNull($section)){
+                return null;
+            }
+            
             return $section::find()
             ->where(['id'=>$this->_section__id])
             ->one();
