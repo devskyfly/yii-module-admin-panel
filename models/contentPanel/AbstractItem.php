@@ -74,7 +74,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     abstract public function extensions();
     
     /**********************************************************************/
-    /** CRUD **/
+    /** Crud **/
     /**********************************************************************/
     
     /**
@@ -156,7 +156,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     abstract public function deleteLikeItem();
     
     /**********************************************************************/
-    /** LOAD VALIDATE RULES**/
+    /** Load validate rules**/
     /**********************************************************************/
     
     /**
@@ -187,6 +187,37 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         }
     }
     
+    
+    /**
+     * Truncate item table and delete its extensions items.
+     *
+     * @throws \Exception
+     * @throws \Throwable
+     * @return number
+     */
+    public static function truncateLikeItems()
+    {
+        $i=0;
+        $db=Yii::$app->db;
+        $transaction=$db->beginTransaction();
+        try{
+            $query=static::find();
+            
+            foreach ($query->each(10) as $item){
+                $i++;
+                $item->deleteLikeItem();
+            }
+            
+            $transaction->commit();
+        }catch(\Exception $e){
+            $transaction->rollBack();
+            throw $e;
+        }catch(\Throwable $e){
+            $transaction->rollBack();
+            throw $e;
+        }
+        return $i;
+    }
     /**
      *
      * {@inheritDoc}
@@ -249,7 +280,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     }
     
     /**********************************************************************/
-    /** IERARHI **/
+    /** Ierarhi **/
     /**********************************************************************/
     
     /**
@@ -260,7 +291,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     abstract public function getParentSection();
     
     /**********************************************************************/
-    /** EXTENSIONS **/
+    /** Extensions **/
     /**********************************************************************/
     
     /**
@@ -298,5 +329,50 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         }
     }
 
+    /**********************************************************************/
+    /** Init and set **/
+    /**********************************************************************/
+    
+    /**
+     * Init properties $create_date_time, $change_date_time by passed value.
+     * 
+     * If $date_time is null - set properties to current time.
+     * 
+     * @param \DateTime $date_time
+     * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
+     */
+    public function initCreateAndChangeDateTime(\DateTime $date_time=null)
+    {
+        if(Vrbl::isNull($date_time)){
+            $date_time=new \DateTime();
+        }
+        $this->create_date_time=$date_time->format(\DateTime::ATOM);
+        $this->change_date_time=$date_time->format(\DateTime::ATOM);
+        return $this;
+    }
+    
+    /**
+     * Set property $active to 'Y' value.
+     * 
+     * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
+     */
+    public function enableActive()
+    {
+        $this->active='Y';
+        return $this;
+    }
+    
+    /**
+     * Set property $active to 'N' value.
+     * 
+     * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
+     */
+    public function disableActive()
+    {
+        $this->active='N';
+        return $this;
+    }
+
+    
     
 }
