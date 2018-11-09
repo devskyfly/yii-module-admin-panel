@@ -4,11 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7398ec16f06b6a07506495cafad1e55d",
+    "content-hash": "4b9638ffa05928441af7ea20f2f5cdac",
     "packages": [
         {
             "name": "devskyfly/php56",
-            "version": "dev-dev",
+            "version": "v0.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/php56.git",
@@ -178,7 +178,7 @@
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -238,9 +238,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "devskyfly/php56": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
