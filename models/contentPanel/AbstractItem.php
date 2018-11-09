@@ -5,6 +5,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
+use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\core\Cls;
@@ -154,6 +155,18 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      * @return boolean
      */
     abstract public function deleteLikeItem();
+    
+    /**
+     * Find item by its id.
+     * 
+     * @param integer $id
+     * @return AbstractItem|NULL
+     */
+    public function findById($id)
+    {
+        $id=Nmbr::toIntegerStrict($id);     
+        return static::find()->andWhere(['id'=>$id])->one();
+    }
     
     /**********************************************************************/
     /** Load validate rules**/
