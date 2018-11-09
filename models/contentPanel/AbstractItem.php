@@ -160,6 +160,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      * Find item by its id.
      * 
      * @param integer $id
+     * @throws \InvalidArgumentException
      * @return AbstractItem|NULL
      */
     public function findById($id)
