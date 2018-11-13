@@ -6,10 +6,10 @@ use devskyfly\php56\libs\fileSystem\Files;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use Yii;
+use inblank\transliter\Transliter;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
-use yii\db\AfterSaveEvent;
 
 
 /**
@@ -79,7 +79,9 @@ abstract class AbstractFile extends AbstractItemExtension
                 }
             }
             //file
-            $path=$dir_path.'/'.$file->baseName.'.'.$file->extension;
+            $translater=new Transliter();
+            $translited_base_name=$translater->translate($file->baseName);
+            $path=$dir_path.'/'.$translited_base_name.'.'.$file->extension;
             $this->path=$path;
             
             $result=$file->saveAs(Yii::getAlias($path));
