@@ -1,3 +1,5 @@
 ## Консольные команды
 
-* admin-panel/db/clear - очищает все таблицы кроме migration и user.
+### admin-panel/service/db
+	
+	clear - очищает все таблицы кроме migration и user.

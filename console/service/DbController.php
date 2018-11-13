@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\console;
+namespace devskyfly\yiiModuleAdminPanel\console\service;
 
 use Yii;
 use yii\console\Controller;
