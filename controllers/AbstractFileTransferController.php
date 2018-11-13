@@ -61,15 +61,19 @@ abstract class AbstractFileTransferController extends Controller
         
         $file_path = Yii::getAlias($file['path']);
         
+        $file_path= realpath($file_path);
+        
         if(!Files::fileExists($file_path)){
             throw new NotFoundHttpException();
         }
         
         $file_name=basename($file_path);
         // check filename for allowed chars (do not allow ../ to avoid security issue: downloading arbitrary files)
-        if (!preg_match('/^[a-z0-9]+\.[a-z0-9]+$/i', $file_name) || !is_file($file_path)) {
+        
+        /* if (!preg_match('/^[a-z0-9]+\.[a-z0-9]+$/i', $file_name) || !is_file($file_path)) {
             throw new \yii\web\NotFoundHttpException('The file does not exists.');
-        }
+        } */
+        
         return Yii::$app->response->sendFile($file_path, $file_name);
     }
 }
