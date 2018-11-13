@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\controllers\traits;
+namespace devskyfly\yiiModuleAdminPanel\controllers;
 
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\libs\fileSystem\Files;
@@ -11,7 +11,7 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\web\NotFoundHttpException;
 
-trait AbstractFileTransferControllerTrait
+abstract class AbstractFileTransferController extends Controller
 {
     /**
      * Keep classname that extends AbstractFile
@@ -25,6 +25,7 @@ trait AbstractFileTransferControllerTrait
     
     public function init()
     {
+        parent::init();
         $this->file_class=$this->fileClass();
         if(!Cls::isSubClassOf($this->file_class, AbstractFile::class)){
             throw new \InvalidArgumentException('Property $file_class is not '.AbstractFile::class.' extesion.');
@@ -38,7 +39,7 @@ trait AbstractFileTransferControllerTrait
      * @throws \InvalidArgumentException
      * @throws NotFoundHttpException
      * @throws \yii\web\NotFoundHttpException
-     * @return unknown
+     * @return \yii\base\Response
      */
     public function sendFileByGuid($guid,$response)
     {
@@ -59,6 +60,7 @@ trait AbstractFileTransferControllerTrait
         }
         
         $file_path = Yii::getAlias($file['path']);
+        
         if(!Files::fileExists($file_path)){
             throw new NotFoundHttpException();
         }
