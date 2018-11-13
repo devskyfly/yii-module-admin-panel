@@ -71,6 +71,7 @@ abstract class AbstractFile extends AbstractItemExtension
             $module->initUploadDir();
             $upload_dir=$module->upload_dir;
             //dir_path
+            $dir_alias=$upload_dir.'/'.$master_item::tableName().'/'.$master_item->id;
             $dir_path=Yii::getAlias($upload_dir.'/'.$master_item::tableName().'/'.$master_item->id);
             if(!file_exists($dir_path)){
                 $result=FileHelper::createDirectory($dir_path);
@@ -82,7 +83,8 @@ abstract class AbstractFile extends AbstractItemExtension
             $translater=new Transliter();
             $translited_base_name=$translater->translate($file->baseName);
             $path=$dir_path.'/'.$translited_base_name.'.'.$file->extension;
-            $this->path=$path;
+            $path_alias=$dir_alias.'/'.$translited_base_name.'.'.$file->extension;
+            $this->path=$path_alias;
             
             $result=$file->saveAs(Yii::getAlias($path));
             if(!$result){

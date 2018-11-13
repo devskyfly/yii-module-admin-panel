@@ -17,10 +17,12 @@ use devskyfly\php56\types\Vrbl;
 }
 </style>
 
+<?php $file_path=Yii::getAlias($file->path);?>
+
 <?php 
 $images_extensions=['png','jpg','jpeg','gif'];
 if(!$file->isNewRecord){
-    $extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file->path));
+    $extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file_path));
 }
 ?>
 <div>
@@ -35,7 +37,7 @@ if(!$file->isNewRecord){
 			<span class="glyphicon glyphicon-file"></span>
 		<?endif;?>
 		<span>
-			File path: <?=$file->path?>
+			File path: <?=$file_path?>
 		</span>
 	</div>
 	<?endif;?>
