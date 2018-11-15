@@ -8,7 +8,7 @@ use Yii;
 use yii\base\BaseObject;
 use Elasticsearch\ClientBuilder;
 
-class Service extends BaseObject
+class ElasticProvider extends BaseObject
 {
     protected $module=null;
     
@@ -24,7 +24,7 @@ class Service extends BaseObject
     
     public function init()
     {
-        parent:init();
+        parent::init();
         $module=Yii::$app->getModule('admin-panel');
         
         if(Vrbl::isNull($module)){
@@ -51,12 +51,16 @@ class Service extends BaseObject
     
     protected function initClient()
     {
-        $this->client=ClientBuilder::create()
+        $this->_client=ClientBuilder::create()
         ->setHosts($this->_elastic_hosts)
         ->setConnectionParams($this->_client_settings)
         ->build();
     }
     
+    /**
+     * 
+     * @return []
+     */
     public function createIndex()
     {
         $params=[
@@ -64,8 +68,13 @@ class Service extends BaseObject
         ];
         
         $response=$this->_client->indices()->create($params);
+        return $response;
     }
     
+    /**
+     *
+     * @return []
+     */
     public function dropIndex()
     {
         $params=[
@@ -74,8 +83,14 @@ class Service extends BaseObject
         $response=$this->_client
         ->indices()
         ->delete($params);
+        return $response;
     }
     
+    /**
+     * 
+     * @param AbstractDataProvider $item
+     * @return []
+     */
     public function saveDocumentItem(AbstractDataProvider $item)
     {
         $item_params=$item->getParams();
@@ -89,8 +104,14 @@ class Service extends BaseObject
             "body"=>$item_params
         ];
         $response=$this->client->index($params);
+        return $response;
     }
     
+    /**
+     * 
+     * @param string $str
+     * @return []
+     */
     public function search($str)
     {
         $params=[

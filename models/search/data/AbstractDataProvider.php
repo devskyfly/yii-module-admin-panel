@@ -9,10 +9,9 @@ abstract class AbstractDataProvider extends BaseObject
 {
     protected $param_fields=[
         'id',
-        'type',
         'name',
         'content',
-        'route'
+        //'route'
     ];
     
     /**
@@ -31,7 +30,7 @@ abstract class AbstractDataProvider extends BaseObject
    
     protected function formParams()
     {
-        $this->params();   
+        $this->params=$this->params();   
         return $this;
     }
     
@@ -39,7 +38,8 @@ abstract class AbstractDataProvider extends BaseObject
     /**
      * This methode realize logic of params forming.
      *
-     * @return \devskyfly\yiiModuleAdminPanel\models\search\data\AbstractDataProvider
+     * Return array of params ['id'=>,'name'=>,]
+     * @return []
      */
     abstract protected function params();
 
@@ -50,8 +50,11 @@ abstract class AbstractDataProvider extends BaseObject
      */
     protected function checkParams()
     {
-        foreach ($param_fields as $param_fields_item){
-            if(!Str::isString($this->params['$param_fields_item'])){
+        foreach ($this->param_fields as $param_fields_item){
+            if(!isset($this->params[$param_fields_item])){
+                throw new \OutOfRangeException('Property $param does not have key \''.$param_fields_item.'\'.');
+            }
+            if(!Str::isString($this->params[$param_fields_item])){
                 throw new \InvalidArgumentException('Property $params['.$param_fields_item.'] is not string type');
             }
         }
