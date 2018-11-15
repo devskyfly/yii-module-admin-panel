@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\models\search\data;
+namespace devskyfly\yiiModuleAdminPanel\models\search;
 
 use devskyfly\php56\types\Str;
 use yii\base\BaseObject;
@@ -11,7 +11,7 @@ abstract class AbstractDataProvider extends BaseObject
         'id',
         'name',
         'content',
-        //'route'
+        'route'
     ];
     
     /**
@@ -38,7 +38,7 @@ abstract class AbstractDataProvider extends BaseObject
     /**
      * This methode realize logic of params forming.
      *
-     * Return array of params ['id'=>,'name'=>,]
+     * Return array of params ['id'=>,'name'=>,'content'=>,'route'=>]
      * @return []
      */
     abstract protected function params();
@@ -46,7 +46,7 @@ abstract class AbstractDataProvider extends BaseObject
     /**
      * 
      * @throws \InvalidArgumentException
-     * @return \devskyfly\yiiModuleAdminPanel\models\search\data\AbstractDataProvider
+     * @return \devskyfly\yiiModuleAdminPanel\models\search\AbstractDataProvider
      */
     protected function checkParams()
     {

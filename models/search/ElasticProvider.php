@@ -3,7 +3,7 @@ namespace devskyfly\yiiModuleAdminPanel\models\search;
 
 use devskyfly\php56\types\Arr;
 use devskyfly\php56\types\Vrbl;
-use devskyfly\yiiModuleAdminPanel\models\search\data\AbstractDataProvider;
+use devskyfly\yiiModuleAdminPanel\models\search\AbstractDataProvider;
 use Yii;
 use yii\base\BaseObject;
 use Elasticsearch\ClientBuilder;

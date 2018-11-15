@@ -6,13 +6,13 @@ use yii\console\Controller;
 use devskyfly\yiiModuleAdminPanel\models\search\Indexer;
 use devskyfly\yiiModuleAdminPanel\models\search\ElasticProvider;
 
-class IndexerController extends Controller
+abstract class AbstractIndexerController extends Controller
 {
     /**
      * 
-     * @var \devskyfly\yiiModuleAdminPanel\models\search\Service
+     * @var \devskyfly\yiiModuleAdminPanel\models\search\ElasticProvider
      */
-    protected $service=null;
+    protected $elastic_provider=null;
     
     public function init()
     {
@@ -24,7 +24,8 @@ class IndexerController extends Controller
     {
         try{
             $indexer=new Indexer();
-            $indexer->index();
+            $handler=$this->dataProviderFnc();
+            $indexer->index($handler);
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
              return -1;
@@ -38,7 +39,7 @@ class IndexerController extends Controller
     public function actionDropIndex()
     {
         try{
-            $response=$this->service->dropIndex();
+            $response=$this->elastic_provider->dropIndex();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
@@ -80,5 +81,10 @@ class IndexerController extends Controller
         }
         return 0;
     }
+    
+    /**
+     * @return callable
+     */
+    abstract protected function dataProviderHandler();
 }
 

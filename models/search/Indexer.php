@@ -2,16 +2,14 @@
 namespace devskyfly\yiiModuleAdminPanel\models\search;
 
 use devskyfly\php56\types\Obj;
+use devskyfly\php56\types\Vrbl;
 use yii\base\BaseObject;
-use devskyfly\yiiModuleAdminPanel\models\search\data\EntityDataProvider;
-use devskyfly\yiiModuleAdminPanel\models\search\data\AbstractDataProvider;
-use app\models\moduleAdminPanel\contentPanel\entityWithoutSection\EntityWithoutSection;
 use yii\helpers\BaseConsole;
 
 class Indexer extends BaseObject
 {
     
-    protected $service=null;
+    protected $elastic_provider=null;
     
     public function init()
     {
@@ -19,26 +17,23 @@ class Indexer extends BaseObject
         $this->elastic_provider=new ElasticProvider();
     }
     
-    public function index()
+    public function index($handler)
     {
-        foreach ($this->indexItemGenerator() as $item)
+        if(!Vrbl::isCallable($handler)){
+            throw new \InvalidArgumentException('Param $callable is not callable type.');
+        }
+        
+        foreach ($handler() as $item)
         {
             BaseConsole::stdout($item::className().PHP_EOL);
+            BaseConsole::stdout(AbstractDataProvider::class.PHP_EOL);
+            
             if(!Obj::isA($item, AbstractDataProvider::class));
-            {
-               
-                //throw new \InvalidArgumentException('Variable $item is not '.AbstractDataProvider::class.' type.');
+            {               
+                throw new \InvalidArgumentException('Variable $item is not '.AbstractDataProvider::class.' type.');
             }
             $this->elastic_provider->saveDocumentItem($item);
         }
     }
         
-    protected function indexItemGenerator()
-    {
-        $query=EntityWithoutSection::find()->where(['active'=>'Y']);
-        foreach ($query->each(10) as $item){
-            BaseConsole::stdout($item->id.' - '.$item->name.PHP_EOL);
-            yield new EntityDataProvider(['item'=>$item]);
-        }
-    }
 }
