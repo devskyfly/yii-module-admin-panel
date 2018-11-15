@@ -100,7 +100,7 @@ abstract class AbstractFile extends AbstractItemExtension
    public function afterDelete()
    {
        parent::afterDelete();
-       $file_path=$this->path;
+       $file_path=Yii::getAlias($this->path);
        $result=Files::deleteFile($file_path);
    }
     
