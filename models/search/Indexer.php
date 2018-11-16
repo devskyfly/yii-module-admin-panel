@@ -25,10 +25,7 @@ class Indexer extends BaseObject
         
         foreach ($handler() as $item)
         {
-            BaseConsole::stdout($item::className().PHP_EOL);
-            BaseConsole::stdout(AbstractDataProvider::class.PHP_EOL);
-            
-            if(!Obj::isA($item, AbstractDataProvider::class));
+            if(!Obj::isSubClassOf($item, AbstractDataProvider::class))
             {               
                 throw new \InvalidArgumentException('Variable $item is not '.AbstractDataProvider::class.' type.');
             }

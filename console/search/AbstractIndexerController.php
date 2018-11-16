@@ -24,13 +24,13 @@ abstract class AbstractIndexerController extends Controller
     {
         try{
             $indexer=new Indexer();
-            $handler=$this->dataProviderFnc();
+            $handler=$this->dataProviderHandler();
             $indexer->index($handler);
         }catch (\Exception $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
              return -1;
         }catch (\Throwable $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }
         return 0;
@@ -42,10 +42,10 @@ abstract class AbstractIndexerController extends Controller
             $response=$this->elastic_provider->dropIndex();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }catch (\Throwable $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }
         return 0;
@@ -57,10 +57,10 @@ abstract class AbstractIndexerController extends Controller
             $response=$this->elastic_provider->createIndex();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }catch (\Throwable $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }
         return 0;
@@ -73,10 +73,10 @@ abstract class AbstractIndexerController extends Controller
             $response=$this->elastic_provider->search($str);
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }catch (\Throwable $e){
-            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString());
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }
         return 0;

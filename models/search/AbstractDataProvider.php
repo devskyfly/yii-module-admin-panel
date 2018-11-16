@@ -3,7 +3,6 @@ namespace devskyfly\yiiModuleAdminPanel\models\search;
 
 use devskyfly\php56\types\Str;
 use yii\base\BaseObject;
-use phpDocumentor\Reflection\Types\This;
 
 abstract class AbstractDataProvider extends BaseObject
 {
