@@ -4,7 +4,6 @@ namespace devskyfly\yiiModuleAdminPanel\models\search;
 use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Vrbl;
 use yii\base\BaseObject;
-use yii\helpers\BaseConsole;
 
 class Indexer extends BaseObject
 {

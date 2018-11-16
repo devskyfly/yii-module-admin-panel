@@ -28,13 +28,13 @@ use devskyfly\yiiModuleAdminPanel\console\search\AbstractIndexerController;
 
 class IndexerController extends AbstractIndexerController
 {
-    protected function dataProviderFnc()
+     protected function dataProviderHandler()
     {
         return function(){
             $query=EntityWithoutSection::find()->where(['active'=>'Y']);
             foreach ($query->each(10) as $item){
                 BaseConsole::stdout($item->id.' - '.$item->name.PHP_EOL);
-                yield new EntityDataProvider(['item'=>$item]);
+                yield new EntityWithoutSectionDataProvider(['item'=>$item]);
             }
         };
     }
