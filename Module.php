@@ -1,6 +1,7 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel;
 
+use devskyfly\php56\types\Arr;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use Yii;
@@ -15,10 +16,18 @@ use yii\helpers\FileHelper;
 class Module extends \yii\base\Module
 {   
     /**
-     * Upload dir path for application need to configurate
+     * Upload dir path for application need to configurate.
+     * 
      * @var string
      */
     public $upload_dir='';
+    
+    /**
+     * Elastic search url or ip with port.
+     * 
+     * @var string
+     */
+    public $search_settings=[];
     
     /**
      * Store absolute path of current module view path
@@ -34,6 +43,7 @@ class Module extends \yii\base\Module
         parent::init();
         
         $this->initUploadDir();
+        $this->checkSearchSettings();
         
         /**
          * Define controller namespace
@@ -42,6 +52,36 @@ class Module extends \yii\base\Module
             $this->controllerNamespace='devskyfly\yiiModuleAdminPanel\console';
         }else{
             $this->setAbsoluteViewPath();
+        }
+    }
+    
+    /**********************************************************************/
+    /** Search **/
+    /**********************************************************************/
+    
+    protected function checkSearchSettings()
+    {
+        if(!Arr::isArray($this->search_settings)){
+            throw new \InvalidArgumentException('Property $search_settigs is not array type.');
+        }
+        
+        if(!Vrbl::isEmpty($this->search_settings)){
+            if((!Str::isString($this->search_settings['elastic_hosts']))
+                &&(!Arr::isArray($this->search_settings['elastic_hosts']))){
+                throw new \InvalidArgumentException('Property $search_settings[\'elastic_hosts\'] is not string or array type.');
+            }
+        }
+        
+        if(!Vrbl::isEmpty($this->search_settings)){
+            if(!Str::isString($this->search_settings['index'])){
+                throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not string type.');
+            }
+        }
+        
+        if(!Vrbl::isEmpty($this->search_settings)){
+            if(!Str::isString($this->search_settings['document'])){
+                throw new \InvalidArgumentException('Property $search_settings[\'document\'] is not string type.');
+            }
         }
     }
     
