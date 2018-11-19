@@ -9,7 +9,7 @@ class SectionMigrationHelper extends AbstractMigrationHelper
     {
         return [
             'id'=>$this->primaryKey(11),
-            'name'=>$this->string(255)->notNull()->unique(),
+            'name'=>$this->string(255)->notNull(),
             'code'=>$this->string(255)->unique(),
             'active'=>"ENUM('Y','N') NOT NULL",
             'sort'=>$this->integer(11),
