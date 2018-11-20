@@ -33,7 +33,7 @@ abstract class AbstractIndexerController extends Controller
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
             return -1;
         }
-        return 0;
+        return ;
     }
     
     public function actionDropIndex()
@@ -55,6 +55,51 @@ abstract class AbstractIndexerController extends Controller
     {
         try{
             $response=$this->elastic_provider->createIndex();
+            BaseConsole::stdout(print_r($response,true).PHP_EOL);
+        }catch (\Exception $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }catch (\Throwable $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }
+        return 0;
+    }
+    
+    public function actionGetIndexMapping()
+    {
+        try{
+            $response=$this->elastic_provider->getIndexMapping();
+            BaseConsole::stdout(print_r($response,true).PHP_EOL);
+        }catch (\Exception $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }catch (\Throwable $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }
+        return 0;
+    }
+    
+    public function actionPutMappings()
+    {
+        try{
+            $response=$this->elastic_provider->putMappings();
+            BaseConsole::stdout(print_r($response,true).PHP_EOL);
+        }catch (\Exception $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }catch (\Throwable $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }
+        return 0;
+    }
+    
+    public function actionPutSettings()
+    {
+        try{
+            $response=$this->elastic_provider->putSettings();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
