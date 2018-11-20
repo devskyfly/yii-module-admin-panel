@@ -66,10 +66,6 @@ abstract class AbstractContentPanelController extends Controller
         
     /**
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
-     * 
-     * Need to return AbstractItem instance with property $doNotMakeItemsBind=false
-     * new AbstractItem(false);
-     * new AbstractItem(['doNotMakeItemsBind'=>false])
      */
     abstract public static function entityCls();
     
