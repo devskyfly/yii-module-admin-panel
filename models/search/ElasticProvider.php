@@ -3,7 +3,6 @@ namespace devskyfly\yiiModuleAdminPanel\models\search;
 
 use devskyfly\php56\types\Arr;
 use devskyfly\php56\types\Vrbl;
-use devskyfly\yiiModuleAdminPanel\models\search\AbstractDataProvider;
 use Yii;
 use yii\base\BaseObject;
 use Elasticsearch\ClientBuilder;
@@ -57,10 +56,15 @@ class ElasticProvider extends BaseObject
         ->build();
     }
     
+    /**********************************************************************/
+    /** Actions **/
+    /**********************************************************************/
+    
     /**
      * 
      * @return []
      */
+    
     public function createIndex()
     {
         $params=[
@@ -86,8 +90,34 @@ class ElasticProvider extends BaseObject
         return $response;
     }
     
+    public function openIndex()
+    {
+        $params=[
+            'index'=>$this->_index
+        ];
+        $response=$this->_client
+        ->indices()
+        ->open($params);
+        return $response;
+    }
+    
+    public function closeIndex()
+    {
+        $params=[
+            'index'=>$this->_index
+        ];
+        $response=$this->_client
+        ->indices()
+        ->close($params);
+        return $response;
+    }
+    
+    /**********************************************************************/
+    /** Crud **/
+    /**********************************************************************/
+    
     /**
-     * 
+     *
      * @param AbstractDataProvider $item
      * @return []
      */
@@ -107,36 +137,9 @@ class ElasticProvider extends BaseObject
         return $response;
     }
     
-    /**
-     * 
-     * @param string $str
-     * @return []
-     */
-    public function search($str)
-    {
-        $params=[
-            'index'=>$this->_index,
-            'body'=>[
-                    'query'=> [
-                        'bool'=>[
-                        'must'=>[
-                            'match'=> [
-                                'name'=>$str,
-                                
-                            ],
-                            
-                            'match'=> [
-                                'content'=>$str,
-                                
-                            ]
-                        ]
-                    ] 
-                ]
-            ]
-        ];
-         $response=$this->_client->search($params);
-         return $response;
-    }
+    /**********************************************************************/
+    /** Mappings, settings **/
+    /**********************************************************************/
     
     public function putMappings()
     {
@@ -162,9 +165,12 @@ class ElasticProvider extends BaseObject
     {
         $params = [
             'index' => $this->_index,
-            'type' => $this->_document,
             'body' => [
-                "settings" => [
+                'settings' => [
+                    /*
+                     * 'number_of_replicas' => 0,
+                     * 'refresh_interval' => -1,
+                     */
                     "analysis" => [
                         "analyzer" => [
                             "my_analyzer" => [
@@ -176,15 +182,14 @@ class ElasticProvider extends BaseObject
                                     "english_morphology"
                                 ]
                             ]
-                        ],
-                        
                         ]
                     ]
+                ]
+                    
             ]
-            
         ];
         
-        $response=$this->_client->indices()->putMapping($params);
+        $response=$this->_client->indices()->putSettings($params);
         return $response;
     }
     
@@ -199,10 +204,6 @@ class ElasticProvider extends BaseObject
         return $response;
     }
     
-    /*public function dropDocument()
-    {
-        
-    } */
     
     /**********************************************************************/
     /** Getters **/
@@ -242,6 +243,41 @@ class ElasticProvider extends BaseObject
     public function getClient()
     {
         return $this->_client;
+    }
+    
+    /**********************************************************************/
+    /** Search **/
+    /**********************************************************************/
+
+    /**
+     *
+     * @param string $str
+     * @return []
+     */
+    public function search($str)
+    {
+        $params=[
+            'index'=>$this->_index,
+            'body'=>[
+                'query'=> [
+                     'bool'=>[
+                        'should'=>[
+                            'match'=> [
+                                'name'=>$str,
+                                
+                            ],
+                             
+                            /* 'match'=> [
+                                'content'=>$str,
+                                
+                            ] */
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response=$this->_client->search($params);
+        return $response;
     }
 }
 

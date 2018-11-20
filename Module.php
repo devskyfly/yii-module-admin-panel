@@ -79,8 +79,8 @@ class Module extends \yii\base\Module
         }
         
         if(!Vrbl::isEmpty($this->search_settings)){
-            if(!Str::isString($this->search_settings['document'])){
-                throw new \InvalidArgumentException('Property $search_settings[\'document\'] is not string type.');
+            if(!Str::isString($this->search_settings['type'])){
+                throw new \InvalidArgumentException('Property $search_settings[\'type\'] is not string type.');
             }
         }
     }
