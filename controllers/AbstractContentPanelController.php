@@ -134,12 +134,7 @@ abstract class AbstractContentPanelController extends Controller
                 'class'=>'yii\grid\SerialColumn'
             ],
             'active',
-            'name',
-            /* [
-                'value'=>function($data){
-                    return Html::a($data->name,Url::toRoute(['edit-entity','id'=>$data->id]));
-                }
-            ] */
+            'name'            
         ];
     }
     
