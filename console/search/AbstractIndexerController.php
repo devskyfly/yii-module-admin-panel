@@ -3,21 +3,21 @@ namespace devskyfly\yiiModuleAdminPanel\console\search;
 
 use yii\helpers\BaseConsole;
 use yii\console\Controller;
+use devskyfly\yiiModuleAdminPanel\models\search\ElasticSearchProvider;
 use devskyfly\yiiModuleAdminPanel\models\search\Indexer;
-use devskyfly\yiiModuleAdminPanel\models\search\ElasticProvider;
 
 abstract class AbstractIndexerController extends Controller
 {
     /**
      * 
-     * @var \devskyfly\yiiModuleAdminPanel\models\search\ElasticProvider
+     * @var \devskyfly\yiiModuleAdminPanel\models\search\ElasticSearchProvider
      */
     protected $elastic_provider=null;
     
     public function init()
     {
         parent::init();
-        $this->elastic_provider=new ElasticProvider();
+        $this->elastic_provider=new ElasticSearchProvider();
     }
     
     /**********************************************************************/

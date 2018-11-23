@@ -7,7 +7,7 @@ use Yii;
 use yii\base\BaseObject;
 use Elasticsearch\ClientBuilder;
 
-class ElasticProvider extends BaseObject
+class ElasticSearchProvider extends BaseObject
 {
     protected $module=null;
     
@@ -18,7 +18,7 @@ class ElasticProvider extends BaseObject
     private $_client=null;
     private $_elastic_hosts=[];
     private $_index="";
-    private $_document="";
+    private $_type="";
     private $_client_settings=[];
     
     public function init()
@@ -39,7 +39,7 @@ class ElasticProvider extends BaseObject
         }
         
         $this->_index=$module->search_settings['index'];
-        $this->_document=$module->search_settings['document'];
+        $this->_type=$module->search_settings['type'];
         
         if(isset($module->search_settings['client_settings'])){
             $this->_client_settings=$module->search_settings['client_settings'];
@@ -129,7 +129,7 @@ class ElasticProvider extends BaseObject
         
         $params=[
             "index"=>$this->_index,
-            "type"=>$this->_document,
+            "type"=>$this->_type,
             "id"=>$id,
             "body"=>$item_params
         ];
@@ -145,9 +145,9 @@ class ElasticProvider extends BaseObject
     {
         $params=[
             'index'=>$this->_index,
-            'type'=>$this->_document,
+            'type'=>$this->_type,
             'body'=>[
-                $this->_document=>[
+                $this->_type=>[
                     'properties'=> [
                         'name'=>['type'=>'text','analyzer'=>"russian_morphology"],
                         'content'=>['type'=>'text','analyzer'=>"russian_morphology"],
@@ -233,7 +233,7 @@ class ElasticProvider extends BaseObject
      */
     public function getDocument()
     {
-        return $this->_document;
+        return $this->_type;
     }
     
     /**

@@ -13,7 +13,7 @@ class Indexer extends BaseObject
     public function init()
     {
         parent::init();
-        $this->elastic_provider=new ElasticProvider();
+        $this->elastic_provider=new ElasticSearchProvider();
     }
     
     public function index($handler)
