@@ -444,7 +444,7 @@ abstract class AbstractContentPanelController extends Controller
             
             if($item->deleteLikeItem()===true){
                 if($parent_section){
-                    $this->redirect(['index','section_id'=>$parent_section->id]);
+                    $this->redirect(['index','parent_section_id'=>$parent_section->id]);
                 }else{
                     $this->redirect(['index']);
                 }
