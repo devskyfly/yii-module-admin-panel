@@ -241,7 +241,6 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     {
         $rules=parent::rules();
         $new_rules=[
-            [["name"],"unique"],
             [["name","active","create_date_time","change_date_time"],"required"],
             [["name","active","create_date_time","change_date_time","sort"],"string"]
         ];

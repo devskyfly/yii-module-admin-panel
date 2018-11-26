@@ -66,10 +66,6 @@ abstract class AbstractContentPanelController extends Controller
         
     /**
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
-     * 
-     * Need to return AbstractItem instance with property $doNotMakeItemsBind=false
-     * new AbstractItem(false);
-     * new AbstractItem(['doNotMakeItemsBind'=>false])
      */
     abstract public static function entityCls();
     
@@ -138,12 +134,7 @@ abstract class AbstractContentPanelController extends Controller
                 'class'=>'yii\grid\SerialColumn'
             ],
             'active',
-            'name',
-            /* [
-                'value'=>function($data){
-                    return Html::a($data->name,Url::toRoute(['edit-entity','id'=>$data->id]));
-                }
-            ] */
+            'name'            
         ];
     }
     

@@ -117,10 +117,20 @@ class ElasticProvider extends BaseObject
         $params=[
             'index'=>$this->_index,
             'body'=>[
-                'query'=> [
-                    'match'=> [
-                        'name'=>$str
-                    ]
+                    'query'=> [
+                        'bool'=>[
+                        'must'=>[
+                            'match'=> [
+                                'name'=>$str,
+                                
+                            ],
+                            
+                            'match'=> [
+                                'content'=>$str,
+                                
+                            ]
+                        ]
+                    ] 
                 ]
             ]
         ];
@@ -128,12 +138,68 @@ class ElasticProvider extends BaseObject
          return $response;
     }
     
-   /*  public function createDocument()
+    public function putMappings()
     {
+        $params=[
+            'index'=>$this->_index,
+            'type'=>$this->_document,
+            'body'=>[
+                $this->_document=>[
+                    'properties'=> [
+                        'name'=>['type'=>'text','analyzer'=>"russian_morphology"],
+                        'content'=>['type'=>'text','analyzer'=>"russian_morphology"],
+                        'route'=>['type'=>'text']
+                    ]
+                ]
+            ]
+        ];
         
+        $response = $this->_client->indices()->putMapping($params);
+        return $response;
+    }
+
+    public function putSettings()
+    {
+        $params = [
+            'index' => $this->_index,
+            'type' => $this->_document,
+            'body' => [
+                "settings" => [
+                    "analysis" => [
+                        "analyzer" => [
+                            "my_analyzer" => [
+                                "type" => "custom",
+                                "tokenizer" => "standard",
+                                "filter" => [
+                                    "lowercase",
+                                    "russian_morphology",
+                                    "english_morphology"
+                                ]
+                            ]
+                        ],
+                        
+                        ]
+                    ]
+            ]
+            
+        ];
+        
+        $response=$this->_client->indices()->putMapping($params);
+        return $response;
     }
     
-    public function dropDocument()
+    
+    
+    public function getIndexMapping()
+    {
+        $params=[
+            'index'=>$this->_index
+        ];
+        $response=$this->_client->indices($params)->getMapping();
+        return $response;
+    }
+    
+    /*public function dropDocument()
     {
         
     } */
