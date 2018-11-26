@@ -38,6 +38,19 @@ class IpBlackList extends AbstractEntity
         return $this;
     }
     
+    /**
+     *
+     * @param string $ip
+     * @return \yii\db\ActiveRecord|array|NULL
+     */
+    public static function findByIp($ip)
+    {
+        return static::find()->where(['name'=>$ip])->one();
+    }
+    
+    /**********************************************************************/
+    /** Redeclaration **/
+    /**********************************************************************/
     public function rules()
     {
         $rules=parent::rules();
@@ -45,14 +58,11 @@ class IpBlackList extends AbstractEntity
         return $rules;
     }
     
-    /**
-     * 
-     * @param string $ip
-     * @return \yii\db\ActiveRecord|array|NULL
-     */
-    public function findByIp($ip)
+    public function attributeLabels()
     {
-        return $this->find()->where(['name'=>$ip])->one();
+        $labels=parent::attributeLabels();
+        $labels['name']='Ip';
+        return $labels;
     }
 }
 

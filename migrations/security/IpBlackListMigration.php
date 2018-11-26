@@ -1,10 +1,29 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\migrations\helpers\security;
+namespace devskyfly\yiiModuleAdminPanel\migrations\security;
 
 use devskyfly\yiiModuleAdminPanel\migrations\helpers\AbstractMigrationHelper;
 
-class IpBlackListMigrationHelper extends AbstractMigrationHelper
+class IpBlackListMigration extends AbstractMigrationHelper
 {
+    public $table='ip_black_list';
+    /**
+     * {@inheritdoc}
+     */
+    public function up()
+    {
+        $this->createTable($this->table,$this->getFieldsDefinition());
+    }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function down()
+    {
+        //echo "m181126_071444_init_ip_black_list_table cannot be reverted.\n";
+        $this->dropTable($this->table);
+        return true;
+    }
+    
     public function getFieldsDefinition()
     {
         return [

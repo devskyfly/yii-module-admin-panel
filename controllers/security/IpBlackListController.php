@@ -1,6 +1,8 @@
 <?php
+namespace devskyfly\yiiModuleAdminPanel\controllers\security;
 
 use devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController;
+use devskyfly\yiiModuleAdminPanel\models\security\IpBlackList;
 
 class IpBlackListController extends AbstractContentPanelController{
         
@@ -22,7 +24,7 @@ class IpBlackListController extends AbstractContentPanelController{
      */
     public static function entityCls()
     {
-        return null;
+        return IpBlackList::class;
     }
     
     /**
