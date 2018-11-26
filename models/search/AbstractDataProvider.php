@@ -4,6 +4,11 @@ namespace devskyfly\yiiModuleAdminPanel\models\search;
 use devskyfly\php56\types\Str;
 use yii\base\BaseObject;
 
+/**
+ * Extend it to provide data to indexer.
+ * @author devskyfly
+ *
+ */
 abstract class AbstractDataProvider extends BaseObject
 {
     protected $param_fields=[
