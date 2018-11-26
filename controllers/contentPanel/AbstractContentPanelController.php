@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\controllers;
+namespace devskyfly\yiiModuleAdminPanel\controllers\contentPanel;
 
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;

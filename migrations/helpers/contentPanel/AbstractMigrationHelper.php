@@ -1,5 +1,5 @@
 <?php
-namespace devskyfly\yiiModuleAdminPanel\migrations\helpers;
+namespace devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel;
 
 use yii\db\ColumnSchemaBuilder;
 use yii\db\Migration;

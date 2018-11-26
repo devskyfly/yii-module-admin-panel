@@ -32,7 +32,7 @@ N.B. При удалении сущности к которой привязан
 	/**
      * 
      * {@inheritDoc}
-     * @see \devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController::sectionItem()
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::sectionItem()
      */
     public static function sectionCls()
     {
@@ -43,7 +43,7 @@ N.B. При удалении сущности к которой привязан
     /**
      * 
      * {@inheritDoc}
-     * @see \devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController::entityItem()
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::entityItem()
      */
     public static function entityCls()
     {
@@ -53,7 +53,7 @@ N.B. При удалении сущности к которой привязан
     /**
      * 
      * {@inheritDoc}
-     * @see \devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController::entityEditorViews()
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::entityEditorViews()
      */
     public function entityEditorViews()
     {
@@ -89,7 +89,7 @@ N.B. При удалении сущности к которой привязан
     /**
      * 
      * {@inheritDoc}
-     * @see \devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController::sectionEditorItems()
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::sectionEditorItems()
      */
     public function sectionEditorViews()
     {
@@ -127,7 +127,7 @@ N.B. При удалении сущности к которой привязан
     /**
      * 
      * {@inheritDoc}
-     * @see \devskyfly\yiiModuleAdminPanel\controllers\AbstractContentPanelController::itemLabel()
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::itemLabel()
      */
     public function itemLabel()
     {
@@ -230,10 +230,10 @@ N.B. При удалении сущности к которой привязан
 
 Создать через консоль миграцию и наследовать ее от:
 
-* devskyfly\yiiModuleAdminPanel\migrations\helpers\EntityMigrationHelper
-* devskyfly\yiiModuleAdminPanel\migrations\helpers\SectionMigrationHelper
-* devskyfly\yiiModuleAdminPanel\migrations\helpers\PageMigrationHelper
-* devskyfly\yiiModuleAdminPanel\migrations\helpers\FileMigrationHelper
+* devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\EntityMigrationHelper
+* devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\SectionMigrationHelper
+* devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\PageMigrationHelper
+* devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\FileMigrationHelper
 
 В методе up() записать команду 
 
