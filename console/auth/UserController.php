@@ -77,8 +77,7 @@ class UserController extends Controller
                 return 0;
             }
             
-            $password_hash=$app->security->generatePasswordHash($password_1);
-            $user->setPassword($password_hash);            
+            $user->setPassword($password_2);            
             $user->generateAuthKey();
             
             if($user->validate())
