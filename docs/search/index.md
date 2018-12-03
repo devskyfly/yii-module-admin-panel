@@ -5,6 +5,8 @@
 	из базы данных
 	статичных страниц
 	файлов (pdf, doc)
+
+Для исользования этого модуля надо установить [ElasticSearch](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip) и модуль [Morphological Analysis Plugin for ElasticSearch 5.6.13](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
 	
 Для реализации индексации и поиска используется ElasticSearch.
 

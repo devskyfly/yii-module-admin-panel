@@ -149,8 +149,16 @@ class ElasticSearchProvider extends BaseObject
             'body'=>[
                 $this->_type=>[
                     'properties'=> [
-                        'name'=>['type'=>'text','analyzer'=>"russian_morphology"],
-                        'content'=>['type'=>'text','analyzer'=>"russian_morphology"],
+                        'name'=>[
+                            'type'=>'text',
+                            'analyzer'=>"russian_morphology" ,
+                            'search_analyzer'=>"russian_morphology"
+                        ],
+                        'content'=>[
+                            'type'=>'text',
+                            'analyzer'=>"russian_morphology" ,
+                            'search_analyzer'=>"russian_morphology",
+                        ],
                         'route'=>['type'=>'text']
                     ]
                 ]
@@ -171,7 +179,7 @@ class ElasticSearchProvider extends BaseObject
                      * 'number_of_replicas' => 0,
                      * 'refresh_interval' => -1,
                      */
-                    "analysis" => [
+                    /* "analysis" => [
                         "analyzer" => [
                             "my_analyzer" => [
                                 "type" => "custom",
@@ -183,7 +191,7 @@ class ElasticSearchProvider extends BaseObject
                                 ]
                             ]
                         ]
-                    ]
+                    ] */
                 ]
                     
             ]

@@ -16,13 +16,13 @@ class Indexer extends BaseObject
         $this->elastic_provider=new ElasticSearchProvider();
     }
     
-    public function index($handler)
+    public function index($callback)
     {
-        if(!Vrbl::isCallable($handler)){
+        if(!Vrbl::isCallable($callback)){
             throw new \InvalidArgumentException('Param $callable is not callable type.');
         }
         
-        foreach ($handler() as $item)
+        foreach ($callback() as $item)
         {
             if(!Obj::isSubClassOf($item, AbstractDataProvider::class))
             {               
