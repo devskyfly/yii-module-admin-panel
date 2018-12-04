@@ -166,7 +166,7 @@ class SearchWidget extends Widget
             $highlight=$model->getHighlight();
             $list[]=[
                 'name'=>$model->name,
-                'content'=>$highlight['content'],
+                'content'=>Vrbl::isEmpty($highlight['content'])?[]:$highlight['content'],
                 'route'=>$model->route
             ];
         }
@@ -179,6 +179,6 @@ class SearchWidget extends Widget
         $list=$this->list;
         $pagination=$this->pagination;
         
-        return $this->render('query-form-and-result-list',compact("query","list","pagination"));
+        return $this->render('search-widget',compact("query","list","pagination"));
     }
 }

@@ -270,15 +270,8 @@ class ElasticSearchProvider extends BaseObject
                 'query'=> [
                      'bool'=>[
                         'should'=>[
-                            'match'=> [
-                                'name'=>$str,
-                                
-                            ],
-                             
-                            /* 'match'=> [
-                                'content'=>$str,
-                                
-                            ] */
+                            ['match'=> ['name'=>$str,]],
+                            ['match'=> ['content'=>$str,]],
                         ]
                     ]
                 ]

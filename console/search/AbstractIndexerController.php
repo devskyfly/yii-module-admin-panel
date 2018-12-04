@@ -39,7 +39,7 @@ abstract class AbstractIndexerController extends Controller
         return 0;
     }
     
-    public function actionCreateIndexPutSettings()
+    /* public function actionCreateIndexPutSettings()
     {
         try{
             $response=$this->elastic_provider->closeIndex();
@@ -56,7 +56,7 @@ abstract class AbstractIndexerController extends Controller
             return -1;
         }
         return 0;
-    }
+    } */
     
     
     public function actionUpdateIndex()
@@ -90,7 +90,7 @@ abstract class AbstractIndexerController extends Controller
         return 0;
     }
     
-    public function actionOpenIndex()
+    /* public function actionOpenIndex()
     {
         try{
             $response=$this->elastic_provider->openIndex();
@@ -103,9 +103,9 @@ abstract class AbstractIndexerController extends Controller
             return -1;
         }
         return 0;
-    }
+    } */
     
-    public function actionCloseIndex()
+    /* public function actionCloseIndex()
     {
         try{
             $response=$this->elastic_provider->closeIndex();
@@ -118,7 +118,7 @@ abstract class AbstractIndexerController extends Controller
             return -1;
         }
         return 0;
-    }
+    } */
     /**********************************************************************/
     /** Settings, mappings**/
     /**********************************************************************/
