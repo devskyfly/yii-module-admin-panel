@@ -2,6 +2,7 @@
 
 ### Настройки модуля
 
+```php
 'admin-panel'=>[
         'class'=>'devskyfly\yiiModuleAdminPanel\Module',
         'upload_dir'=>'@app/upload',
@@ -19,3 +20,4 @@
             ]
         ]
     ]
+```

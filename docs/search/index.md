@@ -48,7 +48,7 @@ class IndexerController extends AbstractIndexerController
 Наследуя класс от AbstractDataProvider, определяется правило преобразования данных для их хранения в индексе.
 
 ```php 
-use devskyfly\yiiModuleAdminPanel\models\search\data\AbstractDataProvider;
+use devskyfly\yiiModuleAdminPanel\models\search\AbstractDataProvider;
 
 class EntityDataProvider extends AbstractDataProvider
 {
