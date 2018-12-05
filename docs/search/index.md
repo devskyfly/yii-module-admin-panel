@@ -11,7 +11,7 @@
 Дополнительное ПО:
 
 * [ElasticSearch](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
-* [Morphological Analysis Plugin for ElasticSearch 5.6.13](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
+* [Morphological Analysis Plugin for ElasticSearch 5.6.13](http://dl.bintray.com/content/imotov/elasticsearch-plugins/org/elasticsearch/elasticsearch-analysis-morphology/5.6.13/elasticsearch-analysis-morphology-5.6.13.zip)
 	
 ### Настройка компонентов приложения
 
