@@ -11,6 +11,23 @@ class ElasticSearchProvider extends BaseObject
 {
     protected $module=null;
     
+    public $type_mappings=[
+        'properties'=> [
+            'name'=>[
+                'type'=>'text',
+                'analyzer'=>"russian_morphology" ,
+                'search_analyzer'=>"russian_morphology"
+            ],
+            'content'=>[
+                'type'=>'text',
+                'analyzer'=>"russian_morphology" ,
+                'search_analyzer'=>"russian_morphology",
+            ],
+            'route'=>['type'=>'text']
+        ]
+    ];
+    
+    public $index_settings=[];
     /**
      *
      * @var Elasticsearch\Client;
@@ -141,27 +158,13 @@ class ElasticSearchProvider extends BaseObject
     /** Mappings, settings **/
     /**********************************************************************/
     
-    public function putMappings()
+    public function putTypeMappings()
     {
         $params=[
             'index'=>$this->_index,
             'type'=>$this->_type,
             'body'=>[
-                $this->_type=>[
-                    'properties'=> [
-                        'name'=>[
-                            'type'=>'text',
-                            'analyzer'=>"russian_morphology" ,
-                            'search_analyzer'=>"russian_morphology"
-                        ],
-                        'content'=>[
-                            'type'=>'text',
-                            'analyzer'=>"russian_morphology" ,
-                            'search_analyzer'=>"russian_morphology",
-                        ],
-                        'route'=>['type'=>'text']
-                    ]
-                ]
+                $this->_type=>$this->type_mappings
             ]
         ];
         
@@ -169,31 +172,12 @@ class ElasticSearchProvider extends BaseObject
         return $response;
     }
 
-    public function putSettings()
+    public function putIndexSettings()
     {
         $params = [
             'index' => $this->_index,
             'body' => [
-                'settings' => [
-                    /*
-                     * 'number_of_replicas' => 0,
-                     * 'refresh_interval' => -1,
-                     */
-                    /* "analysis" => [
-                        "analyzer" => [
-                            "my_analyzer" => [
-                                "type" => "custom",
-                                "tokenizer" => "standard",
-                                "filter" => [
-                                    "lowercase",
-                                    "russian_morphology",
-                                    "english_morphology"
-                                ]
-                            ]
-                        ]
-                    ] */
-                ]
-                    
+                'settings' => $this->index_settings   
             ]
         ];
         
@@ -212,6 +196,36 @@ class ElasticSearchProvider extends BaseObject
         return $response;
     }
     
+    
+    
+    
+    /**********************************************************************/
+    /** Search **/
+    /**********************************************************************/
+
+    /**
+     *
+     * @param string $str
+     * @return []
+     */
+    public function search($str)
+    {
+        $params=[
+            'index'=>$this->_index,
+            'body'=>[
+                'query'=> [
+                     'bool'=>[
+                        'should'=>[
+                            ['match'=> ['name'=>$str,]],
+                            ['match'=> ['content'=>$str,]],
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $response=$this->_client->search($params);
+        return $response;
+    }
     
     /**********************************************************************/
     /** Getters **/
@@ -245,40 +259,12 @@ class ElasticSearchProvider extends BaseObject
     }
     
     /**
-     * 
+     *
      * @return \devskyfly\yiiModuleAdminPanel\models\search\Elasticsearch\Client;
      */
     public function getClient()
     {
         return $this->_client;
-    }
-    
-    /**********************************************************************/
-    /** Search **/
-    /**********************************************************************/
-
-    /**
-     *
-     * @param string $str
-     * @return []
-     */
-    public function search($str)
-    {
-        $params=[
-            'index'=>$this->_index,
-            'body'=>[
-                'query'=> [
-                     'bool'=>[
-                        'should'=>[
-                            ['match'=> ['name'=>$str,]],
-                            ['match'=> ['content'=>$str,]],
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $response=$this->_client->search($params);
-        return $response;
     }
 }
 

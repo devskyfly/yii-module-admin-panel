@@ -2,6 +2,7 @@
 /* $this \yii\web\view */
 /* $query string */
 /* $list [['name'=>,'route'=>,'content'=>[]],...] */
+/* $pagination \yii\data\Pagination */
 
 use devskyfly\php56\types\Vrbl;
 use yii\widgets\LinkPager;

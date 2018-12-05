@@ -3,8 +3,11 @@ namespace devskyfly\yiiModuleAdminPanel\console\search;
 
 use yii\helpers\BaseConsole;
 use yii\console\Controller;
+use devskyfly\php56\types\Arr;
+use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModuleAdminPanel\models\search\ElasticSearchProvider;
 use devskyfly\yiiModuleAdminPanel\models\search\Indexer;
+use Yii;
 
 abstract class AbstractIndexerController extends Controller
 {
@@ -17,7 +20,25 @@ abstract class AbstractIndexerController extends Controller
     public function init()
     {
         parent::init();
+        
+        $module=Yii::$app->getModule('admin-panel');
+        
+        if(Vrbl::isNull($module)){
+            throw \InvalidArgumentException('Variable $module is null.');
+        }
+        $search_settings=$module->search_settings;
+        
         $this->elastic_provider=new ElasticSearchProvider();
+        
+        if(isset($search_settings['index_settings'])
+            &&Arr::isArray($search_settings['index_settings'])){
+                $this->elastic_provider->index_settings=$search_settings['index_settings'];
+        }
+        
+        if(isset($search_settings['type_mappings'])
+            &&Arr::isArray($search_settings['type_mappings'])){
+                $this->elastic_provider->type_mappings=$search_settings['type_mappings'];
+        }
     }
     
     /**********************************************************************/
@@ -123,7 +144,7 @@ abstract class AbstractIndexerController extends Controller
     /** Settings, mappings**/
     /**********************************************************************/
     
-    public function actionGetIndexMapping()
+   /*  public function actionGetIndexMapping()
     {
         try{
             $response=$this->elastic_provider->getIndexMapping();
@@ -136,12 +157,12 @@ abstract class AbstractIndexerController extends Controller
             return -1;
         }
         return 0;
-    }
+    } */
     
-    public function actionPutMappings()
+    public function actionPutTypeMappings()
     {
         try{
-            $response=$this->elastic_provider->putMappings();
+            $response=$this->elastic_provider->putTypeMappings();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
@@ -153,10 +174,10 @@ abstract class AbstractIndexerController extends Controller
         return 0;
     }
     
-    public function actionPutSettings()
+    public function actionPutIndexSettings()
     {
         try{
-            $response=$this->elastic_provider->putSettings();
+            $response=$this->elastic_provider->putIndexSettings();
             BaseConsole::stdout(print_r($response,true).PHP_EOL);
         }catch (\Exception $e){
             BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
@@ -188,7 +209,9 @@ abstract class AbstractIndexerController extends Controller
         return 0;
     }
     
-    
+    /**********************************************************************/
+    /** Abstract **/
+    /**********************************************************************/
     
     /**
      * @return callable

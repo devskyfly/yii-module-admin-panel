@@ -61,28 +61,35 @@ class Module extends \yii\base\Module
     
     protected function checkSearchSettings()
     {
-        if(!Arr::isArray($this->search_settings)){
-            throw new \InvalidArgumentException('Property $search_settigs is not array type.');
-        }
-        
-        if(!Vrbl::isEmpty($this->search_settings)){
-            if((!Str::isString($this->search_settings['elastic_hosts']))
-                &&(!Arr::isArray($this->search_settings['elastic_hosts']))){
-                throw new \InvalidArgumentException('Property $search_settings[\'elastic_hosts\'] is not string or array type.');
+            if(!Arr::isArray($this->search_settings)){
+                throw new \InvalidArgumentException('Property $search_settigs is not array type.');
             }
-        }
-        
-        if(!Vrbl::isEmpty($this->search_settings)){
-            if(!Str::isString($this->search_settings['index'])){
-                throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not string type.');
+            
+            if(!Vrbl::isEmpty($this->search_settings)){
+                if((!Str::isString($this->search_settings['elastic_hosts']))
+                    &&(!Arr::isArray($this->search_settings['elastic_hosts']))){
+                    throw new \InvalidArgumentException('Property $search_settings[\'elastic_hosts\'] is not string or array type.');
+                }
+                
+                if(!Str::isString($this->search_settings['index'])){
+                    throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not string type.');
+                }
+                
+                if(isset($this->search_settings['index_settings'])
+                    &&(!Arr::isArray($this->search_settings['index_settings']))){
+                    throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not array type.');
+                }
+                
+                if((!Str::isString($this->search_settings['type']))){
+                    throw new \InvalidArgumentException('Property $search_settings[\'type\'] is not string type.');
+                }
+                
+                if(isset($this->search_settings['type_mappings'])
+                    &&(!Arr::isArray($this->search_settings['type_mappings']))){
+                    throw new \InvalidArgumentException('Property $search_settings[\'type_mappings\'] is not array type.');
+                }
             }
-        }
-        
-        if(!Vrbl::isEmpty($this->search_settings)){
-            if(!Str::isString($this->search_settings['type'])){
-                throw new \InvalidArgumentException('Property $search_settings[\'type\'] is not string type.');
-            }
-        }
+
     }
     
     /**********************************************************************/

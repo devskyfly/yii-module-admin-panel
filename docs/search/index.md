@@ -2,21 +2,18 @@
 
 Эта часть модуля реализует индексацию данных:
 
-	из базы данных
-	статичных страниц
-	файлов (pdf, doc)
+* из базы данных
+* статичных страниц
+* файлов (pdf, doc)
 
-Для исользования этого модуля надо установить [ElasticSearch](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip) и модуль [Morphological Analysis Plugin for ElasticSearch 5.6.13](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
+Для реализации индексации и поиска используется **ElasticSearch**.
+
+Дополнительное ПО:
+
+* [ElasticSearch](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
+* [Morphological Analysis Plugin for ElasticSearch 5.6.13](https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.6.13.zip)
 	
-Для реализации индексации и поиска используется ElasticSearch.
-
-Сам индекс имеет следущие поля:
-
-'name',
-'content',
-'route'
-
-### Настройка компонента
+### Настройка компонентов приложения
 
 ```php
 'elasticsearch' => [
@@ -34,6 +31,7 @@
 В нем надо реализовать метод dataProviderFnc() который будет возвращать объекты наследники AbstractDataProvider.
 
 Т.к. таких объектов может быть очень много, то становится нецелесообразно сначала формировать их список, а затем передавть их дальше.
+
 N.B. По этому вместо **return** в этой фунции должен использоваться **yield**.
 
 ```php
@@ -72,9 +70,11 @@ class EntityDataProvider extends AbstractDataProvider
            'id'=>$item::tableName().'_'.$this->item->id,
            'name'=>$this->item->name,
            'content'=>$this->item->extensions['page']->detail_text,
-           'route'=>sprintf('["moduleAdminPanel/contentPanel/entity-without-section/entity-edit","entity_id"=>%s]',$this->item->id)
+           'route'=>serialize(["moduleAdminPanel/contentPanel/entity-without-section/entity-edit","entity_id"=>$this->item->id])
         ];
     }
 }
 ```
+### Виджет
 
+В качестве примера получения результата поиска приведен widgets\search\SearchWidget
