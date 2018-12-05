@@ -161,6 +161,7 @@ class SearchWidget extends Widget
      */
     protected function formList(ActiveDataProvider $data_provider)
     {
+        $list=[];
         $result=$data_provider->getModels();
         foreach ($result as $model){
             $highlight=$model->getHighlight();
