@@ -189,6 +189,36 @@ abstract class AbstractIndexerController extends Controller
         return 0;
     }
     
+    public function actionOpenIndex()
+    {
+        try{
+            $response=$this->elastic_provider->openIndex();
+            BaseConsole::stdout(print_r($response,true).PHP_EOL);
+        }catch (\Exception $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }catch (\Throwable $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }
+        return 0;
+    }
+    
+    public function actionCloseIndex()
+    {
+        try{
+            $response=$this->elastic_provider->closeIndex();
+            BaseConsole::stdout(print_r($response,true).PHP_EOL);
+        }catch (\Exception $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }catch (\Throwable $e){
+            BaseConsole::stdout($e->getMessage().PHP_EOL.$e->getTraceAsString().PHP_EOL);
+            return -1;
+        }
+        return 0;
+    }
+    
     /**********************************************************************/
     /** Search **/
     /**********************************************************************/

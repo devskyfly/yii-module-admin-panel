@@ -129,6 +129,7 @@ class ElasticSearchProvider extends BaseObject
         return $response;
     }
     
+    
     /**********************************************************************/
     /** Crud **/
     /**********************************************************************/
@@ -157,6 +158,24 @@ class ElasticSearchProvider extends BaseObject
     /**********************************************************************/
     /** Mappings, settings **/
     /**********************************************************************/
+    
+   /*  public function open()
+    {
+        $params=[
+            'index'=>$this->_index
+            ];
+        $response = $this->_client->indices()->open($params);
+        return $response;
+    }
+    
+    public function close()
+    {
+        $params=[
+            'index'=>$this->_index
+        ];
+        $response = $this->_client->indices()->close($params);
+        return $response;
+    } */
     
     public function putTypeMappings()
     {
