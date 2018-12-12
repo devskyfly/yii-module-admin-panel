@@ -1,7 +1,7 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\migrations\security;
 
-use devskyfly\yiiModuleAdminPanel\migrations\helpers\AbstractMigrationHelper;
+use devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\AbstractMigrationHelper;
 
 class IpBlackListMigration extends AbstractMigrationHelper
 {
