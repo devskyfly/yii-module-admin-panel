@@ -15,10 +15,19 @@ use devskyfly\php56\types\Nmbr;
  */
 abstract class AbstractBinder extends ActiveRecord
 {
+    /**********************************************************************/
+    /** Abstract **/
+    /**********************************************************************/
+    
     /**
      * @return string - Class name
      */
     abstract protected static function masterCls();
+    
+    /**
+     * @return string - Class name
+     */
+    abstract protected function slaveCls();
     
     /**
      * Return master class name
@@ -33,11 +42,6 @@ abstract class AbstractBinder extends ActiveRecord
         
         return $cls;
     }
-    
-    /**
-     * @return string - Class name
-     */
-    abstract protected function slaveCls();
     
     /**
      * Return slave class name
@@ -55,7 +59,31 @@ abstract class AbstractBinder extends ActiveRecord
     
     /**
      *
+     * @param AbstractItem $item
+     * @throws \InvalidArgumentException
+     * @return AbstractBinder[]
+     */
+    public static function getRowsByMasterItem($item)
+    {
+        return static::getRowsByMasterId($item->id);   
+    }
+    
+    /**
+     * 
+     * @param int $id
+     * @throws \InvalidArgumentException
+     * @return AbstractBinder[]
+     */
+    public static function getRowsByMasterId($id)
+    {
+        $id=Nmbr::toIntegerStrict($id);
+        return static::find()->andWhere(['master_id'=>$id]);
+    }
+    
+    /**
+     *
      * @param int $master_id
+     * @throws \InvalidArgumentException
      * @return int[]
      */
     public static function getSlaveIds($master_id)
@@ -68,6 +96,7 @@ abstract class AbstractBinder extends ActiveRecord
     /**
      *
      * @param int $master_id
+     * @throws \InvalidArgumentException
      * @return AbstractItem[]
      */
     public static function getSlaveItems($master_id)

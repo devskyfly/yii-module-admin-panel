@@ -4,16 +4,32 @@ use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $master_item \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
-/* @var $slave_item \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
+/* @var $slave_items \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem[] */
 /* @var $slave_item_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
+/* @var $binder_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
 /* @var $property string */
 ?>
 
 <?
-$content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
-$master_item_table_name=$master_item::tableName();
+/* $content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
+$master_item_table_name=$master_item::tableName(); */
 ?>
 
+<?if(!$master_item->isNewRecord):?>
+
+<table>
+	<?$i=0;?>
+	<?foreach ($slave_items as $item):?>
+	<?$i++;?>
+	<tr>
+		<td><?=$i?><?=$form->field($master_item,'master_id')->hiddenInput()?><?=$form->field($master_item,'slave_id')->hiddenInput()?></td>
+		<td></td>
+
+	</tr>
+	<?endforeach;?>
+</table>
+
+<?endif;?>
 <div style="padding-bottom:30px" class="content-panel-item-selector" id="<?=$content_panel_item_selector_id?>">
     <?=$form->field($master_item,$property)->hiddenInput()?>
     <div>
@@ -33,7 +49,7 @@ $master_item_table_name=$master_item::tableName();
 </div>
 
 <?
-
+/* 
 $url=Url::toRoute($slave_item_cls::selectListRoute());
 $table_name=$slave_item_cls::tableName();
 $script = <<<JS_SCRIPT
@@ -61,7 +77,7 @@ function(){
     }
     window.content_panel.slave_objects={"$table_name":slave_obj};
 });
-JS_SCRIPT;
+JS_SCRIPT; */
 ?>
 
-<?$this->registerJs($script);?>
+<?//$this->registerJs($script);?>
