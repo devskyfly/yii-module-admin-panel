@@ -22,7 +22,7 @@ $master_item_table_name=$master_item::tableName();
             <?if(!Vrbl::isEmpty($slave_item)):?>
             	<?=$slave_item->name?>
             <?else:?>
-            	Связь не усановлена
+            	Связь не установлена
             <?endif;?>
         </strong>
         <a>

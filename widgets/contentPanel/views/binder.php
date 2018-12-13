@@ -1,59 +1,71 @@
 <?php
+use devskyfly\php56\core\Cls;
+use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Vrbl;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */
+/* @var $label string */
 /* @var $master_item \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
-/* @var $slave_items \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem[] */
+/* @var $list [] */
 /* @var $slave_item_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
 /* @var $binder_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem */
 /* @var $property string */
 ?>
 
 <?
-/* $content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
-$master_item_table_name=$master_item::tableName(); */
+$binder=new $binder_cls();
+$bem="content-panel-binder";
+$wrapper_id=$wrapper_class_name.'-'.$binder_cls;
+$tbl_row_tmp = <<<TBL_ROW_TMP
+<tr>
+    <td>#hidden_fields#</td>
+    <td><input type="text" class="content-panel-binder__item-name"/ value="#slave_item_name#"></td>
+    <td>
+        <a>
+    		<span class="glyphicon glyphicon-link content-panel-binder__link-button"></span>
+    		<span class="glyphicon glyphicon-trash content-panel-binder__delete-button"></span>
+    	</a>
+    </td>
+</tr>
+TBL_ROW_TMP;
+
+$hidden_fields=$form->field($binder,'master_id')->hiddenInput()->label(false).$form->field($binder,'slave_id')->hiddenInput()->label(false);
+$slave_item_name="";
+
+$new_tbl_row=str_replace(["#hidden_fields#","#slave_item_name#"], [$hidden_fields,$slave_item_name], $tbl_row_tmp);
 ?>
 
 <?if(!$master_item->isNewRecord):?>
-
-<table>
-	<?$i=0;?>
-	<?foreach ($slave_items as $item):?>
-	<?$i++;?>
-	<tr>
-		<td><?=$i?><?=$form->field($master_item,'master_id')->hiddenInput()?><?=$form->field($master_item,'slave_id')->hiddenInput()?></td>
-		<td></td>
-
-	</tr>
-	<?endforeach;?>
-</table>
-
-<?endif;?>
-<div style="padding-bottom:30px" class="content-panel-item-selector" id="<?=$content_panel_item_selector_id?>">
-    <?=$form->field($master_item,$property)->hiddenInput()?>
-    <div>
-        <strong
-        class="content-panel-item-selector__item-name">
-            <?if(!Vrbl::isEmpty($slave_item)):?>
-            	<?=$slave_item->name?>
-            <?else:?>
-            	Связь не усановлена
-            <?endif;?>
-        </strong>
-        <a>
-    		<span class="glyphicon glyphicon-link content-panel-item-selector_link-button">
-    		</span>
-    	</a>
+<div style="padding-bottom:30px" class="$wrapper_class_name row" id="<?=$wrapper_id?>">
+    <div class="col-xs-12">
+        <div>
+        	<strong><?=$label?></strong>
+        </div>
+        <table>
+        	<?$i=0;?>
+        	<?foreach ($list as $item):?>
+        		<?
+        		$i++;
+        		$hidden_fields=$form->field($item['binder'],'master_id')->hiddenInput()->label(false)
+        		.$form->field($item['binder'],'slave_id')->hiddenInput()->label(false);
+        		$slave_item_name=Vrbl::isEmpty($item->slave)?"":$item->slave->name;
+        		?>
+        		<?=str_replace(["#hidden_fields#","#slave_item_name#"], [$hidden_fields,$slave_item_name], $tbl_row_tmp)?>
+        	<?endforeach;?>
+        	<?if($i==0):?>
+        		<?=str_replace(["#hidden_fields#","#slave_item_name#"], [$hidden_fields,$slave_item_name], $tbl_row_tmp)?>
+        	<?endif;?>
+        </table>
     </div>
 </div>
-
+<?endif;?>
 <?
-/* 
+
 $url=Url::toRoute($slave_item_cls::selectListRoute());
 $table_name=$slave_item_cls::tableName();
 $script = <<<JS_SCRIPT
-var content_panel_item_selector=$("#$content_panel_item_selector_id");
+var item_selector=$("#$content_panel_item_selector_id");
 var slave_id=$(content_panel_item_selector).find("#$master_item_table_name-$property");
 var slave_name=$(content_panel_item_selector).find(".content-panel-item-selector__item-name");
 var link_button=$(content_panel_item_selector).find('.content-panel-item-selector_link-button');
@@ -77,7 +89,7 @@ function(){
     }
     window.content_panel.slave_objects={"$table_name":slave_obj};
 });
-JS_SCRIPT; */
+JS_SCRIPT;
 ?>
 
 <?//$this->registerJs($script);?>

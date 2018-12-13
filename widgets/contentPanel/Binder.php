@@ -7,11 +7,17 @@ use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractBinder;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem;
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Obj;
+use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use yii\widgets\ActiveForm;
 
 class Binder extends Widget
 {
+    /**
+     * 
+     */
+    public $label="";
+    
     /**
      * 
      * @var \yii\widgets\ActiveForm
@@ -23,7 +29,7 @@ class Binder extends Widget
      * 
      * @var devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
      */
-    public $master_item=null;
+     public $master_item=null;
     
     /**
      * Binder class
@@ -33,21 +39,21 @@ class Binder extends Widget
     public $binder_cls;
     
     /**
-     * 
-     * @var devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractBinder[]
-     */
-    protected $binder_list=[];
-    
-    /**
      *
-     * @var devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem[]
+     * @var [['binder'=>,'slave_item']]
      */
-    protected $slave_items=[];
+    protected $list=[];
     
     public function init()
     {
+        parent::init();
+        
         if(!Obj::isA($this->form, ActiveForm::class)){
             throw new \InvalidArgumentException('Property $item is not '.ActiveForm::class.' type.');
+        }
+        
+        if(!Str::isString($this->label)){
+            throw new \InvalidArgumentException('Property $label is not string type.');
         }
         
         if(!Obj::isA($this->master_item, AbstractItem::class)){
@@ -57,9 +63,11 @@ class Binder extends Widget
         if(!Cls::isSubClassOf($this->binder_cls, AbstractBinder::class)){
             throw new \InvalidArgumentException('Property $binder_cls is not sub class of '.AbstractBinder::class.'.');
         }
-        $slave_cls=$binder_cls::getSlaveCls();
+
         $binder_cls=$this->binder_cls;
+        $slave_cls=$binder_cls::getSlaveCls();
         $binder_list=$binder_cls::getRowsByMasterItem($this->master_item);
+        $list=[]; 
         
         foreach ($binder_list as $binder){
             $slave_id=$binder->slave_id;
@@ -69,17 +77,19 @@ class Binder extends Widget
             }else{
                 $this->slave_items[]=$slave_item->name;
             }
-        }       
+            $this->list[]=['binder'=>$binder,'slave_item'=>$slave_item];
+        }  
     }
     
     public function run()
     {
+        $label=$this->label;
         $binder_cls=$this->binder_cls;
         $form=$this->form;
         $master_item=$this->master_item;
         $slave_item_cls=$binder_cls::getSlaveCls();
-        $slave_items=$this->slave_items;
-
-        return $this->render('item-selector',compact("master_item","slave_items","slave_item_cls","form","binder_cls"));
+        $list=$this->list;
+        
+        return $this->render('binder',compact("form","list","master_item","binder_cls","slave_item_cls","label"));
     }
 }

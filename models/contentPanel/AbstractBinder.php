@@ -4,6 +4,7 @@ namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 use yii\db\ActiveRecord;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
+use yii\helpers\ArrayHelper;
 
 /**
  * Give opportunity to bind entity to other entities using relation one to many.
@@ -77,7 +78,8 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getRowsByMasterId($id)
     {
         $id=Nmbr::toIntegerStrict($id);
-        return static::find()->andWhere(['master_id'=>$id]);
+        return static::find()
+        ->andWhere(['master_id'=>$id])->all();
     }
     
     /**
@@ -89,7 +91,10 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getSlaveIds($master_id)
     {
         $master_id=Nmbr::toIntegerStrict($master_id);
-        $result=static::find()->andWhere(['master_id'=>$master])->asArray()->all();
+        $result=static::find()
+        ->andWhere(['master_id'=>$master])
+        ->asArray()
+        ->all();
         return array_column($result, 'id');
     }
     
@@ -103,7 +108,9 @@ abstract class AbstractBinder extends ActiveRecord
     {
         $slave_cls=static::getSlaveCls();
         $ids=static::getSlaveIds($master_id);
-        $slave_cls::find()->where(['id'=>$ids])->all();
+        $slave_cls::find()
+        ->where(['id'=>$ids])
+        ->all();
     }
     
     /**
@@ -135,11 +142,19 @@ abstract class AbstractBinder extends ActiveRecord
             [['name','master_id','slave_id'],'required'],
             [['master_id','slave_id'],'string']
         ];
+        
+        $rules=ArrayHelper::merge($new_rules, $rules);
+        return $rules;
+    }
+    
+    public static function tableName()
+    {
+        return 'binder';
     }
     
     public static function find()
     {
-        return static::find()->where(['name'=>static::class]);
+        return parent::find()->where(['name'=>static::class]);
     }
 }
 
