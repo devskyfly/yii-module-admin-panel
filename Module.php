@@ -15,6 +15,9 @@ use yii\helpers\FileHelper;
  */
 class Module extends \yii\base\Module
 {   
+    const CSS_NAMESPACE='devskyfly-yii-module-admin-panel';
+    
+    
     /**
      * Upload dir path for application need to configurate.
      * 

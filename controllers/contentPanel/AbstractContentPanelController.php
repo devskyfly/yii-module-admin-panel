@@ -11,6 +11,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
+use devskyfly\yiiModuleAdminPanel\Module;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
 use yii\helpers\ArrayHelper;
@@ -155,43 +156,27 @@ abstract class AbstractContentPanelController extends Controller
                 'class' => 'yii\grid\ActionColumn',
                 
                 'buttons' => [
-                    'delete' => function ($url, $model, $key) {
-                        
-                        $text = '';
-                        $options = [
-                            'class' => 'glyphicon glyphicon-trash'
-                        ];
-                        $url = Url::toRoute([
-                            'entity-delete',
-                            'entity_id' => $model->id
-                        ]);
-                        ;
-                        return Html::a($text, $url, $options);
+                    'delete'=>function($url,$model,$key){
+                    
+                    $text = '';
+                    $options = [
+                        'class' => 'glyphicon glyphicon-link '.Module::CSS_NAMESPACE.'content-panel-entity-select-list__item-link-button',
+                    ];
+                    $url = "";
+                    return Html::a($text, $url, $options);
                     },
-                    'update' => function ($url, $model, $key) {
-                        
-                        $text = '';
-                        $options = [
-                            'class' => 'glyphicon glyphicon-pencil'
-                        ];
-                        $url = Url::toRoute([
-                            'entity-edit',
-                            'entity_id' => $model->id
-                        ]);
-                        return Html::a($text, $url, $options);
-                    }
                 ],
                 
                 'visibleButtons' => [
-                    'view' => function($url,$model,$key){
-                        return false;
-                        },
-                        'update'=>function($url,$model,$key){
+                    'view'=>function($url,$model,$key){
+                    return false;
+                    },
+                    'update'=>function($url,$model,$key){
+                    return false;
+                    },
+                    'delete'=>function($url,$model,$key){
                         return true;
-                        },
-                        'delete'=>function($url,$model,$key){
-                        return true;
-                        }
+                    }
                 ]
             ]
         ];
