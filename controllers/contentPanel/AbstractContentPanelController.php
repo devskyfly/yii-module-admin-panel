@@ -131,21 +131,72 @@ abstract class AbstractContentPanelController extends Controller
     {
         return [
             [
-                'class'=>'yii\grid\SerialColumn'
+                'class' => 'yii\grid\SerialColumn'
             ],
             'active',
-            'name'            
+            'name'
         ];
     }
-    
+
     /**
      * You can add your own columns to grid view
+     * 
      * @return array
      */
     public function entityCustomColumns()
     {
         return [];
     }
+
+    public function entityColumnsForSelectList()
+    {
+        return [
+            [
+                'class' => 'yii\grid\ActionColumn',
+                
+                'buttons' => [
+                    'delete' => function ($url, $model, $key) {
+                        
+                        $text = '';
+                        $options = [
+                            'class' => 'glyphicon glyphicon-trash'
+                        ];
+                        $url = Url::toRoute([
+                            'entity-delete',
+                            'entity_id' => $model->id
+                        ]);
+                        ;
+                        return Html::a($text, $url, $options);
+                    },
+                    'update' => function ($url, $model, $key) {
+                        
+                        $text = '';
+                        $options = [
+                            'class' => 'glyphicon glyphicon-pencil'
+                        ];
+                        $url = Url::toRoute([
+                            'entity-edit',
+                            'entity_id' => $model->id
+                        ]);
+                        return Html::a($text, $url, $options);
+                    }
+                ],
+                
+                'visibleButtons' => [
+                    'view' => function($url,$model,$key){
+                        return false;
+                        },
+                        'update'=>function($url,$model,$key){
+                        return true;
+                        },
+                        'delete'=>function($url,$model,$key){
+                        return true;
+                        }
+                ]
+            ]
+        ];
+    }
+    
     /**
      * Define columns for GridView widget
      *
@@ -237,7 +288,8 @@ abstract class AbstractContentPanelController extends Controller
         
         $this->entity_select_list_columns=ArrayHelper::merge(
             $this->entityColumns(),
-            $this->entityCustomColumns()
+            $this->entityCustomColumns(),
+            $this->entityColumnsForSelectList()
         );
         
         $this->setViewPath();

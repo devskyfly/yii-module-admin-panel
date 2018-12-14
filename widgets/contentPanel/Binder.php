@@ -78,7 +78,7 @@ class Binder extends Widget
                 $this->slave_items[]=$slave_item->name;
             }
             $this->list[]=['binder'=>$binder,'slave_item'=>$slave_item];
-        }  
+        }
     }
     
     public function run()

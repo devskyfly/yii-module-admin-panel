@@ -3,9 +3,10 @@
 /* @var $list [] */
 /* @var $parent_section_id null|number */
 /* @var $section_cls */
+/* @var $entity_cls devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity */
+
 use devskyfly\php56\types\Vrbl;
 use yii\helpers\Html;
-
 ?>
 <div class="content-panel-section-list-for-select">
     <table class="table">
@@ -14,6 +15,7 @@ use yii\helpers\Html;
         	<td>-</td>
         	<td></td>
         	<td><a>#</a></td>
+        	<?if(Vrbl::isEmpty($entity_cls)):?>
         	<td class="content-panel-item-selector__item">
         		<input type="hidden" class="content-panel-item-selector__item-name" value="#"/>
         		<input type="hidden" class="content-panel-item-selector__item-id" value=""/>
@@ -21,6 +23,7 @@ use yii\helpers\Html;
             		<span class="glyphicon glyphicon-link content-panel-item-selector__item-link-button"></span>
             	</a>
     		</td>
+    		<?endif;?>
     	</tr>
     <?endif;?>
     <?foreach ($list as $item):?>
@@ -28,6 +31,7 @@ use yii\helpers\Html;
         	<td><?=$item['order']?></td>
         	<td><span class="<?=$item['active']?"glyphicon glyphicon-ok":""?>"></span></td>
         	<td><?=Html::a($item['name'],$item['sub_section_url'])?></td>
+        	<?if(Vrbl::isEmpty($entity_cls)):?>
         	<td class="content-panel-item-selector__item">
         		<input type="hidden" class="content-panel-item-selector__item-name" value="<?=addslashes($item['name'])?>"/>
         		<input type="hidden" class="content-panel-item-selector__item-id" value="<?=$item['id']?>"/>
@@ -35,12 +39,14 @@ use yii\helpers\Html;
             		<span class="glyphicon glyphicon-link content-panel-item-selector__item-link-button"></span>
             	</a>
     		</td>
+    		<?endif;?>
     	</tr>
     <?endforeach;?>
     </table>
 </div>
 
 <?
+if(Vrbl::isEmpty($entity_cls)){
 $table_name=$section_cls::tableName();
 
 $script = <<<JS_SCRIPT
@@ -57,6 +63,7 @@ $script = <<<JS_SCRIPT
         });
     });
 JS_SCRIPT;
-?>
 
-<?$this->registerJs($script);?>
+$this->registerJs($script);
+}
+?>

@@ -1,7 +1,7 @@
 <?php
-use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\EntityList;
-use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionList;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\EntitySelectList;
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionNavigationLinks;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionSelectList;
 use devskyfly\php56\types\Vrbl;
 
 /* @var $entity_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstructEntity */
@@ -36,10 +36,10 @@ if(!Vrbl::isNull($section_cls)){
 <div class="row">
 	<?if($show_section_list):?>
 	<div class="col-xs-3">
-		<?=SectionList::widget(compact("section_cls","parent_section_id"))?>
+		<?=SectionSelectList::widget(compact("section_cls","parent_section_id","entity_cls"))?>
 	</div>
 	<?endif;?>
 	<div <?=$show_section_list?'class="col-xs-9"':'class="col-xs-12"'?>>
-		<?=EntityList::widget(compact("entity_cls","parent_section_id","page","entity_columns"))?>
+		<?=EntitySelectList::widget(compact("entity_cls","parent_section_id","page","entity_columns"))?>
 	</div>
 </div>

@@ -5,10 +5,8 @@ use yii\base\Widget;
 use yii\helpers\Url;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
-use devskyfly\php56\types\Obj;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
 use devskyfly\php56\types\Nmbr;
-use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Arr;
 
 
@@ -52,7 +50,7 @@ class SectionList extends Widget
                 throw new \InvalidArgumentException('Property $parent_section_id is not number type.');
             }
         }
-        
+
         if(!Vrbl::isNull($this->sort)){
             if(!Arr::isArray($this->sort)){
                 throw new \InvalidArgumentException('Property $sort is not array type.');

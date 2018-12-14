@@ -6,15 +6,13 @@
 use yii\grid\GridView;
 
 ?>
-<div style="padding-bottom:20px">
-	<?=$this->render('_entity-list-buttons',["parent_section_id"=>$parent_section_id])?>
-</div>
+
 <div>
 	<?=GridView::widget(
 	    [
 	        'columns'=>$columns,
 	        'dataProvider'=>$data_provider        
 	    ]
-	    )?>
+    )?>
 </div>
  
