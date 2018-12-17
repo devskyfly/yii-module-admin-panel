@@ -10,11 +10,11 @@ use yii\helpers\Url;
 ?>
 
 <?
-$content_panel_item_selector_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
+$widget_id="content-panel-item-selector"."-".$master_item::tableName()."-".$property;
 $master_item_table_name=$master_item::tableName();
 ?>
 
-<div style="padding-bottom:30px" class="content-panel-item-selector" id="<?=$content_panel_item_selector_id?>">
+<div style="padding-bottom:30px" class="content-panel-item-selector" id="<?=$widget_id?>">
     <?=$form->field($master_item,$property)->hiddenInput()?>
     <div>
         <strong
@@ -34,10 +34,12 @@ $master_item_table_name=$master_item::tableName();
 
 <?
 
-$url=Url::toRoute($slave_item_cls::selectListRoute());
+$url=Url::toRoute([$slave_item_cls::selectListRoute(),'bind_name'=>$widget_id]);
 $table_name=$slave_item_cls::tableName();
+
 $script = <<<JS_SCRIPT
-var content_panel_item_selector=$("#$content_panel_item_selector_id");
+var content_panel_item_selector=$("#$widget_id");
+
 var slave_id=$(content_panel_item_selector).find("#$master_item_table_name-$property");
 var slave_name=$(content_panel_item_selector).find(".content-panel-item-selector__item-name");
 var link_button=$(content_panel_item_selector).find('.content-panel-item-selector_link-button');
@@ -45,22 +47,25 @@ var link_button=$(content_panel_item_selector).find('.content-panel-item-selecto
 var slave_window=null;
 
 var slave_obj={
-setId:function(id){slave_id.val(id)},
-setName:function(name){slave_name.html(name)},
-closeWindow:function(){slave_window.close();}
+    setId:function(id){slave_id.val(id)},
+    setName:function(name){slave_name.html(name)},
+    closeWindow:function(){slave_window.close();}
 };
 
 $(link_button).click(
-function(){
-    slave_window=window.open("$url");
-    if(!('content_panel' in window)){
-        window.content_panel={};
-        if(!('slave_objects' in window.content_panel)){
-            window.content_panel={slave_objects:{}}
+    function(){
+        slave_window=window.open("$url");
+        
+        if(!('content_panel' in window)){
+            window.content_panel={};
+            if(!('slave_objects' in window.content_panel)){
+                window.content_panel={slave_objects:{}}
+            }
         }
+
+        window.content_panel.slave_objects={"$widget_id":slave_obj};
     }
-    window.content_panel.slave_objects={"$table_name":slave_obj};
-});
+);
 JS_SCRIPT;
 ?>
 

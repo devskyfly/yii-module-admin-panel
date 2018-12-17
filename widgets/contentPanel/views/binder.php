@@ -27,7 +27,7 @@ $tbl_row_tmp = <<<TBL_ROW_TMP
     <td style="padding:5px">{{index+1}}</td>
     <td >#hidden_fields#</td>
     <td style="padding-top:5px">
-        <input type="text" class="{$widget_name}__item-name" v-model="item.slave_item_name">
+        <input type="text" class="{$widget_name}__item-name" v-model="item.slave_name">
     </td>
     <td style="padding-top:5px;padding-left:5px">
         <a>
@@ -74,19 +74,18 @@ foreach ($list as $item){
     $js_list[]=[
         'master_id'=>$item['binder']->master_id,
         'slave_id'=>$item['binder']->slave_id,
-        'slave_item_name'=>Vrbl::isEmpty($item['slave_item'])?"":$item['slave_item']->name
+        'slave_name'=>Vrbl::isEmpty($item['slave_item'])?"":$item['slave_item']->name
     ];
 }
 
 $js_list=Json::encode($js_list,JSON_UNESCAPED_UNICODE);
- $url=Url::toRoute($slave_item_cls::selectListRoute());
-/*$table_name=$slave_item_cls::tableName(); */
 
+$url=Url::toRoute([$slave_item_cls::selectListRoute(),'bind_name'=>$widget_id]);
+$table_name=$slave_item_cls::tableName();
 
 
 $script = <<<JS_SCRIPT
 var list=$js_list;
-
 
 var vue=new Vue({
     el:'#$widget_id',
@@ -102,6 +101,13 @@ var vue=new Vue({
                     window.content_panel={slave_objects:{}}
                 }
             }
+
+            var slave_obj={
+                setId:function(id){slave_id.val(id)},
+                setName:function(name){slave_name.html(name)},
+                closeWindow:function(){slave_window.close();}
+            };            
+
             window.content_panel.slave_objects={"$widget_id":slave_obj};
         },
         remove:function(index){

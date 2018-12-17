@@ -6,37 +6,60 @@
 /* @var $entity_cls devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity */
 
 use devskyfly\php56\types\Vrbl;
+use devskyfly\yiiModuleAdminPanel\Module;
 use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\web\Request;
 ?>
-<div class="content-panel-section-list-for-select">
+
+<?php 
+$css_namespace=Module::CSS_NAMESPACE.'-';
+$widget_id=$css_namespace.'-content-panel-section-list-for-select';
+
+//$item_cls=$css_namespace.'-content-panel-item-selector__item';
+$item_id_cls=$css_namespace.'-content-panel-item-selector__item-id';
+$item_name_cls=$css_namespace.'-content-panel-item-selector__item-name';
+
+$link_button_cls=$css_namespace.'-content-panel-item-selector__item-link-button';
+?>
+
+<div class="<?=$widget_id?>">
     <table class="table">
+    <?//Caption?>
     <?if(Vrbl::isEmpty($parent_section_id)):?>
     	<tr>
         	<td>-</td>
         	<td></td>
         	<td><a>#</a></td>
         	<?if(Vrbl::isEmpty($entity_cls)):?>
-        	<td class="content-panel-item-selector__item">
-        		<input type="hidden" class="content-panel-item-selector__item-name" value="#"/>
-        		<input type="hidden" class="content-panel-item-selector__item-id" value=""/>
-            	<a>
-            		<span class="glyphicon glyphicon-link content-panel-item-selector__item-link-button"></span>
-            	</a>
+        	<td >
+        		<a>
+            		<span slave_name="#" 
+            		slave_id="" 
+            		class="glyphicon glyphicon-link <?=$link_button_cls?>">
+            		</span>
+        		</a>
     		</td>
     		<?endif;?>
     	</tr>
     <?endif;?>
+    
+    <?//Body?>
     <?foreach ($list as $item):?>
     	<tr>
         	<td><?=$item['order']?></td>
         	<td><span class="<?=$item['active']?"glyphicon glyphicon-ok":""?>"></span></td>
-        	<td><?=Html::a($item['name'],$item['sub_section_url'])?></td>
+        	<td>
+        		<?=Html::a($item['name'],Url::toRoute($item['sub_section_url']))?>
+        	</td>
         	<?if(Vrbl::isEmpty($entity_cls)):?>
-        	<td class="content-panel-item-selector__item">
-        		<input type="hidden" class="content-panel-item-selector__item-name" value="<?=addslashes($item['name'])?>"/>
-        		<input type="hidden" class="content-panel-item-selector__item-id" value="<?=$item['id']?>"/>
+        	<td>
             	<a>
-            		<span class="glyphicon glyphicon-link content-panel-item-selector__item-link-button"></span>
+                	<span 
+                	slave_name="<?=addslashes($item['name'])?>" 
+                	slave_id="<?=$item['id']?>" 
+                	class="glyphicon glyphicon-link <?=$link_button_cls?>">
+                	</span>
             	</a>
     		</td>
     		<?endif;?>
@@ -46,22 +69,19 @@ use yii\helpers\Html;
 </div>
 
 <?
+$request = Yii::$app->getRequest();
+$params = $request instanceof Request ? $request->getQueryParams():[];
+
 if(Vrbl::isEmpty($entity_cls)){
-$table_name=$section_cls::tableName();
 
 $script = <<<JS_SCRIPT
-    var container=$(".content-panel-section-list-for-select");
-    var items=$(container).find(".content-panel-item-selector__item");
-    $.each(items,function(key,item){
-        var id=$(item).find(".content-panel-item-selector__item-id").val();
-        var name=$(item).find(".content-panel-item-selector__item-name").val();
-        $(item).find(".content-panel-item-selector__item-link-button").click(function(){
-        var slave_objects=window.opener.content_panel.slave_objects["$table_name"];
-            slave_objects.setId(id);
-            slave_objects.setName(name);
+        $(".$widget_id").find(".$link_button_cls").click(function(){
+        var item=$(this);
+        var slave_objects=window.opener.content_panel.slave_objects["{$params['bind_name']}"];
+            slave_objects.setId(item.attr('slave_id'));
+            slave_objects.setName(item.attr('slave_name'));
             slave_objects.closeWindow();
         });
-    });
 JS_SCRIPT;
 
 $this->registerJs($script);

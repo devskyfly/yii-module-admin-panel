@@ -13,7 +13,6 @@ class EntitySelectList extends EntityList
     
     public function run()
     {
-
         return $this->render('entity-select-list',$this->variables);
     }
 }

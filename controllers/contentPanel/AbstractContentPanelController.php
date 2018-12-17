@@ -152,33 +152,7 @@ abstract class AbstractContentPanelController extends Controller
     public function entityColumnsForSelectList()
     {
         return [
-            [
-                'class' => 'yii\grid\ActionColumn',
-                
-                'buttons' => [
-                    'delete'=>function($url,$model,$key){
-                    
-                    $text = '';
-                    $options = [
-                        'class' => 'glyphicon glyphicon-link '.Module::CSS_NAMESPACE.'content-panel-entity-select-list__item-link-button',
-                    ];
-                    $url = "";
-                    return Html::a($text, $url, $options);
-                    },
-                ],
-                
-                'visibleButtons' => [
-                    'view'=>function($url,$model,$key){
-                    return false;
-                    },
-                    'update'=>function($url,$model,$key){
-                    return false;
-                    },
-                    'delete'=>function($url,$model,$key){
-                        return true;
-                    }
-                ]
-            ]
+            ['class' => 'devskyfly\yiiModuleAdminPanel\grid\column\LinkColumn']
         ];
     }
     

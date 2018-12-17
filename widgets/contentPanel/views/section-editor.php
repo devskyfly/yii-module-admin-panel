@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Vrbl;
-use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionNavigationLinks;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\NavigationLinks;
 ?>
 <?
 $label_prefix="";
@@ -34,7 +34,7 @@ if(!Vrbl::isEmpty($item->__id))
 	</h4>
 </div>
 <div class="row">
-	<?=SectionNavigationLinks::widget(
+	<?=NavigationLinks::widget(
 	    [
 	        "current_item_is_active"=>true,
 	        'section_cls'=>$section_cls,

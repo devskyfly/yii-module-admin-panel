@@ -1,6 +1,6 @@
 <?php
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\EntitySelectList;
-use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionNavigationLinks;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\NavigationLinks;
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionSelectList;
 use devskyfly\php56\types\Vrbl;
 
@@ -25,11 +25,11 @@ if(!Vrbl::isNull($section_cls)){
 ?>
 <?if(!Vrbl::isEmpty($section_cls)):?>
 <div class="row">
-	<?=SectionNavigationLinks::widget(['section_cls'=>$section_cls,'parent_section_id'=>$parent_section_id,'label'=>$label,'route'=>'entity-select-list'])?>
+	<?=NavigationLinks::widget(['section_cls'=>$section_cls,'parent_section_id'=>$parent_section_id,'label'=>$label,'route'=>'entity-select-list'])?>
 </div>
 <?else:?>
 <div class="row">
-	<?=SectionNavigationLinks::widget(['label'=>$label])?>
+	<?=NavigationLinks::widget(['label'=>$label])?>
 </div>
 <?endif;?>
 

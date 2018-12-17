@@ -4,8 +4,11 @@ namespace devskyfly\yiiModuleAdminPanel\widgets\contentPanel;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
+use yii\web\Request;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
+use Yii;
 
 class SectionSelectList extends SectionList
 {
@@ -42,14 +45,19 @@ class SectionSelectList extends SectionList
             $route=$entity_cls::selectListRoute();
         }
         
+        $request = Yii::$app->getRequest();
+        $params = $request instanceof Request ? $request->getQueryParams():[];
+        
+        
         foreach ($result as $item){
+            $full_route=ArrayHelper::merge([$route,'parent_section_id'=>$item->id],$params);
             $i++;
             $this->list[]=[
                 "order"=>$i,
                 "active"=>$item->active=="Y"?true:false,
                 "id"=>$item->id,
                 "name"=>$item->name,
-                "sub_section_url"=>Url::toRoute([$route,'parent_section_id'=>$item->id]),
+                "sub_section_url"=>Url::toRoute($full_route),
             ];
         }
     }

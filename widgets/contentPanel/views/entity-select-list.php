@@ -5,10 +5,15 @@
 /* @var $columns [] */
 use devskyfly\yiiModuleAdminPanel\Module;
 use yii\grid\GridView;
-
+use yii\web\Request;
 ?>
 
-<div class="<?=Module::CSS_NAMESPACE.'content-panel-entity-select-list'?>">
+<?
+$widget_id=Module::CSS_NAMESPACE.'-content-panel-entity-select-list';
+$item_link_button_cls=Module::CSS_NAMESPACE.'-content-panel-entity-select-list__item-link-button';
+?>
+
+<div class="<?=$widget_id?>">
 	<?=GridView::widget(
 	    [
 	        'columns'=>$columns,
@@ -17,16 +22,20 @@ use yii\grid\GridView;
     )?>
 </div>
 
-<?
-$entity_select_list=Module::CSS_NAMESPACE.'content-panel-entity-select-list';
-$entity_select_list__item_link_button=Module::CSS_NAMESPACE.'content-panel-entity-select-list__item-link-button';
 
-$js= <<<JS_SCRIPT
-$('.$entity_select_list__item_link_button').click(function(event){
-    alert('ok');    
-    event.preventDefault();
-    
-});
+
+<?
+$request = Yii::$app->getRequest();
+$params = $request instanceof Request ? $request->getQueryParams():[];
+
+$js = <<<JS_SCRIPT
+   $(".$widget_id").find(".$item_link_button_cls").click(function(){
+        var item=$(this);
+        var slave_objects=window.opener.content_panel.slave_objects["{$params['bind_name']}"];
+        slave_objects.setId(item.attr('slave_id'));
+        slave_objects.setName(item.attr('slave_name'));
+        slave_objects.closeWindow();
+        });
 JS_SCRIPT;
 ?>
 
