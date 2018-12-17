@@ -59,7 +59,7 @@ $(link_button).click(
         if(!('content_panel' in window)){
             window.content_panel={};
             if(!('slave_objects' in window.content_panel)){
-                window.content_panel={slave_objects:{}}
+                Window.content_panel={slave_objects:{}}
             }
         }
 

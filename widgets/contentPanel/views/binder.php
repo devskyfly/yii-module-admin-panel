@@ -103,8 +103,8 @@ var vue=new Vue({
             }
 
             var slave_obj={
-                setId:function(id){slave_id.val(id)},
-                setName:function(name){slave_name.html(name)},
+                setId:function(id){item.slave_id=id},
+                setName:function(name){item.slave_name=name},
                 closeWindow:function(){slave_window.close();}
             };            
 
