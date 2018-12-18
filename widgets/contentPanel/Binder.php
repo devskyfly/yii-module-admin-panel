@@ -71,12 +71,7 @@ class Binder extends Widget
         
         foreach ($binder_list as $binder){
             $slave_id=$binder->slave_id;
-            $slave_item=$slave_cls::find()->where(['id'=>$binder->slave])->one();
-            if(Vrbl::isNull($slave_item)){
-                $this->slave_items[]="";
-            }else{
-                $this->slave_items[]=$slave_item->name;
-            }
+            $slave_item=$slave_cls::find()->where(['id'=>$slave_id])->one();
             $this->list[]=['binder'=>$binder,'slave_item'=>$slave_item];
         }
     }

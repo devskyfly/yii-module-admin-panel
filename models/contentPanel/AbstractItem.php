@@ -11,6 +11,7 @@ use devskyfly\php56\types\Str;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 use yii\helpers\Inflector;
+use devskyfly;
 
 /**
  * 
@@ -39,6 +40,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public $extensions=[];
     
+    public $binders=[];
+    
     /**********************************************************************/
     /** INIT **/
     /**********************************************************************/
@@ -54,6 +57,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         
         //Init empty extensions objects
         $this->initExtensions();
+        $this->initBinders();
     }
     
     /**
@@ -70,10 +74,16 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     /**
      * Define dependence between item property and its class name
      *
-     * @return []|yii\db\ActiveRecord
+     * @return []|["prop"=>yii\db\ActiveRecord, ...]
      */
     abstract public function extensions();
     
+    /**
+     * Define binders between item property and its class name
+     * 
+     * @return []|["prop"=>devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractBinder]
+     */
+    abstract public function binders();
     /**********************************************************************/
     /** Crud **/
     /**********************************************************************/
@@ -98,6 +108,23 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                 }
                 
             }
+            
+            $request=Yii::$app->request;
+            if(!Vrbl::isNull($request)){
+                foreach ($this->binders as $name=>$bind_cls){
+                    $bind_cls::clear($this->id);
+                    $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
+                    $request_binders=$request->post($bind_short_cls,[]);
+                    
+                    foreach($request_binders['slave_id'] as $item){
+                        $bind=new $bind_cls();
+                        $bind->master_id=$this->id;
+                        $bind->slave_id=$item;
+                        $result=$result&&$bind->insert();
+                    }
+                }
+            }
+            
             $transaction->commit();
         }catch(\Exception $e){
             $transaction->rollBack();
@@ -136,6 +163,23 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                     ArrayHelper::merge($this->errors,$extension->errors);
                 }
             }
+            
+            $request=Yii::$app->request;
+            if(!Vrbl::isNull($request)){
+                foreach ($this->binders as $name=>$bind_cls){
+                    $bind_cls::clear($this->id);
+                    $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
+                    $request_binders=$request->post($bind_short_cls,[]);
+                    
+                    foreach($request_binders['slave_id'] as $item){
+                        $bind=new $bind_cls();
+                        $bind->master_id=$this->id;
+                        $bind->slave_id=Nmbr::toIntegerStrict($item);
+                        $result=$result&&$bind->insert();
+                    }
+                }
+            }
+            
             $transaction->commit();
         }catch(\Exception $e){
             $transaction->rollBack();
@@ -273,16 +317,6 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     }
     
     /**
-     * Return table name
-     * 
-     * @return string
-     */
-    /* public static function shortTableName()
-    {
-        return Inflector::camel2id(StringHelper::basename(get_called_class()), '_');
-    } */
-    
-    /**
      * Return route for item select
      * 
      * @return string
@@ -324,6 +358,9 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                     if(!Str::isString($val)){
                         throw new \InvalidArgumentException('Param $val is not string type.');
                     }
+                    if(!Cls::isSubClassOf($val, ActiveRecord::class)){
+                        throw new \InvalidArgumentException('Param $val is not '.ActiveRecord::class.' type.');
+                    }
                     $this->extensions[$key]=Yii::createObject(["class"=>$val,"master_item"=>$this,"extension_name"=>$key]);
                 }
             }else{
@@ -341,7 +378,29 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             throw $e;
         }
     }
-
+    
+    /**********************************************************************/
+    /** Binders **/
+    /**********************************************************************/
+    
+    protected function initBinders()
+    {
+        try{
+            $binders=$this->binders();
+            foreach ($binders as $binder_name=>$binder_cls){
+                
+                if(!Cls::isSubClassOf($binder_cls, AbstractBinder::class)){
+                    throw new \InvalidArgumentException('Variable $binder_cls is not '.AbstractBinder::class.' type.');
+                }
+                $this->binders[$binder_name]=$binder_cls;
+            }
+        }catch(\Exception $e){
+            throw $e;
+        }catch(\Throwable $e){
+            throw $e;
+        }
+    }
+    
     /**********************************************************************/
     /** Init and set **/
     /**********************************************************************/

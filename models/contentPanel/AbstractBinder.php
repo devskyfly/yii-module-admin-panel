@@ -66,7 +66,8 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getRowsByMasterItem($item)
     {
-        return static::getRowsByMasterId($item->id);   
+        $result=static::getRowsByMasterId($item->id);
+        return $result;
     }
     
     /**
@@ -78,8 +79,9 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getRowsByMasterId($id)
     {
         $id=Nmbr::toIntegerStrict($id);
-        return static::find()
+        $result=static::find()
         ->andWhere(['master_id'=>$id])->all();
+        return $result;
     }
     
     /**
@@ -92,7 +94,7 @@ abstract class AbstractBinder extends ActiveRecord
     {
         $master_id=Nmbr::toIntegerStrict($master_id);
         $result=static::find()
-        ->andWhere(['master_id'=>$master])
+        ->andWhere(['master_id'=>$master_id])
         ->asArray()
         ->all();
         return array_column($result, 'id');
@@ -114,15 +116,23 @@ abstract class AbstractBinder extends ActiveRecord
     }
     
     /**
+     * Remove all item from bind table by master_id
      *
      * @param int $master_id
      * @return int
      */
-    public static function deleteSlaveItems($master_id)
+    public static function clear($master_id)
     {
-        $slave_cls=static::getSlaveCls();
-        $ids=static::getSlaveIds($master_id);
-        return $slave_cls::deleteAll(['name'=>static::class,'id'=>$ids]);
+        return static::deleteAll(['name'=>static::bindName(),'master_id'=>$master_id]);
+    }
+    
+    /**
+     * Return bind name for property name converted from short class name.
+     * @return string
+     */
+    protected static function bindName()
+    {
+        return (new \ReflectionClass(static::class))->getShortName();
     }
     
     /**********************************************************************/
@@ -131,7 +141,8 @@ abstract class AbstractBinder extends ActiveRecord
     public function init()
     {
         parent::init();
-        $this->name=static::class;
+        $name=static::bindName();
+        $this->name=$name;
     }
     
     public function rules()
@@ -140,7 +151,7 @@ abstract class AbstractBinder extends ActiveRecord
         
         $new_rules=[
             [['name','master_id','slave_id'],'required'],
-            [['master_id','slave_id'],'string']
+            [['master_id','slave_id'],'number']
         ];
         
         $rules=ArrayHelper::merge($new_rules, $rules);
@@ -154,7 +165,7 @@ abstract class AbstractBinder extends ActiveRecord
     
     public static function find()
     {
-        return parent::find()->where(['name'=>static::class]);
+        return parent::find()->where(['name'=>static::bindName()]);
     }
 }
 

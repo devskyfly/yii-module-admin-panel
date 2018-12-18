@@ -19,13 +19,14 @@ use yii\helpers\Inflector;
 
 <?
 $binder=new $binder_cls();
+$short_cls=(new ReflectionClass($binder))->getShortName();
 
 $widget_name="content-panel-binder";
 $widget_id=$widget_name.'-'.Inflector::camel2id(str_replace("\\", "-", $binder_cls));
 
-$tbl_row_tmp = <<<TBL_ROW_TMP
+$tbl_row = <<<TBL_ROW_TMP
     <td style="padding:5px">{{index+1}}</td>
-    <td >#hidden_fields#</td>
+    <td ><input type="hidden" name="{$short_cls}[slave_id][]" v-model="item.slave_id"></td>
     <td style="padding-top:5px">
         <input type="text" class="{$widget_name}__item-name" v-model="item.slave_name">
     </td>
@@ -40,12 +41,7 @@ $tbl_row_tmp = <<<TBL_ROW_TMP
 
 TBL_ROW_TMP;
 
-$hidden_fields=
-//$form->field($binder,'master_id')->hiddenInput(['v-model'=>'item.master_id'])->label(false)
-$form->field($binder,'slave_id')->hiddenInput(['v-model'=>'item.slave_id'])->label(false);
-$slave_item_name="";
 
-$tbl_row=str_replace(["#hidden_fields#","#slave_item_name#"], [$hidden_fields,$slave_item_name], $tbl_row_tmp);
 ?>
 
 <?if(!$master_item->isNewRecord):?>
@@ -72,7 +68,6 @@ $js_list=[];
 foreach ($list as $item){
     
     $js_list[]=[
-        'master_id'=>$item['binder']->master_id,
         'slave_id'=>$item['binder']->slave_id,
         'slave_name'=>Vrbl::isEmpty($item['slave_item'])?"":$item['slave_item']->name
     ];
