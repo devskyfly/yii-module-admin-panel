@@ -41,8 +41,8 @@ $tbl_row_tmp = <<<TBL_ROW_TMP
 TBL_ROW_TMP;
 
 $hidden_fields=
-$form->field($binder,'master_id')->hiddenInput(['v-model'=>'item.master_id'])->label(false)
-.$form->field($binder,'slave_id')->hiddenInput(['v-model'=>'item.slave_id'])->label(false);
+//$form->field($binder,'master_id')->hiddenInput(['v-model'=>'item.master_id'])->label(false)
+$form->field($binder,'slave_id')->hiddenInput(['v-model'=>'item.slave_id'])->label(false);
 $slave_item_name="";
 
 $tbl_row=str_replace(["#hidden_fields#","#slave_item_name#"], [$hidden_fields,$slave_item_name], $tbl_row_tmp);
@@ -81,8 +81,6 @@ foreach ($list as $item){
 $js_list=Json::encode($js_list,JSON_UNESCAPED_UNICODE);
 
 $url=Url::toRoute([$slave_item_cls::selectListRoute(),'bind_name'=>$widget_id]);
-$table_name=$slave_item_cls::tableName();
-
 
 $script = <<<JS_SCRIPT
 var list=$js_list;
@@ -94,7 +92,7 @@ var vue=new Vue({
     },
     methods:{
         link:function(item){
-            slave_window=window.open("$url");
+            var slave_window=window.open("$url");
             if(!('content_panel' in window)){
                 window.content_panel={};
                 if(!('slave_objects' in window.content_panel)){
