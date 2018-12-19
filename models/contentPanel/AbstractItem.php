@@ -76,14 +76,20 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      *
      * @return []|["prop"=>yii\db\ActiveRecord, ...]
      */
-    abstract public function extensions();
+    public function extensions()
+    {
+        return [];
+    }
     
     /**
      * Define binders between item property and its class name
      * 
      * @return []|["prop"=>devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractBinder]
      */
-    abstract public function binders();
+    public function binders()
+    {
+        return [];
+    }
     /**********************************************************************/
     /** Crud **/
     /**********************************************************************/
@@ -120,7 +126,9 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                         $bind=new $bind_cls();
                         $bind->master_id=$this->id;
                         $bind->slave_id=$item;
-                        $result=$result&&$bind->insert();
+                        if($bind->validate()){
+                            $result=$result&&$bind->insert();
+                        }
                     }
                 }
             }
@@ -175,7 +183,9 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                         $bind=new $bind_cls();
                         $bind->master_id=$this->id;
                         $bind->slave_id=Nmbr::toIntegerStrict($item);
-                        $result=$result&&$bind->insert();
+                        if($bind->validate()){
+                            $result=$result&&$bind->insert();
+                        }
                     }
                 }
             }
@@ -422,6 +432,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         $this->change_date_time=$date_time->format(\DateTime::ATOM);
         return $this;
     }
+    
+   
     
     /**
      * Set property $active to 'Y' value.

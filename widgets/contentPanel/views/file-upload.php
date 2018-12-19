@@ -1,7 +1,7 @@
 <?php
-use yii\helpers\StringHelper;
+
 use yii\helpers\FileHelper;
-use devskyfly\php56\types\Vrbl;
+use devskyfly\yiiModuleAdminPanel\Module;
 
 /* @var $view \yii\web\View */
 /* @var $form \yii\widgets\ActiveForm */
@@ -17,29 +17,39 @@ use devskyfly\php56\types\Vrbl;
 }
 </style>
 
-<?php $file_path=Yii::getAlias($file->path);?>
-
 <?php 
 $images_extensions=['png','jpg','jpeg','gif'];
-if(!$file->isNewRecord){
+
+$file_path=Yii::getAlias($file->path);
+$file_exists=false;
+
+if(file_exists($file_path)){
+    $file_exists=true;
+}
+?>
+
+<?php 
+if((!$file->isNewRecord)
+    &&($file_exists)){
     $extension=FileHelper::getExtensionsByMimeType(FileHelper::getMimeType($file_path));
 }
 ?>
-<div>
+<div class="<?=Module::CSS_NAMESPACE?>-content-panel-file-upload-widget">
 	<label><?=ucfirst($attribute)?></label>
-	<?if(!$file->isNewRecord):?>
-	<div>
-		<?if(in_array($extension[0], $images_extensions)):?>
-			<img 
-			class="devskyfly-yii-admin-panel__image-preview"
-			src="<?=$file->path?>"/>
-		<?else:?>
-			<span class="glyphicon glyphicon-file"></span>
-		<?endif;?>
-		<span>
-			File path: <?=$file_path?>
-		</span>
-	</div>
+	<?if((!$file->isNewRecord)
+	    &&($file_exists)):?>
+    	<div>
+    		<?if(in_array($extension[0], $images_extensions)):?>
+    			<img 
+    			class="devskyfly-yii-admin-panel__image-preview"
+    			src="<?=$file->path?>"/>
+    		<?else:?>
+    			<span class="glyphicon glyphicon-file"></span>
+    		<?endif;?>
+    		<span>
+    			File path: <?=$file_path?>
+    		</span>
+    	</div>
 	<?endif;?>
 	<?=$form->field($item, $attribute)->fileInput()->label('')?>
 </div>

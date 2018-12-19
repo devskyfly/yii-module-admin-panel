@@ -66,7 +66,12 @@ class Binder extends Widget
 
         $binder_cls=$this->binder_cls;
         $slave_cls=$binder_cls::getSlaveCls();
-        $binder_list=$binder_cls::getRowsByMasterItem($this->master_item);
+        
+        $binder_list=[];
+        
+        if(!$this->master_item->isNewRecord){
+            $binder_list=$binder_cls::getRowsByMasterItem($this->master_item);
+        }
         $list=[]; 
         
         foreach ($binder_list as $binder){

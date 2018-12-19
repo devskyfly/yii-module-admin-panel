@@ -40,11 +40,9 @@ $tbl_row = <<<TBL_ROW_TMP
     </td>
 
 TBL_ROW_TMP;
-
-
 ?>
 
-<?if(!$master_item->isNewRecord):?>
+
 <div style="padding-bottom:30px" class="<?=$widget_name?> row" id="<?=$widget_id?>" style="max-height:500px">
     <div class="col-xs-12">
         <div>
@@ -62,7 +60,7 @@ TBL_ROW_TMP;
         </div>
     </div>
 </div>
-<?endif;?>
+
 <?
 $js_list=[];
 foreach ($list as $item){
