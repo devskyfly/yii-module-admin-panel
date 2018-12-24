@@ -214,19 +214,6 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     abstract public function deleteLikeItem();
     
-    /**
-     * Find item by its id.
-     * 
-     * @param integer $id
-     * @throws \InvalidArgumentException
-     * @return AbstractItem|NULL
-     */
-    public function findById($id)
-    {
-        $id=Nmbr::toIntegerStrict($id);     
-        return static::find()->andWhere(['id'=>$id])->one();
-    }
-    
     /**********************************************************************/
     /** Load validate rules**/
     /**********************************************************************/
