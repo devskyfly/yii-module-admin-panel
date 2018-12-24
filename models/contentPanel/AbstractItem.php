@@ -63,8 +63,12 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function afterFind()
     {
+        //Init data
+        $date=new \DateTime($this->change_date_time);
+        $this->initCreateAndChangeDateTime($date,false);
         //Init extensions objects by related item
         $this->initExtensions();
+        $this->initBinders();
     }
     
     /**
@@ -351,16 +355,19 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      * 
      * If $date_time is null - set properties to current time.
      * 
+     * @param bool isNewRecord
      * @param \DateTime $date_time
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
      */
-    public function initCreateAndChangeDateTime(\DateTime $date_time=null)
+    public function initCreateAndChangeDateTime(\DateTime $date_time=null,$isNewRecord=true)
     {
-        if(Vrbl::isNull($date_time)){
+        if($isNewRecord){
+            $this->create_date_time=$date_time->format(\DateTime::ATOM);
+            $this->change_date_time=$date_time->format(\DateTime::ATOM);
+        }else{
             $date_time=new \DateTime();
+            $this->change_date_time=$date_time->format(\DateTime::ATOM);
         }
-        $this->create_date_time=$date_time->format(\DateTime::ATOM);
-        $this->change_date_time=$date_time->format(\DateTime::ATOM);
         return $this;
     }
     
