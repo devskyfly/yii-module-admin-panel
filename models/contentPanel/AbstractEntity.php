@@ -50,15 +50,8 @@ abstract class AbstractEntity extends AbstractItem
     public function init()
     {
         parent::init();
-        
         $this->section_cls=$this->getSectionCls();
-        
-        if($this->isNewRecord){
-            $this->create_date_time=(new \DateTime())->format(\DateTime::ATOM);
-            $this->change_date_time=(new \DateTime())->format(\DateTime::ATOM);
-        }else{
-            $this->change_date_time=(new \DateTime())->format(\DateTime::ATOM);
-        }
+        $this->initCreateAndChangeDateTime(new \DateTime());
     }
     
     /**********************************************************************/
