@@ -11,6 +11,20 @@ use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use yii\widgets\ActiveForm;
 
+/**
+ * Widget
+ * 
+ * Code sample:
+ * Binder::widget([
+ * "label"=>$label,
+ * "form"=>$form,
+ * "master_item"=>$master_item,
+ * "binder_cls"=>$binder_cls
+ * ]);
+ * 
+ * @author devskyfly
+ *
+ */
 class Binder extends Widget
 {
     /**

@@ -6,13 +6,14 @@ use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionEditor;
 ?>
 <?
 $label=Yii::$app->controller->itemLabel();
-$tile_prefix="";
-$reflection=new ReflectionClass($item);
+$title_prefix="";
+
 if($item->isNewRecord){
-    $title_prefix="Создать раздел: ".$reflection->getShortName();
+    $title_prefix="Создать раздел: ";
 }else{
-    $title_prefix="Обновить раздел: ".$reflection->getShortName();
+    $title_prefix="Обновить раздел: ";
 }
+
 $this->title=$title_prefix.Yii::$app->controller->itemLabel();
 ?>
 

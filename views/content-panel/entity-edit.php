@@ -6,13 +6,14 @@ use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\EntityEditor;
 ?>
 <?
 $label=Yii::$app->controller->itemLabel();
-$tile_prefix="";
-$reflection=new ReflectionClass($item);
+$title_prefix="";
+
 if($item->isNewRecord){
-    $title_prefix="Создать элемент: ".$reflection->getShortName();
+    $title_prefix="Создать элемент: ";
 }else{
-    $title_prefix="Обновить элемент: ".$reflection->getShortName();
+    $title_prefix="Обновить элемент: ";
 }
+
 $this->title=$title_prefix.Yii::$app->controller->itemLabel();
 ?>
 
