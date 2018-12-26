@@ -125,13 +125,14 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                     $bind_cls::clear($this->id);
                     $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
                     $request_binders=$request->post($bind_short_cls,[]);
-                    
-                    foreach($request_binders['slave_id'] as $item){
-                        $bind=new $bind_cls();
-                        $bind->master_id=$this->id;
-                        $bind->slave_id=$item;
-                        if($bind->validate()){
-                            $result=$result&&$bind->insert();
+                    if(!Vrbl::isEmpty($request_binders)){
+                        foreach($request_binders['slave_id'] as $item){
+                            $bind=new $bind_cls();
+                            $bind->master_id=$this->id;
+                            $bind->slave_id=$item;
+                            if($bind->validate()){
+                                $result=$result&&$bind->insert();
+                            }
                         }
                     }
                 }
@@ -182,13 +183,14 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                     $bind_cls::clear($this->id);
                     $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
                     $request_binders=$request->post($bind_short_cls,[]);
-                    
-                    foreach($request_binders['slave_id'] as $item){
-                        $bind=new $bind_cls();
-                        $bind->master_id=$this->id;
-                        $bind->slave_id=Nmbr::toIntegerStrict($item);
-                        if($bind->validate()){
-                            $result=$result&&$bind->insert();
+                    if(!Vrbl::isEmpty($request_binders)){
+                        foreach($request_binders['slave_id'] as $item){
+                            $bind=new $bind_cls();
+                            $bind->master_id=$this->id;
+                            $bind->slave_id=Nmbr::toIntegerStrict($item);
+                            if($bind->validate()){
+                                $result=$result&&$bind->insert();
+                            }
                         }
                     }
                 }

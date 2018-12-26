@@ -23,6 +23,8 @@ if(!Vrbl::isNull($section_cls)){
     $show_section_list=true;
 }
 ?>
+
+
 <?if(!Vrbl::isEmpty($section_cls)):?>
 <div class="row">
 	<?=NavigationLinks::widget(['section_cls'=>$section_cls,'parent_section_id'=>$parent_section_id,'label'=>$label])?>

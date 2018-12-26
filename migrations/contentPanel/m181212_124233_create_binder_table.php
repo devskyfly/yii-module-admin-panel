@@ -1,11 +1,12 @@
 <?php
 
 use yii\db\Migration;
+use devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel\BinderMigrationHelper;
 
 /**
  * Handles the creation of table `binder`.
  */
-class m181212_124233_create_binder_table extends Migration
+class m181212_124233_create_binder_table extends BinderMigrationHelper
 {
     public $table='binder';
     /**
@@ -13,12 +14,7 @@ class m181212_124233_create_binder_table extends Migration
      */
     public function safeUp()
     {
-        $this->createTable($this->table, [
-            'id' => $this->primaryKey(),
-            'name'=>$this->string(255),
-            'master_id'=>$this->integer(11),
-            'slave_id'=>$this->integer(11)
-        ]);
+        $this->createTable($this->table, $this->getFieldsDefinition());
     }
 
     /**

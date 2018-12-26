@@ -43,16 +43,18 @@ var slave_id=$(content_panel_item_selector).find("#$master_item_table_name-$prop
 var slave_name=$(content_panel_item_selector).find(".content-panel-item-selector__item-name");
 var link_button=$(content_panel_item_selector).find('.content-panel-item-selector_link-button');
 
-var slave_obj={
-    setId:function(id){slave_id.val(id)},
-    setName:function(name){slave_name.html(name)},
-    closeWindow:function(){slave_window.close();}
-};
+
 
 $(link_button).click(
     function(){
         var slave_window=window.open("$url");
         
+        var slave_obj={
+            setId:function(id){slave_id.val(id)},
+            setName:function(name){slave_name.html(name)},
+            closeWindow:function(){slave_window.close();}
+        };
+
         if(!('content_panel' in window)){
             window.content_panel={};
             if(!('slave_objects' in window.content_panel)){
