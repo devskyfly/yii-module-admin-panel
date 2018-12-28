@@ -130,7 +130,7 @@ abstract class AbstractEntity extends AbstractItem
     {
         $rules=parent::rules();
         $new_rules=[
-            [["_section__id"],"string"]
+            [["_section__id"],"number"]
         ];
         $rules=ArrayHelper::merge($rules, $new_rules);
         return $rules;

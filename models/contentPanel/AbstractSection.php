@@ -244,7 +244,7 @@ abstract class AbstractSection extends AbstractItem
     {
         $rules=parent::rules();
         $new_rules=[
-            [["__id"],"string"]
+            [["__id"],"number"]
         ];
         $rules=ArrayHelper::merge($rules, $new_rules);
         return $rules;

@@ -28,7 +28,7 @@ $tbl_row = <<<TBL_ROW_TMP
     <td style="padding:5px">{{index+1}}</td>
     <td ><input type="hidden" name="{$short_cls}[slave_id][]" v-model="item.slave_id"></td>
     <td style="padding-top:5px">
-        <input type="text" class="{$widget_name}__item-name" v-model="item.slave_name">
+        <input type="text" class="{$widget_name}__item-name" v-model="item.slave_name" size="80" disabled/>
     </td>
     <td style="padding-top:5px;padding-left:5px">
         <a>
