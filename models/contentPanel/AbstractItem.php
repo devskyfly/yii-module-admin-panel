@@ -419,11 +419,15 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function initCreateAndChangeDateTime(\DateTime $date_time=null,$isNewRecord=true)
     {
+        if(Vrbl::isNull($date_time)){
+            $date_time=new \DateTime();
+        }
         if($isNewRecord){
+           
             $this->create_date_time=$date_time->format(\DateTime::ATOM);
             $this->change_date_time=$date_time->format(\DateTime::ATOM);
         }else{
-            $date_time=new \DateTime();
+            //$date_time=new \DateTime();
             $this->change_date_time=$date_time->format(\DateTime::ATOM);
         }
         return $this;

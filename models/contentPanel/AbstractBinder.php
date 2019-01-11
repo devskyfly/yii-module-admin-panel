@@ -4,6 +4,7 @@ namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 use yii\db\ActiveRecord;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -28,7 +29,7 @@ abstract class AbstractBinder extends ActiveRecord
     /**
      * @return string - Class name
      */
-    abstract protected function slaveCls();
+    abstract protected static function slaveCls();
     
     /**
      * Return master class name
@@ -97,7 +98,7 @@ abstract class AbstractBinder extends ActiveRecord
         ->andWhere(['master_id'=>$master_id])
         ->asArray()
         ->all();
-        return array_column($result, 'id');
+        return array_column($result, 'slave_id');
     }
     
     /**
@@ -109,10 +110,14 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getSlaveItems($master_id)
     {
         $slave_cls=static::getSlaveCls();
+        Yii::warning(print_r($slave_cls,true),static::class);
         $ids=static::getSlaveIds($master_id);
-        $slave_cls::find()
-        ->where(['id'=>$ids])
+        Yii::warning(print_r($ids,true),static::class);
+        $result=$slave_cls::find()
+        ->andWhere(['id'=>$ids])
         ->all();
+        Yii::warning(print_r($result,true),static::class);
+        return $result;
     }
     
     /**
