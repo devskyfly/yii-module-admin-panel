@@ -16,7 +16,7 @@ use yii\helpers\Html;
         	<td><span class="<?=$item['active']?"glyphicon glyphicon-ok":""?>"></span></td>
         	<td><?=Html::a($item['name'],$item['sub_section_url'])?></td>
         	<td><?=Html::a('',$item['edit_url'],['class'=>['glyphicon', 'glyphicon-pencil']])?></td>
-        	<td><?=Html::a('',$item['delete_url'],['class'=>['glyphicon', 'glyphicon-trash']])?></td>
+        	<td><?=Html::a('',$item['delete_url'],['class'=>['glyphicon', 'glyphicon-trash'],'data-confirm' => 'Удалить?',])?></td>
     	</tr>
     <?endforeach;?>
     </table>

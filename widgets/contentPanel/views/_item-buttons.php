@@ -41,5 +41,5 @@ if(Obj::isA($item, AbstractEntity::class)){
 	<?=Html::submitButton("Создать",["class"=>$classes])?>
 <?else:?>
     <?=Html::submitButton("Обновить",["class"=>$classes])?>
-    <?=Html::a("Удалить",Url::toRoute([$delete_action,$item_id_name=>$item->id]),["class"=>$classes])?>
+    <?=Html::a("Удалить",Url::toRoute([$delete_action,$item_id_name=>$item->id]),["class"=>$classes,'data-confirm' => 'Удалить?',])?>
 <?endif?>

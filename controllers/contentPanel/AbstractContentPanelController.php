@@ -171,12 +171,17 @@ abstract class AbstractContentPanelController extends Controller
                 'buttons'=>[
                     'delete'=>function($url,$model,$key){
                         
-                        $text = '';
-                        $options = [
-                            'class' => 'glyphicon glyphicon-trash'
-                        ];
-                        $url = Url::toRoute(['entity-delete','entity_id'=>$model->id]);;
-                        return Html::a($text, $url, $options);
+                    $text = '';
+                    $options = [
+                        'class' => 'glyphicon glyphicon-trash'
+                    ];
+                    $url = Url::toRoute(['entity-delete','entity_id'=>$model->id]);
+                    return Html::a($text,[$url],
+                        [
+                            'class'=>'glyphicon glyphicon-trash',
+                            'data-confirm' => 'Удалить?',
+                        ]
+                        );
                     }, 
                     'update'=>function($url,$model,$key){
                     
