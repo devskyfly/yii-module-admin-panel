@@ -2,14 +2,15 @@
 
 namespace devskyfly\yiiModuleAdminPanel\controllers\auth;
 
+use devskyfly\yiiModuleAdminPanel\models\auth\LoginForm;
 use Yii;
+
 use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
-use yii\filters\VerbFilter;
-use app\models\LoginForm;
 
-class ControlController extends Controller
+class AccessControlController extends Controller
 {
     /**
      * {@inheritdoc}
