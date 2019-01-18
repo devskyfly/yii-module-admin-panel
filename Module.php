@@ -5,6 +5,8 @@ use devskyfly\php56\types\Arr;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 use yii\helpers\FileHelper;
 
 /**
@@ -31,15 +33,15 @@ class Module extends \yii\base\Module
      * @var string
      */
     public $search_settings=[];
-    
+
     /**
      * Store absolute path of current module view path
-     * 
+     *
      * Because AbstractContentPanelController is used by external controllers
+     * 
      * @var string
      */
-    private $_module_view_path='';
-    
+    private $_module_view_path = '';
     
     public function init()
     {

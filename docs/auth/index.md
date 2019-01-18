@@ -1,26 +1,11 @@
 ## Auth
 
-Форма авторизации находится по адресу /admin-panel/auth/access-controll/login
+[Веб](./web.md) - предосталяет интерфейc для аутентификации пользователя.
 
-Для работы этой части модуля надо настроить компонент приложения user.
+[Консоль](./console.md) - предоставляет возможность управления пользователями (добаление, удаление, смена пароля/статуса/почты).
 
-```php
-'user' => [
-            'identityClass' => 'devskyfly\yiiModuleAdminPanel\models\auth\User',
-            'enableAutoLogin' => true,
-        ],
-```
+### Общие классы для обоих частей модуля
 
-Представляет из себя кооперацию модели devskyfly\yiiModuleAdminPanel\models\auth\User и devskyfly\yiiModuleAdminPanel\console\auth\UserController
-для управления пользователями.
+models/auth:
 
-Если есть необходимость в реализации своей собственной модели User, то надо ее наследовать от extends ActiveRecord implements IdentityInterface.
-
-Надо создать консольный контроллер унаследованный от devskyfly\yiiModuleAdminPanel\console\auth\UserController и переопределить метод.
-
-```php
-protected static function getUserClass()
-{
-    return User::class;
-}
-```
+* User - реализует связь таблицы пользователей и ActiveRecord (yii/web/User использует этот класс для управления)
