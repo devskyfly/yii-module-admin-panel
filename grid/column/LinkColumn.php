@@ -14,7 +14,8 @@ class LinkColumn extends Column
                 $item_link_button_cls=Module::CSS_NAMESPACE.'-content-panel-entity-select-list__item-link-button';            
 $td= <<<TD_CONTENT
 <a>
-<span slave_name="{$model->name}" 
+<span 
+    slave_name="{$model->name}" 
     slave_id="{$model->id}" 
     class="glyphicon glyphicon-link {$item_link_button_cls}">
 </span>

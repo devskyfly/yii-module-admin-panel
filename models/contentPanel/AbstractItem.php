@@ -26,6 +26,9 @@ use devskyfly;
  */
 abstract class AbstractItem extends ActiveRecord implements SearchInterface
 {
+    const ACTIVE='Y';
+    const INACTIVE='N';
+    
     use SearchTrait;
     
     /**

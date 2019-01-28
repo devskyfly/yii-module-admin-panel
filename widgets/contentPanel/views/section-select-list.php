@@ -75,13 +75,14 @@ $params = $request instanceof Request ? $request->getQueryParams():[];
 if(Vrbl::isEmpty($entity_cls)){
 
 $script = <<<JS_SCRIPT
-        $(".$widget_id").find(".$link_button_cls").click(function(){
-        var item=$(this);
-        var slave_objects=window.opener.content_panel.slave_objects["{$params['bind_name']}"];
-            slave_objects.setId(item.attr('slave_id'));
-            slave_objects.setName(item.attr('slave_name'));
-            slave_objects.closeWindow();
-        });
+$(".$widget_id").find(".$link_button_cls").click(function(){
+    var item=$(this);
+    var slave_objects=window.opener.content_panel.slave_objects["{$params['bind_name']}"];
+       
+    slave_objects.setId(item.attr('slave_id'));
+    slave_objects.setName(item.attr('slave_name'));
+    slave_objects.closeWindow();
+});
 JS_SCRIPT;
 
 $this->registerJs($script);
