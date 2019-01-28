@@ -77,8 +77,7 @@ $url=Url::toRoute([$slave_item_cls::selectListRoute(),'bind_name'=>$widget_id]);
 
 $fnc=str_replace('-', '_', $widget_id);
 $script = <<<JS_SCRIPT
-function {$fnc}()
-{
+(function (){
 var list=$js_list;
 
 var vue=new Vue({
@@ -113,8 +112,7 @@ var vue=new Vue({
         }
     }
 });
-}
-{$fnc}();
+})();
 JS_SCRIPT;
 ?>
 

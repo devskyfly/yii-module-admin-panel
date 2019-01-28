@@ -37,7 +37,7 @@ $(".$widget_id").find(".$item_link_button_cls").click(function(){
     slave_objects.setId(item.attr('slave_id'));
     slave_objects.setName(item.attr('slave_name'));
     
-    //slave_objects.closeWindow();
+    slave_objects.closeWindow();
 });
 JS_SCRIPT;
 ?>
