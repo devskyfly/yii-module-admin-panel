@@ -44,19 +44,21 @@ TBL_ROW_TMP;
 
 
 <div style="padding-bottom:30px" class="<?=$widget_name?> row" id="<?=$widget_id?>" style="max-height:500px">
-    <div class="col-xs-12">
-        <div>
-        	<strong><?=$label?></strong>
-        </div>
-        <div>
-            <table>
-                <tr v-for="(item,index) in list" >
-                	<?=$tbl_row?>
-            	</tr>
-            </table>
-        </div>
-        <div style="padding-top:5px">
-        	<span class="btn btn-primary" v-on:click="add">Добавить</span>
+    <div class="col-xs-12 ">
+        <div class="well well-sm">
+            <div>
+            	<strong><?=$label?></strong>
+            </div>
+            <div>
+                <table>
+                    <tr v-for="(item,index) in list" >
+                    	<?=$tbl_row?>
+                	</tr>
+                </table>
+            </div>
+            <div style="padding-top:5px">
+            	<span class="btn btn-primary" v-on:click="add">Добавить</span>
+            </div>
         </div>
     </div>
 </div>
