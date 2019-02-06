@@ -118,4 +118,5 @@ var vue=new Vue({
 JS_SCRIPT;
 ?>
 
+<?VueAsset::register($this);?>
 <?$this->registerJs($script);?>

@@ -1,5 +1,6 @@
 <?php
 use devskyfly\php56\types\Vrbl;
+use devskyfly\yiiModuleAdminPanel\assets\VueAsset;
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\ItemSelector;
 use yii\helpers\Inflector;
 use yii\helpers\Url;
@@ -91,5 +92,5 @@ $script = <<<JS_SCRIPT
 
 JS_SCRIPT;
 ?>
-
+<?VueAsset::register($this);?>
 <?$this->registerJs($script);?>
