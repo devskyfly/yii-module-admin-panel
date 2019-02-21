@@ -50,7 +50,7 @@ class SectionSelectList extends SectionList
         
         
         foreach ($result as $item){
-            $full_route=ArrayHelper::merge([$route,'parent_section_id'=>$item->id],$params);
+            $full_route=ArrayHelper::merge($params,[$route,'parent_section_id'=>$item->id]);
             $i++;
             $this->list[]=[
                 "order"=>$i,

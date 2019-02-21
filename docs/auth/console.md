@@ -2,7 +2,7 @@
 	
 ### admin-panel/auth/user
 
-	index - выводит список пользователей
+	index (login, email, password) - выводит список пользователей
 	add - добавляет пользователя 
 	delete - удаляет пользователя
 	deleteAll - удаляет всех пользователей

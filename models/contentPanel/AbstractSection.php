@@ -59,7 +59,7 @@ abstract class AbstractSection extends AbstractItem
         
         $entity=$this->entity_cls;
         $this->entity_table=$entity::tableName();
-        $this->initCreateAndChangeDateTime(new \DateTime());
+        $this->initCreateAndChangeDateTime();
     }
 
     /**********************************************************************/

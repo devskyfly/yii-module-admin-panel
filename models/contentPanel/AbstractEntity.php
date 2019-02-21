@@ -51,7 +51,7 @@ abstract class AbstractEntity extends AbstractItem
     {
         parent::init();
         $this->section_cls=$this->getSectionCls();
-        $this->initCreateAndChangeDateTime(new \DateTime());
+        $this->initCreateAndChangeDateTime();
     }
     
     /**********************************************************************/

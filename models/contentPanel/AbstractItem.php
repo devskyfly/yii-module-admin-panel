@@ -71,11 +71,22 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     public function afterFind()
     {
         //Init data
-        $date=new \DateTime($this->change_date_time);
-        $this->initCreateAndChangeDateTime($date,false);
+        //$date=new \DateTime($this->change_date_time);
+        //$this->initCreateAndChangeDateTime($date,false);
         //Init extensions objects by related item
         $this->initExtensions();
         $this->initBinders();
+    }
+    
+    public function beforeSave($insert)
+    {
+        if(parent::beforeSave($insert)){
+            $this->initCreateAndChangeDateTime();
+        }else{
+            return false;
+        }
+        
+        return true;
     }
     
     /**
@@ -420,12 +431,12 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      * @param \DateTime $date_time
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
      */
-    public function initCreateAndChangeDateTime(\DateTime $date_time=null,$isNewRecord=true)
+    public function initCreateAndChangeDateTime(\DateTime $date_time=null)
     {
         if(Vrbl::isNull($date_time)){
             $date_time=new \DateTime();
         }
-        if($isNewRecord){
+        if($this->isNewRecord){
            
             $this->create_date_time=$date_time->format(\DateTime::ATOM);
             $this->change_date_time=$date_time->format(\DateTime::ATOM);

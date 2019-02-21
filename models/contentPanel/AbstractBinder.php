@@ -85,6 +85,8 @@ abstract class AbstractBinder extends ActiveRecord
         return $result;
     }
     
+    //Slave
+    
     /**
      *
      * @param int $master_id
@@ -110,16 +112,46 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getSlaveItems($master_id)
     {
         $slave_cls=static::getSlaveCls();
-        Yii::warning(print_r($slave_cls,true),static::class);
         $ids=static::getSlaveIds($master_id);
-        Yii::warning(print_r($ids,true),static::class);
         $result=$slave_cls::find()
         ->andWhere(['id'=>$ids])
-        ->all();
-        Yii::warning(print_r($result,true),static::class);
+        ->all();     
         return $result;
     }
     
+    //Master
+    /**
+     *
+     * @param int $slave_id
+     * @throws \InvalidArgumentException
+     * @return int[]
+     */
+    public static function getMasterIds($slave_id)
+    {
+        $master_id=Nmbr::toIntegerStrict($slave_id);
+        $result=static::find()
+        ->andWhere(['slave_id'=>$slave_id])
+        ->asArray()
+        ->all();
+        return array_column($result, 'master_id');
+    }
+    
+    /**
+     *
+     * @param int $master_id
+     * @throws \InvalidArgumentException
+     * @return AbstractItem[]
+     */
+    public static function getMasterItems($master_id)
+    {
+        $master_cls=static::getMasterCls();
+
+        $ids=static::getMasterIds($master_id);
+        $result=$master_cls::find()
+        ->andWhere(['id'=>$ids])
+        ->all();
+        return $result;
+    }
     /**
      * Remove all item from bind table by master_id
      *

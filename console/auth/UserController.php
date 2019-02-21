@@ -12,16 +12,29 @@ use yii\console\ExitCode;
 
 class UserController extends Controller
 {
+    public $login;
+    
+    public $password;
+    
+    public $email;
+    
     protected static $user_cls;
     
-    /**
-     * Return user model class name
-     * 
-     * @return string - user classname
-     */
-    protected static function getUserClass()
+    
+    
+    public function options($actionID)
     {
-        return User::class;
+        $options=[];
+        
+        switch ($actionID){
+            case "add":
+                $options[]="login";
+                $options[]="password";
+                $options[]="email";
+                break;
+        }
+        
+        return $options;
     }
     
     public function init()
@@ -259,23 +272,40 @@ class UserController extends Controller
     
     /**
      * Add user to system.
+     * 
+     * add --login= --email= --password=
      */
     public function actionAdd(){
         try{
             $user_cls=static::$user_cls;
             $app=Yii::$app;
             $user=new User();
-            $user->username = BaseConsole::input("Insert user name:");
-            $user->email = BaseConsole::input("Insert email:");
             
-            $password_1 = BaseConsole::input("Insert password:");
-            $password_2 = BaseConsole::input("Password again:");
+            if(Vrbl::isEmpty($this->login)){
+                $user->username = BaseConsole::input("Insert user name:");
+            }else{
+                $user->username = $this->login;
+            }
+            
+            if(Vrbl::isEmpty($this->email)){
+                $user->email = BaseConsole::input("Insert email:");
+            }else{
+                $user->email=$this->email;
+            }
+            
+            if(Vrbl::isEmpty($this->password)){
+                $password_1 = BaseConsole::input("Insert password:");
+                $password_2 = BaseConsole::input("Password again:");
+            }else{
+                $password_1 = $this->password;
+                $password_2 = $this->password;
+            }
             
             if($password_1!==$password_2){
                 BaseConsole::stdout("Passwords are not equal.");
                 return 0;
             }
-            
+
             $user->setPassword($password_2);            
             $user->generateAuthKey();
             
@@ -363,6 +393,16 @@ class UserController extends Controller
         }
         return ExitCode::OK;
     } 
+    
+    /**
+     * Return user model class name
+     *
+     * @return string - user classname
+     */
+    protected static function getUserClass()
+    {
+        return User::class;
+    }
 }
 
 
