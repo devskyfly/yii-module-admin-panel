@@ -12,8 +12,9 @@ use yii\helpers\ArrayHelper;
  *
  * It dives opportunity to create, edit and delete items.
  * Deleting item also delete all sub sections and sub entities.
- * @author devskyfly
  * 
+ * @author devskyfly
+ * @property strin $name
  * @property string $__id
  */
 abstract class AbstractSection extends AbstractItem
@@ -244,6 +245,8 @@ abstract class AbstractSection extends AbstractItem
     {
         $rules=parent::rules();
         $new_rules=[
+            [["name"],"required"],
+            [["name"],"string"],
             [["__id"],"number"]
         ];
         $rules=ArrayHelper::merge($rules, $new_rules);

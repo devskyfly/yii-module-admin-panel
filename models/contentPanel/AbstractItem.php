@@ -17,7 +17,6 @@ use devskyfly;
  * 
  * @author devskyfly
  * @property integer $id
- * @property string $name
  * @property string $code
  * @property string $active
  * @property integer $sort
@@ -293,6 +292,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         }
         return $i;
     }
+   
     /**
      *
      * {@inheritDoc}
@@ -302,8 +302,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     {
         $rules=parent::rules();
         $new_rules=[
-            [["name","active","create_date_time","change_date_time"],"required"],
-            [["name","active","create_date_time","change_date_time","sort"],"string"]
+            [["active","create_date_time","change_date_time"],"required"],
+            [["active","create_date_time","change_date_time","sort"],"string"]
         ];
         $rules=ArrayHelper::merge($rules, $new_rules);
         return $rules;

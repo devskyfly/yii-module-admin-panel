@@ -16,6 +16,7 @@ use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
 use yii\helpers\ArrayHelper;
 use devskyfly;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 
 /**
  * Provide common way on view and edit of entities and sections
@@ -91,9 +92,9 @@ abstract class AbstractContentPanelController extends Controller
     {
         $cls=static::entityCls();
         $emty=Vrbl::isEmpty($cls);
-        $sbcls=Cls::isSubClassOf($cls, AbstractEntity::class);
-        if((!Cls::isSubClassOf($cls, AbstractEntity::class))&&(!Vrbl::isEmpty($cls))){
-            throw new \InvalidArgumentException('$cls is not '.AbstractEntity::class.' type.');
+        //$sbcls=Cls::isSubClassOf($cls, AbstractEntity::class);
+        if((!Cls::isSubClassOf($cls, AbstractUnnamedEntity::class))&&(!Vrbl::isEmpty($cls))){
+            throw new \InvalidArgumentException('$cls is not '.AbstractUnnamedEntity::class.' type.');
         }
         return $cls;
     }
@@ -130,13 +131,21 @@ abstract class AbstractContentPanelController extends Controller
      */
     public function entityColumns()
     {
-        return [
-            [
-                'class' => 'yii\grid\SerialColumn'
-            ],
-            'active',
-            'name'
+        $columns=[
+            ['class' => 'yii\grid\SerialColumn']
         ];
+        $unname_entity_columns=['active'];
+        
+        $entity_columns=$unname_entity_columns;
+        $entity_columns[]='name';
+        
+        if(Cls::isSubClassOf($this->entityCls(), AbstractEntity::class)){
+            $columns=ArrayHelper::merge($columns, $entity_columns);
+        }elseif(Cls::isSubClassOf($this->entityCls(), AbstractUnnamedEntity::class)){
+            $columns=ArrayHelper::merge($columns, $unname_entity_columns);
+        }
+        
+        return $columns;
     }
 
     /**
