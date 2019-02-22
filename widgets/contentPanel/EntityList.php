@@ -10,6 +10,7 @@ use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 
 class EntityList extends Widget
 {
@@ -53,8 +54,8 @@ class EntityList extends Widget
                 throw new \InvalidArgumentException('Property $page is not integer type.');
             }
         }
-        if(!Cls::isSubClassOf($this->entity_cls,AbstractEntity::class)){
-            throw new \InvalidArgumentException('Property $entity_cls is not '.AbstractEntity::class.' class.');
+        if(!Cls::isSubClassOf($this->entity_cls,AbstractUnnamedEntity::class)){
+            throw new \InvalidArgumentException('Property $entity_cls is not '.AbstractUnnamedEntity::class.' class.');
         }
         if(!Arr::isArray($this->entity_columns)){
             throw new \InvalidArgumentException('Property $page is not array type.');

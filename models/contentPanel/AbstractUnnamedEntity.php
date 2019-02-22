@@ -1,7 +1,6 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
-use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Vrbl;
 use devskyfly\php56\core\Cls;
 use yii\helpers\ArrayHelper;

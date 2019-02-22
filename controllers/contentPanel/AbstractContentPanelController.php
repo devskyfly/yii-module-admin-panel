@@ -1,22 +1,22 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\controllers\contentPanel;
 
+use app\controllers\moduleAdminPanel\contentPanel\UnnamedEntityController;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
-use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use devskyfly\yiiModuleAdminPanel\Module;
+
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
-use yii\helpers\ArrayHelper;
-use devskyfly;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
+use yii\base\InvalidConfigException;
 
 /**
  * Provide common way on view and edit of entities and sections
@@ -91,10 +91,10 @@ abstract class AbstractContentPanelController extends Controller
     public static function getEntityCls()
     {
         $cls=static::entityCls();
-        $emty=Vrbl::isEmpty($cls);
-        //$sbcls=Cls::isSubClassOf($cls, AbstractEntity::class);
-        if((!Cls::isSubClassOf($cls, AbstractUnnamedEntity::class))&&(!Vrbl::isEmpty($cls))){
-            throw new \InvalidArgumentException('$cls is not '.AbstractUnnamedEntity::class.' type.');
+        if((!Cls::isSubClassOf($cls, AbstractUnnamedEntity::class))
+            &&(!Vrbl::isEmpty($cls))
+        ){
+            throw new \InvalidArgumentException('$cls is not subclass of '.AbstractUnnamedEntity::class.' type.');
         }
         return $cls;
     }
@@ -107,7 +107,9 @@ abstract class AbstractContentPanelController extends Controller
     public static function getSectionCls()
     {
         $cls=static::sectionCls();
-        if((!Cls::isSubClassOf($cls, AbstractSection::class))&&(!Vrbl::isEmpty($cls))){
+        if((!Cls::isSubClassOf($cls, AbstractSection::class))
+            &&(!Vrbl::isEmpty($cls))
+        ){
             throw new \InvalidArgumentException('$cls is not '.AbstractSection::class.' type.');
         }
         return $cls;
