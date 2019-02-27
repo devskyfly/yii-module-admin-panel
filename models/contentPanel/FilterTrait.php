@@ -7,6 +7,11 @@ use yii\helpers\ArrayHelper;
 
 trait FilterTrait
 {
+    public function init()
+    {
+        
+    }
+    
     public function search($params,$parent_section_id)
     {
         $query = static::find()->where(['_section__id'=>$parent_section_id]);
