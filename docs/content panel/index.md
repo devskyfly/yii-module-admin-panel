@@ -51,6 +51,14 @@ N.B. При удалении сущности к которой привязан
     }
     
     /**
+     * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem | null
+     */
+    public static function entityFilterCls()
+    {
+        return null;
+    }
+    
+    /**
      * 
      * {@inheritDoc}
      * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::entityEditorViews()
@@ -173,6 +181,28 @@ N.B. При удалении сущности к которой привязан
     {
         return "contentPanel/entity-with-section/section-select-list";
     }
+?>
+```
+
+### Имплементация FilterInterface
+
+Реализация поиска по столбцам.
+
+Фильтрации будут подвержены только те столбцы, которые перечислены в rules.
+
+N.B. поля id и active ищутся по точному соответствию, остальные же по совпадению
+
+```php
+<?php
+	class EntityFilter extends Entity implements FilterInterface
+{
+    use FilterTrait;
+    
+    public function rules()
+    {
+        return [[["data","active"],"string"]];
+    }
+}
 ?>
 ```
 

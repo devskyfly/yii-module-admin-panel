@@ -4,7 +4,8 @@ use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\SectionList;
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\NavigationLinks;
 use devskyfly\php56\types\Vrbl;
 
-/* @var $entity_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstructEntity */
+/* @var $entity_filter_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface*/
+/* @var $entity_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstructEntity*/
 /* @var $entity_columns mixed */
 /* @var $section_cls \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstructSection */
 /* @var $parent_section_id null|number */
@@ -43,7 +44,7 @@ if(!Vrbl::isNull($section_cls)){
 	<?endif;?>
 	<?if($entity_cls):?>
 	<div <?=$show_section_list?'class="col-xs-9"':'class="col-xs-12"'?>>
-		<?=EntityList::widget(compact("entity_cls","parent_section_id","page","entity_columns"))?>
+		<?=EntityList::widget(compact("entity_filter_cls","entity_cls","parent_section_id","page","entity_columns"))?>
 	</div>
 	<?endif;?>
 </div>

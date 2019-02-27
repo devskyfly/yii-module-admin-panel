@@ -1,7 +1,6 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\controllers\contentPanel;
 
-use app\controllers\moduleAdminPanel\contentPanel\UnnamedEntityController;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Str;
@@ -16,7 +15,7 @@ use yii\web\NotFoundHttpException;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
-use yii\base\InvalidConfigException;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
 
 /**
  * Provide common way on view and edit of entities and sections
@@ -32,6 +31,13 @@ abstract class AbstractContentPanelController extends Controller
      * @var \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstructEntity;
      */
     protected $entity_cls;
+    
+    /**
+     * Contain entity filter class to have access to static methods of class
+     *
+     * @var \devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
+     */
+    protected $entity_filter_cls;
     
     /**
      * Contain columns declaration to render in GridView widget
@@ -72,6 +78,14 @@ abstract class AbstractContentPanelController extends Controller
     abstract public static function entityCls();
     
     /**
+     * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem | null
+     */
+    public static function entityFilterCls()
+    {
+        return null;
+    }
+    
+    /**
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
      */
     abstract public static function sectionCls();
@@ -95,6 +109,17 @@ abstract class AbstractContentPanelController extends Controller
             &&(!Vrbl::isEmpty($cls))
         ){
             throw new \InvalidArgumentException('$cls is not subclass of '.AbstractUnnamedEntity::class.' type.');
+        }
+        return $cls;
+    }
+    
+    public static function getEntityFilterCls()
+    {
+        $cls=static::entityFilterCls();
+        if((!Cls::isSubClassOf($cls, FilterInterface::class))
+            &&(!Vrbl::isEmpty($cls))
+            ){
+                throw new \InvalidArgumentException('$cls is not subclass of '.FilterInterface::class.' type.');
         }
         return $cls;
     }
@@ -136,7 +161,8 @@ abstract class AbstractContentPanelController extends Controller
         $columns=[
             ['class' => 'yii\grid\SerialColumn']
         ];
-        $unname_entity_columns=['active'];
+        
+        $unname_entity_columns=['active','create_date_time','change_date_time'];
         
         $entity_columns=$unname_entity_columns;
         $entity_columns[]='name';
@@ -205,7 +231,7 @@ abstract class AbstractContentPanelController extends Controller
                     } 
                 ],
                 
-                 'visibleButtons'=>[
+                'visibleButtons'=>[
                      'view'=>function($url,$model,$key){
                      return false;
                      },
@@ -250,21 +276,22 @@ abstract class AbstractContentPanelController extends Controller
     public function init()
     {
         $this->entity_cls=static::getEntityCls();
+        $this->entity_filter_cls=static::getEntityFilterCls();
         $this->section_cls=static::getSectionCls();
         
         $this->entity_editor_views=$this->entityEditorViews();
         $this->section_editor_views=$this->sectionEditorViews();
         
         $this->entity_columns=ArrayHelper::merge(
+            $this->entityColumnsForEdit(),
             $this->entityColumns(), 
-            $this->entityCustomColumns(), 
-            $this->entityColumnsForEdit()
+            $this->entityCustomColumns()
         );
         
         $this->entity_select_list_columns=ArrayHelper::merge(
+            $this->entityColumnsForSelectList(),
             $this->entityColumns(),
-            $this->entityCustomColumns(),
-            $this->entityColumnsForSelectList()
+            $this->entityCustomColumns()
         );
         
         $this->setViewPath();
@@ -291,10 +318,11 @@ abstract class AbstractContentPanelController extends Controller
             &&(!Nmbr::IsInteger($page))){
                 throw new \InvalidArgumentException('Param page is not integer type.');
         }
+        $entity_filter_cls=$this->entity_filter_cls;
         $entity_cls=$this->entity_cls;
         $section_cls=$this->section_cls;
         $entity_columns=$this->entity_columns;
-        return $this->render('content-panel/index',compact("entity_cls","section_cls","parent_section_id","page","entity_columns"));
+        return $this->render('content-panel/index',compact("entity_filter_cls","entity_cls","section_cls","parent_section_id","page","entity_columns"));
     }
     
     /**********************************************************************/

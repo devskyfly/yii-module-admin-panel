@@ -11,7 +11,7 @@ use yii\helpers\ArrayHelper;
  * @author devskyfly
  * @property string $_section__id
  */
-abstract class AbstractUnnamedEntity extends AbstractItem
+abstract class AbstractUnnamedEntity extends AbstractItem 
 {
     /**
      * Bind to section class, to have access to section class methods

@@ -15,8 +15,6 @@ use yii\web\Request;
 <?php 
 $css_namespace=Module::CSS_NAMESPACE.'-';
 $widget_id=$css_namespace.'-content-panel-section-list-for-select';
-
-//$item_cls=$css_namespace.'-content-panel-item-selector__item';
 $item_id_cls=$css_namespace.'-content-panel-item-selector__item-id';
 $item_name_cls=$css_namespace.'-content-panel-item-selector__item-name';
 
@@ -28,10 +26,7 @@ $link_button_cls=$css_namespace.'-content-panel-item-selector__item-link-button'
     <?//Caption?>
     <?if(Vrbl::isEmpty($parent_section_id)):?>
     	<tr>
-        	<td>-</td>
-        	<td></td>
-        	<td><a>#</a></td>
-        	<?if(Vrbl::isEmpty($entity_cls)):?>
+    		<?if(Vrbl::isEmpty($entity_cls)):?>
         	<td >
         		<a>
             		<span slave_name="#" 
@@ -41,18 +36,16 @@ $link_button_cls=$css_namespace.'-content-panel-item-selector__item-link-button'
         		</a>
     		</td>
     		<?endif;?>
+        	<td>-</td>
+        	<td></td>
+        	<td><a>#</a></td>
     	</tr>
     <?endif;?>
     
     <?//Body?>
     <?foreach ($list as $item):?>
     	<tr>
-        	<td><?=$item['order']?></td>
-        	<td><span class="<?=$item['active']?"glyphicon glyphicon-ok":""?>"></span></td>
-        	<td>
-        		<?=Html::a($item['name'],Url::toRoute($item['sub_section_url']))?>
-        	</td>
-        	<?if(Vrbl::isEmpty($entity_cls)):?>
+    		<?if(Vrbl::isEmpty($entity_cls)):?>
         	<td>
             	<a>
                 	<span 
@@ -63,6 +56,11 @@ $link_button_cls=$css_namespace.'-content-panel-item-selector__item-link-button'
             	</a>
     		</td>
     		<?endif;?>
+        	<td><?=$item['order']?></td>
+        	<td><span class="<?=$item['active']?"glyphicon glyphicon-ok":""?>"></span></td>
+        	<td>
+        		<?=Html::a($item['name'],Url::toRoute($item['sub_section_url']))?>
+        	</td>
     	</tr>
     <?endforeach;?>
     </table>
