@@ -1,6 +1,7 @@
 <?php
 /* @var $this \yii\web\View */
 /* @var $list [] */
+use devskyfly\php56\types\Arr;
 use yii\helpers\Url;
 
 ?>
@@ -9,7 +10,15 @@ use yii\helpers\Url;
     
     <div>
         <div>
+        <?if(!Arr::IsArray($item['label'])):?>
         <h3><?=$item['label']?></h3>
+        <?else:?>
+        <h3>
+            <a href="<?=Url::toRoute([$item['label']['route']])?>">
+            	<?=$item['label']['text']?>
+            </a>
+        </h3>
+        <?endif;?>
         </div>
         <div>
             <ul class="list-group">
