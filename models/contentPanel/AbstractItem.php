@@ -132,19 +132,21 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                 
             }
             
-            $request=Yii::$app->request;
-            if(!Vrbl::isNull($request)){
-                foreach ($this->binders as $name=>$bind_cls){
-                    $bind_cls::clear($this->id);
-                    $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
-                    $request_binders=$request->post($bind_short_cls,[]);
-                    if(!Vrbl::isEmpty($request_binders)){
-                        foreach($request_binders['slave_id'] as $item){
-                            $bind=new $bind_cls();
-                            $bind->master_id=$this->id;
-                            $bind->slave_id=$item;
-                            if($bind->validate()){
-                                $result=$result&&$bind->insert();
+            if(Obj::isA(Yii::$app, yii\web\Application::class)){
+                $request=Yii::$app->request;
+                if(!Vrbl::isNull($request)){
+                    foreach ($this->binders as $name=>$bind_cls){
+                        $bind_cls::clear($this->id);
+                        $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
+                        $request_binders=$request->post($bind_short_cls,[]);
+                        if(!Vrbl::isEmpty($request_binders)){
+                            foreach($request_binders['slave_id'] as $item){
+                                $bind=new $bind_cls();
+                                $bind->master_id=$this->id;
+                                $bind->slave_id=$item;
+                                if($bind->validate()){
+                                    $result=$result&&$bind->insert();
+                                }
                             }
                         }
                     }
