@@ -3,6 +3,7 @@ namespace devskyfly\yiiModuleAdminPanel\controllers\security;
 
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
 use devskyfly\yiiModuleAdminPanel\models\security\IpBlackList;
+use devskyfly\yiiModuleAdminPanel\models\security\IpBlackListFilter;
 
 class IpBlackListController extends AbstractContentPanelController{
         
@@ -27,6 +28,11 @@ class IpBlackListController extends AbstractContentPanelController{
         return IpBlackList::class;
     }
     
+    public static function entityFilterCls()
+    {
+        return IpBlackListFilter::class;
+    }
+    
     /**
      *
      * {@inheritDoc}
@@ -40,7 +46,7 @@ class IpBlackListController extends AbstractContentPanelController{
                 [
                     "label"=>"main",
                     "content"=>
-                    $form->field($item,'name')
+                    $form->field($item,'ip')
                     .$form->field($item,'create_date_time')
                     .$form->field($item,'change_date_time')
                     .$form->field($item,'active')->checkbox(['value'=>'Y','uncheckValue'=>'N','checked'=>$item->active=='Y'?true:false])
@@ -56,23 +62,19 @@ class IpBlackListController extends AbstractContentPanelController{
      */
     public function sectionEditorViews()
     {
-        return function($form,$item)
-        {
-            
-            return [
-                [
-                    "label"=>"main",
-                    "content"=>
-                    $form->field($item,'name')
-                    .$form->field($item,'create_date_time')
-                    .$form->field($item,'change_date_time')
-                    .$form->field($item,'active')->checkbox(['value'=>'Y','uncheckValue'=>'N','checked'=>$item->active=='Y'?true:false])
-                    
-                ],
-                
-            ];
-        };
+        return null;
     }
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController::entityCustomColumns()
+     */
+    public function entityCustomColumns()
+    {
+        return ['ip'];
+    }
+
     
     /**
      *
@@ -81,7 +83,7 @@ class IpBlackListController extends AbstractContentPanelController{
      */
     public function itemLabel()
     {
-        return "Ip black list";
+        return "Черный список Ip адресов";
     }
 }
 ?>

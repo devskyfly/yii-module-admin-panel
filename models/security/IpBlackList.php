@@ -1,13 +1,13 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\models\security;
 
-use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 
 /**
  * 
  * @author devskyfly
  * @property integer $id
- * @property string $name
+ * @property string $ip
  * @property string $code
  * @property string $active
  * @property integer $sort
@@ -15,7 +15,7 @@ use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
  * @property string $change_date_time
  * @property string $_section__id
  */
-class IpBlackList extends AbstractEntity
+class IpBlackList extends AbstractUnnamedEntity
 {
     protected static function sectionCls()
     {
@@ -29,7 +29,7 @@ class IpBlackList extends AbstractEntity
 
     public function getIp()
     {
-        return $this->name;
+        return $this->ip;
     }
     
     public function setIp($val)
@@ -45,7 +45,7 @@ class IpBlackList extends AbstractEntity
      */
     public static function findByIp($ip)
     {
-        return static::find()->where(['name'=>$ip])->one();
+        return static::find()->where(['ip'=>$ip])->one();
     }
     
     /**********************************************************************/
@@ -54,15 +54,8 @@ class IpBlackList extends AbstractEntity
     public function rules()
     {
         $rules=parent::rules();
-        $rules[]=['name','ip'];
+        $rules[]=['ip','ip'];
         return $rules;
-    }
-    
-    public function attributeLabels()
-    {
-        $labels=parent::attributeLabels();
-        $labels['name']='Ip';
-        return $labels;
     }
 }
 
