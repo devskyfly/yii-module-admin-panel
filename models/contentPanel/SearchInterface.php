@@ -10,4 +10,11 @@ interface SearchInterface
      * @return null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
      */
     public static function getById($id);
+    
+    /**
+     * Return item by it's code
+     * 
+     * @param null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItem
+     */
+    public static function getByCode($code);
 }

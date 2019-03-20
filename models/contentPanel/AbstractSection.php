@@ -247,6 +247,7 @@ abstract class AbstractSection extends AbstractItem
         $new_rules=[
             [["name"],"required"],
             [["name"],"string"],
+            [["code"],"string"],
             [["__id"],"number"]
         ];
         $rules=ArrayHelper::merge($rules, $new_rules);

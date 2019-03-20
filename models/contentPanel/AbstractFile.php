@@ -102,12 +102,14 @@ abstract class AbstractFile extends AbstractItemExtension
        parent::afterDelete();
        
        try{
-       $file_path=Yii::getAlias($this->path);
-       $result=Files::deleteFile($file_path);
+           $file_path=Yii::getAlias($this->path);
+           if(file_exists($file_path)){
+                $result=Files::deleteFile($file_path);
+           }    
        }catch (\Throwable $e){
-           Yii::info($message,get_class($this));
+           Yii::info($e->getMessage(),get_class($this));
        }catch(\Exception $e){
-           Yii::info($message,get_class($this));
+           Yii::info($e->getMessage(),get_class($this));
        }
    }
     

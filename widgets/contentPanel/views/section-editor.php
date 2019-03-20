@@ -42,7 +42,7 @@ if(!Vrbl::isEmpty($item->__id))
 	    ])
     ?>
 </div>
-<?$form=ActiveForm::begin(['method'=>'POST']);?>
+<?$form=ActiveForm::begin(['method'=>'POST','options'=>['name'=>'section-editor-form']]);?>
 
 <?
 $errors=$item->getAllErrors();

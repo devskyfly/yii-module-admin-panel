@@ -27,4 +27,16 @@ trait SearchTrait
         return static::find()->where(['id'=>$id])->one();
     }
     
+    /**
+     * @inheritdoc
+     * @see \devskyfly\yiiModuleAdminPanel\models\contentPanel\SearchInterface::getByCode()
+     */
+    public static function getByCode($code)
+    {
+        if((!Str::isString($id)))
+        {
+            throw new \InvalidArgumentException('Param id is not string type');
+        }
+        return static::find()->where(['id'=>$id])->one();
+    }
 }

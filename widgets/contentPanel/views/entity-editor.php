@@ -50,7 +50,7 @@ if(!Vrbl::isEmpty($item->_section__id))
 <?endIf;?>
 
 <?
-$form=ActiveForm::begin(['method'=>'POST']);
+$form=ActiveForm::begin(['method'=>'POST','options'=>['name'=>'entity-editor-form']]);
 $errors=$item->getAllErrors();
 ?>
 

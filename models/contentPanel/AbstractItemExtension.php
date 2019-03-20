@@ -81,7 +81,7 @@ abstract class AbstractItemExtension extends ActiveRecord
      * @param string $extension_name
      * @throws \InvalidArgumentException
      * @throws \LogicException
-     * @return null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractExtension
+     * @return null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItemExtension
      */
     public static function findByItem($item,$extension_name)
     {

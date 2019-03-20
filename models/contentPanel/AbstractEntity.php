@@ -22,6 +22,7 @@ abstract class AbstractEntity extends AbstractUnnamedEntity
         $rules=parent::rules();
         $new_rules=[
             [["name"],"required"],
+            [["code"],"string"],
             [["name"],"string"],
             [["_section__id"],"number"]
         ];
