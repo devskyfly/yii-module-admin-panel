@@ -141,6 +141,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                         $request_binders=$request->post($bind_short_cls,[]);
                         if(!Vrbl::isEmpty($request_binders)){
                             foreach($request_binders['slave_id'] as $item){
+                                if(Vrbl::isEmpty($item)){continue;}
                                 $bind=new $bind_cls();
                                 $bind->master_id=$this->id;
                                 $bind->slave_id=$item;
@@ -200,6 +201,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
                         $request_binders=$request->post($bind_short_cls,[]);
                         if(!Vrbl::isEmpty($request_binders)){
                             foreach($request_binders['slave_id'] as $item){
+                                if(Vrbl::isEmpty($item)){continue;}
                                 $bind=new $bind_cls();
                                 $bind->master_id=$this->id;
                                 $bind->slave_id=Nmbr::toIntegerStrict($item);
