@@ -44,6 +44,7 @@ TBL_ROW_TMP;
 
 
 <div style="padding-bottom:30px" class="<?=$widget_name?> row" id="<?=$widget_id?>" style="max-height:500px">
+	<input type="hidden" name="<?=$short_cls?>[slave_id][]" v-if="list.length==0">
     <div class="col-xs-12 ">
         <div class="well well-sm">
             <div>
