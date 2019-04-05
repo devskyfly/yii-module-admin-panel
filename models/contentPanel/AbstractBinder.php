@@ -6,6 +6,7 @@ use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
 use Yii;
 use yii\helpers\ArrayHelper;
+use phpDocumentor\Reflection\Types\Static_;
 
 /**
  * Give opportunity to bind entity to other entities using relation one to many.
@@ -89,6 +90,18 @@ abstract class AbstractBinder extends ActiveRecord
     
     /**
      *
+     * @param AbstractItem
+     * @throws \InvalidArgumentException
+     * @return int[]
+     */
+    public static function getSlaveIdsByItem($item)
+    {
+        $master_id=Nmbr::toIntegerStrict($item->id);
+        return static::getSlaveIds($master_id);
+    }
+    
+    /**
+     *
      * @param int $master_id
      * @throws \InvalidArgumentException
      * @return int[]
@@ -117,6 +130,12 @@ abstract class AbstractBinder extends ActiveRecord
         ->andWhere(['id'=>$ids])
         ->all();     
         return $result;
+    }
+    
+    public static function getSlaveItemsByItem($item)
+    {
+        $master_id=Nmbr::toIntegerStrict($item->id);
+        return static::getSlaveItems($master_id);
     }
     
     //Master
