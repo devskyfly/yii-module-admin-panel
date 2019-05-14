@@ -13,7 +13,9 @@
 		"inblank/yii2-transliter" : "^0.1.1",
 		"yiisoft/yii2-httpclient" : "^2.0",
 		"elasticsearch/elasticsearch" : "^5.3",
-		"yiisoft/yii2-elasticsearch" : "2.1.x-dev"
+		"yiisoft/yii2" : "~2.0.6",
+		"yiisoft/yii2-elasticsearch" : "2.1.x-dev",
+		"devskyfly/php56":"dev-dev"
 	},
 	"autoload" : {
 		"psr-4" : {
