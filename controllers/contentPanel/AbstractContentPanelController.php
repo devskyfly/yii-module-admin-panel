@@ -251,7 +251,7 @@ abstract class AbstractContentPanelController extends Controller
      * {@inheritDoc}
      * @see \yii\base\Controller::setViewPath()
      */
-    public function setViewPath()
+    public function setViewPath($view_path="")
     {
         $module=Yii::$app->getModule('admin-panel');
         
