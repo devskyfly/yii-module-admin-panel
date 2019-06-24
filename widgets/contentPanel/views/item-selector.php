@@ -46,7 +46,13 @@ id="<?=$widget_id?>">
                 {{slave_obj.name}}
             </strong>
             <a>
-        		<span class="glyphicon glyphicon-link content-panel-item-selector_link-button" v-on:click='bind'>
+                <span class="glyphicon glyphicon-link content-panel-item-selector_link-button" 
+                v-on:click='bind'>
+        		</span>
+            </a>
+            <a>
+                <span class="glyphicon glyphicon-trash content-panel-item-selector_link-button" 
+                v-on:click='reset'>
         		</span>
         	</a>
         </div>
@@ -86,6 +92,11 @@ $script = <<<JS_SCRIPT
 
                 window.content_panel.slave_objects={"$widget_id":this.slave_obj};
             },
+            reset: function()
+            {
+                this.slave_obj.setId('');
+                this.slave_obj.setName('Связь не установлена');
+            }
         }
     });
 })();
