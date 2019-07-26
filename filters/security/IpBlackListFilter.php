@@ -11,13 +11,17 @@ class IpBlackListFilter extends ActionFilter
 {
     public function beforeAction($action)
     {
-        $request=Yii::$app->request;
-        $ip=$request->userIp;
+        if(YII_ENV_TEST){
+            $ip="127.0.0.1";
+        }else{
+            $request=Yii::$app->request;
+            $ip=$request->userIp;
+        }
         
         $model=IpBlackList::findByIp($ip);
         if(!Vrbl::isNull($model)){
             if($model->active=='Y'){
-                throw new ForbiddenHttpException();
+                throw new ForbiddenHttpException();               
             }
         }
         
