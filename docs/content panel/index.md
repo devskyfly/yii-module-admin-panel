@@ -36,7 +36,7 @@ N.B. При удалении сущности к которой привязан
      */
     public static function sectionCls()
     {
-    	 //Если иерархичность не требуется, товместо названия класса можно передать null
+    	 //Если иерархичность не требуется, то вместо названия класса можно передать null
         return Section::class;
     }
     
@@ -181,8 +181,19 @@ N.B. При удалении сущности к которой привязан
     {
         return "contentPanel/entity-with-section/section-select-list";
     }
+
+    /**
+     * Для подключения к другим базам данных необходимо переопределить данный метод
+     * @return yii\db\Connection
+     */
+    public static function getDb()
+    {
+        return \Yii::$app->db2;
+    }
 ?>
 ```
+
+
 
 ### Имплементация FilterInterface
 
@@ -208,9 +219,9 @@ N.B. поля id и active ищутся по точному соответств
 
 ### Настройка экземпляра AbstractSection
 
-```
+```php
 <?php
-/**
+    /**
      * 
      * {@inheritDoc}
      * @see \devskyfly\yiiModuleContentPanel\models\contentPanel\AbstractSection::entity()
@@ -242,6 +253,15 @@ N.B. поля id и active ищутся по точному соответств
     public static function selectListRoute()
     {
         return "contentPanel/entity-with-section/section-select-list";
+    }
+
+    /**
+     * Для подключения к другим базам данных необходимо переопределить данный метод
+     * @return yii\db\Connection
+     */
+    public static function getDb()
+    {
+        return \Yii::$app->db2;
     }
 ?>
 ```

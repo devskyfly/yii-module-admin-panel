@@ -2,10 +2,8 @@
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use devskyfly\php56\core\Cls;
-use devskyfly\php56\types\Obj;
-use devskyfly\php56\types\Vrbl;
-use Yii;
 use yii\helpers\ArrayHelper;
+use yii\base\Event;
 
 /**
  * This class represent section
@@ -75,7 +73,9 @@ abstract class AbstractSection extends AbstractItem
     public function deleteLikeItem()
     {
         $this->trigger(static::EVENT_BEFORE_DELETE_LIKE_ITEM);
-        $transaction=$this->db->beginTransaction();
+        Event::trigger(static::className(), static::EVENT_BEFORE_DELETE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
+
+        $transaction=static::getDb()->beginTransaction();
         try{
             if($this->isNewRecord){
                 throw new \LogicException("Try to delete not existed section");
@@ -126,6 +126,7 @@ abstract class AbstractSection extends AbstractItem
             throw $e;
         }
         $this->trigger(static::EVENT_AFTER_DELETE_LIKE_ITEM);
+        Event::trigger(static::className(), static::EVENT_AFTER_DELETE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
         return true;
     }
     

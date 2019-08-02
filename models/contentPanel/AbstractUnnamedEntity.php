@@ -4,6 +4,7 @@ namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 use devskyfly\php56\types\Vrbl;
 use devskyfly\php56\core\Cls;
 use yii\helpers\ArrayHelper;
+use yii\base\Event;
 
 /**
  * This class represent entity
@@ -67,7 +68,7 @@ abstract class AbstractUnnamedEntity extends AbstractItem
         $this->trigger(static::EVENT_BEFORE_DELETE_LIKE_ITEM);
         Event::trigger(static::className(), static::EVENT_AFTER_DELETE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
 
-        $transaction=$this->db->beginTransaction();
+        $transaction=static::getDb()->beginTransaction();
         try{
             if($this->isNewRecord){
                 throw new \LogicException("Try to delete not existed section");

@@ -11,7 +11,6 @@ use devskyfly\php56\types\Str;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 use yii\helpers\Inflector;
-use devskyfly;
 use yii\base\Event;
 
 /**
@@ -39,12 +38,6 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     use SearchTrait;
     
     /**
-     * Reference to instance of db connection
-     * @var \yii\db\Connection
-     */
-    protected $db;
-    
-    /**
      * Assoc array of ActiveRecord instances
      * @var yii\db\ActiveRecord[];
      */
@@ -63,7 +56,6 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function init(){
         parent::init();
-        $this->db=Yii::$app->db;
         
         //Init empty extensions objects
         $this->initExtensions();
@@ -138,7 +130,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         Event::trigger(static::className(), static::EVENT_BEFORE_INSERT_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
         
         $result=true;
-        $transaction=$this->db->beginTransaction();
+        $transaction=static::getDb()->beginTransaction();
         try{
             $result=$this->insert();
             foreach ($this->extensions as $name=>$extension){
