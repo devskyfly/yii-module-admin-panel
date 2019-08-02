@@ -12,6 +12,7 @@ use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
 use yii\helpers\Inflector;
 use devskyfly;
+use yii\base\Event;
 
 /**
  * 
@@ -134,6 +135,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     public function insertLikeItem()
     {
         $this->trigger(static::EVENT_BEFORE_INSERT_LIKE_ITEM);
+        Event::trigger(static::className(), static::EVENT_BEFORE_INSERT_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]);)
+        
         $result=true;
         $transaction=$this->db->beginTransaction();
         try{
@@ -181,6 +184,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             //return false;
         }
         $this->trigger(static::EVENT_AFTER_INSERT_LIKE_ITEM);
+        Event::trigger(static::className(), static::EVENT_AFTER_INSERT_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]);)
+        
         return $result;
     }
     
@@ -196,6 +201,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             return  $this->insertLikeItem();
         }
         $this->trigger(static::EVENT_BEFORE_SAVE_LIKE_ITEM);
+        Event::trigger(static::className(), static::EVENT_BEFORE_SAVE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]);)
+
         $result=true;
         $transaction=$this->db->beginTransaction();
         try{
@@ -240,6 +247,8 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             throw $e;
         }
         $this->trigger(static::EVENT_AFTER_SAVE_LIKE_ITEM);
+        Event::trigger(static::className(), static::EVENT_AFTER_SAVE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]);)
+
         return $result;
     }
     
