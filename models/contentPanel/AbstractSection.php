@@ -74,6 +74,7 @@ abstract class AbstractSection extends AbstractItem
      */
     public function deleteLikeItem()
     {
+        $this->trigger(static::EVENT_BEFORE_DELETE_LIKE_ITEM);
         $transaction=$this->db->beginTransaction();
         try{
             if($this->isNewRecord){
@@ -124,6 +125,7 @@ abstract class AbstractSection extends AbstractItem
             $transaction->rollBack();
             throw $e;
         }
+        $this->trigger(static::EVENT_AFTER_DELETE_LIKE_ITEM);
         return true;
     }
     

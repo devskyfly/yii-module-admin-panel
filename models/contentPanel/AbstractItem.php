@@ -25,9 +25,16 @@ use devskyfly;
  */
 abstract class AbstractItem extends ActiveRecord implements SearchInterface
 {
-    const ACTIVE='Y';
-    const INACTIVE='N';
+    const ACTIVE = 'Y';
+    const INACTIVE = 'N';
     
+    const EVENT_BEFORE_SAVE_LIKE_ITEM = 'before_save_like_item';
+    const EVENT_AFTER_SAVE_LIKE_ITEM = 'after_save_like_item';
+    const EVENT_BEFORE_INSERT_LIKE_ITEM = 'before_insert_like_item';
+    const EVENT_AFTER_INSERT_LIKE_ITEM = 'after_insert_like_item';
+    const EVENT_BEFORE_DELETE_LIKE_ITEM = 'before_delete_like_item';
+    const EVENT_AFTER_DELETE_LIKE_ITEM = 'after_delete_like_item';
+
     use SearchTrait;
     
     /**
@@ -75,6 +82,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         //Init extensions objects by related item
         $this->initExtensions();
         $this->initBinders();
+        $this->trigger(static::EVENT_AFTER_FIND);
     }
     
     public function beforeSave($insert)
@@ -107,6 +115,13 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     {
         return [];
     }
+
+    /**********************************************************************/
+    /** EVENTS **/
+    /**********************************************************************/
+    
+    
+
     /**********************************************************************/
     /** Crud **/
     /**********************************************************************/
@@ -118,6 +133,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function insertLikeItem()
     {
+        $this->trigger(static::EVENT_BEFORE_INSERT_LIKE_ITEM);
         $result=true;
         $transaction=$this->db->beginTransaction();
         try{
@@ -164,6 +180,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             $transaction->rollBack();
             //return false;
         }
+        $this->trigger(static::EVENT_AFTER_INSERT_LIKE_ITEM);
         return $result;
     }
     
@@ -178,7 +195,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         {
             return  $this->insertLikeItem();
         }
-        
+        $this->trigger(static::EVENT_BEFORE_SAVE_LIKE_ITEM);
         $result=true;
         $transaction=$this->db->beginTransaction();
         try{
@@ -222,6 +239,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             $transaction->rollBack();
             throw $e;
         }
+        $this->trigger(static::EVENT_AFTER_SAVE_LIKE_ITEM);
         return $result;
     }
     
