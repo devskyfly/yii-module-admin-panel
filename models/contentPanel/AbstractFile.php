@@ -10,7 +10,7 @@ use inblank\transliter\Transliter;
 use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 use yii\helpers\FileHelper;
-
+use devskyfly\yiiModuleAdminPanel\Module;
 
 /**
  * 
@@ -63,7 +63,7 @@ abstract class AbstractFile extends AbstractItemExtension
         if($file){
             
             //module
-            $module=Yii::$app->getModule('admin-panel');
+            $module=Module::getInstance();
             
             if(Vrbl::isNull($module)){
                 throw \Exception('admin-panel module is not loaded.');

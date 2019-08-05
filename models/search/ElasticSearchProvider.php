@@ -6,6 +6,7 @@ use devskyfly\php56\types\Vrbl;
 use Yii;
 use yii\base\BaseObject;
 use Elasticsearch\ClientBuilder;
+use devskyfly\yiiModuleAdminPanel\Module;
 
 class ElasticSearchProvider extends BaseObject
 {
@@ -41,7 +42,8 @@ class ElasticSearchProvider extends BaseObject
     public function init()
     {
         parent::init();
-        $module=Yii::$app->getModule('admin-panel');
+        
+        $module=Module::getInstance();
         
         if(Vrbl::isNull($module)){
             throw new \InvalidArgumentException('Property module is null.');

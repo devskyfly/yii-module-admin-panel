@@ -7,7 +7,7 @@ use devskyfly\php56\types\Arr;
 use devskyfly\php56\types\Vrbl;
 use devskyfly\yiiModuleAdminPanel\models\search\ElasticSearchProvider;
 use devskyfly\yiiModuleAdminPanel\models\search\Indexer;
-use Yii;
+use devskyfly\yiiModuleAdminPanel\Module;
 
 abstract class AbstractIndexerController extends Controller
 {
@@ -21,7 +21,7 @@ abstract class AbstractIndexerController extends Controller
     {
         parent::init();
         
-        $module=Yii::$app->getModule('admin-panel');
+        $module=Module::getInstance();
         
         if(Vrbl::isNull($module)){
             throw \InvalidArgumentException('Variable $module is null.');
