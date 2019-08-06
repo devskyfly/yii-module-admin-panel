@@ -115,6 +115,19 @@ abstract class AbstractBinder extends ActiveRecord
         ->all();
         return array_column($result, 'slave_id');
     }
+
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @return int[]
+     */
+    public static function getAllSlaveIds()
+    {
+        $result=static::find()
+        ->asArray()
+        ->all();
+        return array_column($result, 'slave_id');
+    }
     
     /**
      *
@@ -150,6 +163,19 @@ abstract class AbstractBinder extends ActiveRecord
         $master_id=Nmbr::toIntegerStrict($slave_id);
         $result=static::find()
         ->andWhere(['slave_id'=>$slave_id])
+        ->asArray()
+        ->all();
+        return array_column($result, 'master_id');
+    }
+
+    /**
+     *
+     * @throws \InvalidArgumentException
+     * @return int[]
+     */
+    public static function getAllMasterIds()
+    {
+        $result=static::find()
         ->asArray()
         ->all();
         return array_column($result, 'master_id');
