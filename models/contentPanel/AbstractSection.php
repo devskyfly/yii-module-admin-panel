@@ -73,7 +73,7 @@ abstract class AbstractSection extends AbstractItem
     public function deleteLikeItem()
     {
         $this->trigger(static::EVENT_BEFORE_DELETE_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_BEFORE_DELETE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
+        Event::trigger(static::className(), static::EVENT_BEFORE_DELETE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
 
         $transaction=static::getDb()->beginTransaction();
         try{
@@ -126,7 +126,7 @@ abstract class AbstractSection extends AbstractItem
             throw $e;
         }
         $this->trigger(static::EVENT_AFTER_DELETE_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_AFTER_DELETE_LIKE_ITEM, new AbstractItemEventMessage(['obj'=>$this]));
+        Event::trigger(static::className(), static::EVENT_AFTER_DELETE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
         return true;
     }
     

@@ -3,7 +3,7 @@ namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use yii\base\Event;
 
-class AbstractItemEventMessage extends Event
+class ItemEventMessage extends Event
 {
     public $obj;
 }
