@@ -19,7 +19,7 @@
 	},
 	"autoload" : {
 		"psr-4" : {
-			"devskyfly\\yiiModuleAdminPanel\\" : ""
+			"devskyfly\\yiiModuleAdminPanel\\" : "src"
 		}
 	}
 }
