@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d2d159f5e417fbc3e08f04c3572d511c",
+    "content-hash": "0f464da70bcaeea095e66e83923241f3",
     "packages": [
         {
             "name": "bower-asset/inputmask",
@@ -224,26 +224,23 @@
         },
         {
             "name": "devskyfly/php56",
-            "version": "dev-dev",
+            "version": "v1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/php56.git",
-                "reference": "fda539f5d2bf3caf1b2679a7b5d9dfabc171159a"
+                "reference": "8e913374afd4337af800decd81e5f2a796ba98e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devskyfly/php56/zipball/fda539f5d2bf3caf1b2679a7b5d9dfabc171159a",
-                "reference": "fda539f5d2bf3caf1b2679a7b5d9dfabc171159a",
+                "url": "https://api.github.com/repos/devskyfly/php56/zipball/8e913374afd4337af800decd81e5f2a796ba98e9",
+                "reference": "8e913374afd4337af800decd81e5f2a796ba98e9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.6.0"
             },
             "require-dev": {
-                "codeception/codeception": "^2.4",
-                "consolidation/robo": "^1.4",
-                "friendsofphp/php-cs-fixer": "^2.15",
-                "symfony/console": "^3.4.17"
+                "codeception/codeception": "^2.4"
             },
             "type": "library",
             "autoload": {
@@ -262,7 +259,7 @@
                 }
             ],
             "description": "Represent core php function and constants by namespaces and classes like static members.",
-            "time": "2019-07-22T14:41:04+00:00"
+            "time": "2019-02-19T08:58:19+00:00"
         },
         {
             "name": "elasticsearch/elasticsearch",
@@ -1062,8 +1059,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "yiisoft/yii2-elasticsearch": 20,
-        "devskyfly/php56": 20
+        "yiisoft/yii2-elasticsearch": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
