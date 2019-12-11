@@ -22,7 +22,7 @@ class RoboFile extends \Robo\Tasks
 
     public function testsClear()
     {
-        
+        $this->testsClearDatabase();
     }
 
     public function testsClearDatabase()
