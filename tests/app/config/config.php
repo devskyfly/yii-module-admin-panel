@@ -24,6 +24,8 @@ return [
             [
                 'urlManager' => [
                     'showScriptName' => true,
+                    'enablePrettyUrl' => true,
+                    'showScriptName' => false
                 ],
                 'user' => [
                     'identityClass' => 'devskyfly\yiiModuleAdminPanel\models\auth\User',
