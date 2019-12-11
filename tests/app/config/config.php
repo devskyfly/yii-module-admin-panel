@@ -1,6 +1,7 @@
 <?php
 
-$components = require __DIR__ . '/componets/components.php';
+$components = require __DIR__ . '/componets/config.php';
+$modules = require __DIR__ . '/modules/config.php';
 /**
  * Application configuration shared by all test types
  */
@@ -10,12 +11,14 @@ return [
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
+        '@webroot' => dirname(__DIR__).'/web',
+        '@webroot/assets' => dirname(__DIR__).'/web/assets',
+        '@web' => '/',
         '@app' => dirname(__DIR__),
         '@frontend' => dirname(__DIR__),
     ],
     'language' => 'en-US',
     'controllerNamespace'=>'app\\controllers',
-    
     'components' => 
         array_merge($components,
             [
@@ -30,16 +33,11 @@ return [
                     'errorAction' => 'site/error',
                 ],
                 'request' => [
-                'cookieValidationKey' => 'test',
-                'enableCsrfValidation' => false,
+                    'cookieValidationKey' => 'test',
+                    'enableCsrfValidation' => false,
                 ]
         ]),
-    'modules' => [
-        'admin-panel'=>[
-            'class'=>'devskyfly\yiiModuleAdminPanel\Module',
-            
-            //common
-            'upload_dir'=>'@app/upload',
-        ]
-    ]
+    'modules' => 
+        array_merge($modules,
+        [])
 ];

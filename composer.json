@@ -24,6 +24,7 @@
 		}
 	},
 	"require-dev": {
-		"devskyfly/robocmd": "^1.1"
+		"devskyfly/robocmd": "^1.1",
+		"codeception/codeception": "^3.1"
 	}
 }

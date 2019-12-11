@@ -10,6 +10,8 @@ class CommonCest
     // tests
     public function tryToTest(FunctionalTester $I)
     {
-       
+       codecept_debug("-***-".\Yii::getAlias("@webroot"));
+       codecept_debug("-***-".\Yii::getAlias("@web"));
+
     }
 }
