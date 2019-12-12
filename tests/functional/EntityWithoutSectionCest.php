@@ -1,6 +1,5 @@
-<?php namespace moduleAdminPanel\contentPanel;
+<?php 
 
-use \FunctionalTester;
 use app\models\moduleAdminPanel\contentPanel\entityWithoutSection\EntityWithoutSection;
 use app\models\moduleAdminPanel\contentPanel\entityWithoutSection\EntityPageExtension;
 use devskyfly\php56\types\Obj;

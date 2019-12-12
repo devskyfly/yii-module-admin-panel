@@ -9,7 +9,7 @@ use Yii;
 
 class LoginAction extends Action
 {
-    public $view='login';
+    public $view = 'login';
         
     public function init()
     {
@@ -34,7 +34,5 @@ class LoginAction extends Action
         } else {
             return $this->controller->render($this->view,compact("model"));
         }
-        
-        
     }
 }

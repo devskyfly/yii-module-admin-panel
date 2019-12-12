@@ -1,9 +1,6 @@
-<?php namespace moduleAdminPanel\contentPanel;
+<?php
 
-use \FunctionalTester;
 use app\models\moduleAdminPanel\contentPanel\unnamedEntity\UnnamedEntity;
-
-use devskyfly\php56\types\Obj;
 
 class UnnamedEntityCest 
 {

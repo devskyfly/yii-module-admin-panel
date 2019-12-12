@@ -1,6 +1,4 @@
-<?php namespace moduleAdminPanel\auth;
-
-use \FunctionalTester;
+<?php
 
 class LoginFormCest
 {

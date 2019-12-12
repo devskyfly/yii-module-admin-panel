@@ -1,11 +1,11 @@
-<?php namespace moduleAdminPanel\contentPanel;
+<?php
 
 use app\models\moduleAdminPanel\contentPanel\entityWithSection\Entity;
 use app\models\moduleAdminPanel\contentPanel\entityWithSection\Section;
 use app\models\moduleAdminPanel\contentPanel\entityWithSection\SectionPageExtension;
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Obj;
-use FunctionalTester;
+
 
 class EntityWithSectionCest 
 {
