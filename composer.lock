@@ -1400,16 +1400,16 @@
         },
         {
             "name": "devskyfly/robocmd",
-            "version": "v1.1.2",
+            "version": "v1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/devskyfly/robocmd.git",
-                "reference": "560ce9e1533f848a2637155f2e1152cc3d54b877"
+                "reference": "3c18141ad7e9f173af2d7e4257b5cafee5c20fcb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/devskyfly/robocmd/zipball/560ce9e1533f848a2637155f2e1152cc3d54b877",
-                "reference": "560ce9e1533f848a2637155f2e1152cc3d54b877",
+                "url": "https://api.github.com/repos/devskyfly/robocmd/zipball/3c18141ad7e9f173af2d7e4257b5cafee5c20fcb",
+                "reference": "3c18141ad7e9f173af2d7e4257b5cafee5c20fcb",
                 "shasum": ""
             },
             "require-dev": {
@@ -1432,7 +1432,7 @@
                 }
             ],
             "description": "Assets of commands.",
-            "time": "2019-12-10T12:31:03+00:00"
+            "time": "2019-12-12T09:04:27+00:00"
         },
         {
             "name": "doctrine/instantiator",
