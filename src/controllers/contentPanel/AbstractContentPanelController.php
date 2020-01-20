@@ -16,6 +16,7 @@ use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
+use devskyfly\yiiModuleAdminPanel\Module;
 
 /**
  * Provide common way on view and edit of entities and sections
@@ -251,12 +252,12 @@ abstract class AbstractContentPanelController extends Controller
      * {@inheritDoc}
      * @see \yii\base\Controller::setViewPath()
      */
-    public function setViewPath($view_path="")
+    public function setViewPath($view_path = "")
     {
-        $module=Yii::$app->getModule('admin-panel');
+        $module = Module::getInstance();
         
         if(Vrbl::isNull($module)){
-            throw \Exception('admin-panel module is not loaded.');
+            throw new \Exception('admin-panel module is not loaded.');
         }
         
         $view_path=$module->getAbsoluteViewPath();
