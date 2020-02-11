@@ -72,18 +72,18 @@ class Module extends \yii\base\Module
      */
     public function initUploadDir()
     {
-        if(Vrbl::isEmpty($this->upload_dir)){
-            $this->upload_dir="@common/upload";
+        if (Vrbl::isEmpty($this->upload_dir)) {
+            $this->upload_dir = "@common/upload";
         }
-        if(!Str::isString($this->upload_dir)){
+        if (!Str::isString($this->upload_dir)) {
             throw new \InvalidArgumentException('Param $path is not string type.');
         }
         
         $path=Yii::getAlias($this->upload_dir);
         
-        if(!file_exists(Yii::getAlias($this->upload_dir))){
+        if (!file_exists(Yii::getAlias($this->upload_dir))) {
             $result=FileHelper::createDirectory($path);
-            if(!$result){
+            if (!$result) {
                 throw new \Exception("Can't create dir $path");
             }
         }
