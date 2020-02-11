@@ -2,20 +2,23 @@
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use Yii;
+use yii\base\Event;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\StringHelper;
+use yii\helpers\Inflector;
+
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Obj;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Vrbl;
-use yii\helpers\Inflector;
-use yii\base\Event;
+
 
 /**
  * 
  * @author devskyfly
+ * 
  * @property integer $id
  * @property string $code
  * @property string $active
@@ -39,10 +42,17 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     
     /**
      * Assoc array of ActiveRecord instances
-     * @var yii\db\ActiveRecord[];
+     * 
+     * Key of each extension in array need to be equal to extension item class name.
+     * It is neaded for form load.
+     * @var string[]|yii\db\ActiveRecord[];
      */
     public $extensions=[];
     
+    /**
+     * Assoc array of ActiveRecord instances
+     *
+     */
     public $binders=[];
     
     /**********************************************************************/
@@ -69,20 +79,23 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function afterFind()
     {
-        //Init data
-        //$date=new \DateTime($this->change_date_time);
-        //$this->initCreateAndChangeDateTime($date,false);
-        //Init extensions objects by related item
         $this->initExtensions();
         $this->initBinders();
         $this->trigger(static::EVENT_AFTER_FIND);
     }
     
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \yii\db\BaseActiveRecord::beforeSave()
+     * @param boolean $insert
+     * @return boolean
+     */
     public function beforeSave($insert)
     {
-        if(parent::beforeSave($insert)){
+        if (parent::beforeSave($insert)) {
             $this->initCreateAndChangeDateTime();
-        }else{
+        } else {
             return false;
         }
         
@@ -92,7 +105,12 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     /**
      * Define dependence between item property and its class name
      *
-     * @return []|["prop"=>yii\db\ActiveRecord, ...]
+     * return [
+     *     "Page" => devskyfly\models\Page,
+     *     "Iage" => devskyfly\models\Info, ...
+     * ]
+     * 
+     * @return [] - ["cls"=AbstractItemExtension::class, ...]
      */
     public function extensions()
     {
@@ -102,7 +120,10 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     /**
      * Define binders between item property and its class name
      * 
-     * @return []|["prop"=>devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractBinder]
+     * return [
+     *     "Binder" => devskyfly\models\Binder ...
+     * ]
+     * @return []|["cls"=>AbstractBinder::class, ...]
      */
     public function binders()
     {

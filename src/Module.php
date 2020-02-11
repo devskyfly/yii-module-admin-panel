@@ -1,13 +1,11 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel;
 
-use devskyfly\php56\types\Arr;
+use Yii;
+use yii\helpers\FileHelper;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
-use Yii;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\helpers\FileHelper;
+
 
 /**
  * This module give opportunity to create admin panel
@@ -28,13 +26,6 @@ class Module extends \yii\base\Module
     public $upload_dir='';
     
     /**
-     * Elastic search url or ip with port.
-     * 
-     * @var string
-     */
-    public $search_settings=[];
-
-    /**
      * Store absolute path of current module view path
      *
      * Because AbstractContentPanelController is used by external controllers
@@ -45,57 +36,19 @@ class Module extends \yii\base\Module
     
     public function init()
     {
-        
         parent::init();
+        
         Yii::setAlias("@devskyfly/yiiModuleAdminPanel", __DIR__);
         $this->initUploadDir();
-        $this->checkSearchSettings();
         
         /**
          * Define controller namespace
          */
-        if(Yii::$app instanceof \yii\console\Application){
-            $this->controllerNamespace='devskyfly\yiiModuleAdminPanel\console';
-        }else{
+        if (Yii::$app instanceof \yii\console\Application) {
+            $this->controllerNamespace = 'devskyfly\yiiModuleAdminPanel\console';
+        } else {
             $this->setAbsoluteViewPath();
         }
-    }
-    
-    /**********************************************************************/
-    /** Search **/
-    /**********************************************************************/
-    
-    protected function checkSearchSettings()
-    {
-            if(!Arr::isArray($this->search_settings)){
-                throw new \InvalidArgumentException('Property $search_settigs is not array type.');
-            }
-            
-            if(!Vrbl::isEmpty($this->search_settings)){
-                if((!Str::isString($this->search_settings['elastic_hosts']))
-                    &&(!Arr::isArray($this->search_settings['elastic_hosts']))){
-                    throw new \InvalidArgumentException('Property $search_settings[\'elastic_hosts\'] is not string or array type.');
-                }
-                
-                if(!Str::isString($this->search_settings['index'])){
-                    throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not string type.');
-                }
-                
-                if(isset($this->search_settings['index_settings'])
-                    &&(!Arr::isArray($this->search_settings['index_settings']))){
-                    throw new \InvalidArgumentException('Property $search_settings[\'index\'] is not array type.');
-                }
-                
-                if((!Str::isString($this->search_settings['type']))){
-                    throw new \InvalidArgumentException('Property $search_settings[\'type\'] is not string type.');
-                }
-                
-                if(isset($this->search_settings['type_mappings'])
-                    &&(!Arr::isArray($this->search_settings['type_mappings']))){
-                    throw new \InvalidArgumentException('Property $search_settings[\'type_mappings\'] is not array type.');
-                }
-            }
-
     }
     
     /**********************************************************************/
@@ -146,7 +99,7 @@ class Module extends \yii\base\Module
      */
     public function setAbsoluteViewPath()
     {
-        return $this->_module_view_path=__DIR__.'/views';
+        return $this->_module_view_path = __DIR__.'/views';
     }
     
     /**

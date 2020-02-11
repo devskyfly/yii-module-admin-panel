@@ -2,15 +2,15 @@
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Obj;
-use yii\helpers\ArrayHelper;
 
 /**
  * 
  * @author devskyfly
  * @property string $item_table
- * @property string $__id
+ * @property integer|string $__id
  */
 abstract class AbstractItemExtension extends ActiveRecord
 {
@@ -27,6 +27,22 @@ abstract class AbstractItemExtension extends ActiveRecord
      * @var string
      */
     public $extension_name;
+    
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \yii\base\Model::rules()
+     */
+    public function rules()
+    {
+        $rules = parent::rules();
+        $new_rules = [
+            [["item_table","__id"],"required"]           
+        ];
+        $rules = ArrayHelper::merge($rules, $new_rules);
+        return $rules;
+    }
+
     /**
      * Return class name
      *
@@ -39,8 +55,8 @@ abstract class AbstractItemExtension extends ActiveRecord
      */
     public static function getItemCls()
     {
-        $cls=static::itemCls();
-        if(!Cls::isSubClassOf($cls, AbstractItem::class)){
+        $cls = static::itemCls();
+        if (!Cls::isSubClassOf($cls, AbstractItem::class)) {
             throw new \InvalidArgumentException('$cls is not '.AbstractItem::class.' class.');
         }
         return $cls;
@@ -55,22 +71,22 @@ abstract class AbstractItemExtension extends ActiveRecord
      * @throws \LogicException
      * @return \devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItemExtension
      */
-    public function initByItem($item,$extension_name)
+    public function initByItem($item, $extension_name)
     {
-        $cls=static::getItemCls();
+        $cls = static::getItemCls();
         
-        if(!Obj::isA($item, $cls)){
+        if (!Obj::isA($item, $cls)) {
             throw new \InvalidArgumentException('Param $item is not '.$cls.' type.');
         }
         
-        if($item->isNewRecord){
+        if ($item->isNewRecord) {
             throw new \LogicException('Param $item is not save.');
         }
         
-        $this->master_item=$item;
-        $this->extension_name=$extension_name;
-        $this->__id=$item->id;
-        $this->item_table=$item::tableName();
+        $this->master_item = $item;
+        $this->extension_name = $extension_name;
+        $this->__id = $item->id;
+        $this->item_table = $item::tableName();
         return $this;
     }
 
@@ -83,43 +99,24 @@ abstract class AbstractItemExtension extends ActiveRecord
      * @throws \LogicException
      * @return null|\devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractItemExtension
      */
-    public static function findByItem($item,$extension_name)
+    public static function findByItem($item, $extension_name)
     {
-        $cls=static::getItemCls();
+        $cls = static::getItemCls();
         
-        if(!Obj::isA($item, $cls)){
+        if (!Obj::isA($item, $cls)) {
             throw new \InvalidArgumentException('Param $item is not '.$cls.' type.');
         }
         
-        if($item->isNewRecord){
+        if ($item->isNewRecord) {
             throw new \LogicException('Param $item is not save.');
         }
         
-        $result=static::find()->where(['item_table'=>$item::tableName(),'__id'=>$item->id])->one();
-        if($result){
-            $result->master_item=$item;
-            $result->extension_name=$extension_name;
+        $result = static::find()->where(['item_table'=>$item::tableName(),'__id'=>$item->id])->one();
+        if ($result) {
+            $result->master_item = $item;
+            $result->extension_name = $extension_name;
         } 
         return $result;
-    }
-    
-    /**********************************************************************/
-    /** REDECLARATE **/
-    /**********************************************************************/
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * @see \yii\base\Model::rules()
-     */
-    public function rules()
-    {
-        $rules=parent::rules();
-        $new_rules=[
-            [["item_table","__id"],"required"]           
-        ];
-        $rules=ArrayHelper::merge($rules, $new_rules);
-        return $rules;
     }
     
 }

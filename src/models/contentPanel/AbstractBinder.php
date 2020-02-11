@@ -2,11 +2,9 @@
 namespace devskyfly\yiiModuleAdminPanel\models\contentPanel;
 
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
-use Yii;
-use yii\helpers\ArrayHelper;
-use phpDocumentor\Reflection\Types\Static_;
 
 /**
  * Give opportunity to bind entity to other entities using relation one to many.
@@ -18,6 +16,38 @@ use phpDocumentor\Reflection\Types\Static_;
  */
 abstract class AbstractBinder extends ActiveRecord
 {
+
+    public function init()
+    {
+        parent::init();
+        $name = static::bindName();
+        $this->name = $name;
+    }
+    
+    public function rules()
+    {
+        $rules = parent::rules();
+        
+        $new_rules = [
+            [['name', 'master_id', 'slave_id'], 'required'],
+            [['master_id', 'slave_id'], 'number']
+        ];
+        
+        $rules = ArrayHelper::merge($new_rules, $rules);
+        
+        return $rules;
+    }
+    
+    public static function tableName()
+    {
+        return 'binder';
+    }
+    
+    public static function find()
+    {
+        return parent::find()->where(['name'=>static::bindName()]);
+    }
+
     /**********************************************************************/
     /** Abstract **/
     /**********************************************************************/
@@ -37,9 +67,9 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getMasterCls()
     {
-        $cls=static::masterCls();
+        $cls = static::masterCls();
         
-        if(!Cls::isSubClassOf($cls, AbstractItem::class)){
+        if (!Cls::isSubClassOf($cls, AbstractItem::class)) {
             throw new \BadMethodCallException("Method masterCls() return not subclass of ".AbstractItem::class.".");
         };
         
@@ -51,9 +81,9 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getSlaveCls()
     {
-        $cls=static::slaveCls();
+        $cls = static::slaveCls();
         
-        if(!Cls::isSubClassOf($cls, AbstractItem::class)){
+        if (!Cls::isSubClassOf($cls, AbstractItem::class)) {
             throw new \BadMethodCallException("Method slaveCls() return not subclass of ".AbstractItem::class.".");
         };
         
@@ -68,7 +98,7 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getRowsByMasterItem($item)
     {
-        $result=static::getRowsByMasterId($item->id);
+        $result = static::getRowsByMasterId($item->id);
         return $result;
     }
     
@@ -80,7 +110,7 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getRowsByMasterId($id)
     {
-        $id=Nmbr::toIntegerStrict($id);
+        $id = Nmbr::toIntegerStrict($id);
         $result=static::find()
         ->andWhere(['master_id'=>$id])->all();
         return $result;
@@ -96,23 +126,23 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getSlaveIdsByItem($item)
     {
-        $master_id=Nmbr::toIntegerStrict($item->id);
+        $master_id = Nmbr::toIntegerStrict($item->id);
         return static::getSlaveIds($master_id);
     }
     
     /**
      *
-     * @param int $master_id
+     * @param int $id
      * @throws \InvalidArgumentException
      * @return int[]
      */
-    public static function getSlaveIds($master_id)
+    public static function getSlaveIds($id)
     {
-        $master_id=Nmbr::toIntegerStrict($master_id);
+        $id = Nmbr::toIntegerStrict($id);
         $result=static::find()
-        ->andWhere(['master_id'=>$master_id])
-        ->asArray()
-        ->all();
+            ->andWhere(['master_id' => $id])
+            ->asArray()
+            ->all();
         return array_column($result, 'slave_id');
     }
 
@@ -124,47 +154,53 @@ abstract class AbstractBinder extends ActiveRecord
     public static function getAllSlaveIds()
     {
         $result=static::find()
-        ->asArray()
-        ->all();
+            ->asArray()
+            ->all();
         return array_column($result, 'slave_id');
     }
     
     /**
      *
-     * @param int $master_id
+     * @param int $id
      * @throws \InvalidArgumentException
      * @return AbstractItem[]
      */
-    public static function getSlaveItems($master_id)
+    public static function getSlaveItems($id)
     {
-        $slave_cls=static::getSlaveCls();
-        $ids=static::getSlaveIds($master_id);
-        $result=$slave_cls::find()
-        ->andWhere(['id'=>$ids])
-        ->all();     
+        $slave_cls = static::getSlaveCls();
+        $ids = static::getSlaveIds($id);
+        $result = $slave_cls::find()
+            ->andWhere(['id' => $ids])
+            ->all();     
         return $result;
     }
     
+    /**
+     * Undocumented function
+     *
+     * @param AbstractItem $item
+     * @return void
+     */
     public static function getSlaveItemsByItem($item)
     {
-        $master_id=Nmbr::toIntegerStrict($item->id);
+        $master_id = Nmbr::toIntegerStrict($item->id);
         return static::getSlaveItems($master_id);
     }
     
     //Master
     /**
      *
-     * @param int $slave_id
+     * @param int $id
      * @throws \InvalidArgumentException
      * @return int[]
      */
-    public static function getMasterIds($slave_id)
+    public static function getMasterIds($id)
     {
-        $master_id=Nmbr::toIntegerStrict($slave_id);
-        $result=static::find()
-        ->andWhere(['slave_id'=>$slave_id])
-        ->asArray()
-        ->all();
+        $id = Nmbr::toIntegerStrict($id);
+        $result = static::find()
+            ->andWhere(['slave_id'=>$id])
+            ->asArray()
+            ->all();
         return array_column($result, 'master_id');
     }
 
@@ -175,9 +211,9 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function getAllMasterIds()
     {
-        $result=static::find()
-        ->asArray()
-        ->all();
+        $result = static::find()
+            ->asArray()
+            ->all();
         return array_column($result, 'master_id');
     }
     
@@ -187,16 +223,17 @@ abstract class AbstractBinder extends ActiveRecord
      * @throws \InvalidArgumentException
      * @return AbstractItem[]
      */
-    public static function getMasterItems($master_id)
+    public static function getMasterItems($id)
     {
-        $master_cls=static::getMasterCls();
+        $master_cls = static::getMasterCls();
 
-        $ids=static::getMasterIds($master_id);
+        $ids = static::getMasterIds($id);
         $result=$master_cls::find()
-        ->andWhere(['id'=>$ids])
-        ->all();
+            ->andWhere(['id'=>$ids])
+            ->all();
         return $result;
     }
+
     /**
      * Remove all item from bind table by master_id
      *
@@ -205,7 +242,8 @@ abstract class AbstractBinder extends ActiveRecord
      */
     public static function clear($master_id)
     {
-        return static::deleteAll(['name'=>static::bindName(),'master_id'=>$master_id]);
+        $master_id = Nmbr::toIntegerStrict($master_id);
+        return static::deleteAll(['name' => static::bindName(), 'master_id' => $master_id]);
     }
     
     /**
@@ -220,34 +258,6 @@ abstract class AbstractBinder extends ActiveRecord
     /**********************************************************************/
     /** Redeclaration **/
     /**********************************************************************/
-    public function init()
-    {
-        parent::init();
-        $name=static::bindName();
-        $this->name=$name;
-    }
     
-    public function rules()
-    {
-        $rules=parent::rules();
-        
-        $new_rules=[
-            [['name','master_id','slave_id'],'required'],
-            [['master_id','slave_id'],'number']
-        ];
-        
-        $rules=ArrayHelper::merge($new_rules, $rules);
-        return $rules;
-    }
-    
-    public static function tableName()
-    {
-        return 'binder';
-    }
-    
-    public static function find()
-    {
-        return parent::find()->where(['name'=>static::bindName()]);
-    }
 }
 
