@@ -20,16 +20,21 @@ class EntityExtension extends AbstractItemExtension
 
 ```php
 <?php
-public function rules()
+class Entity extends AbstractEntity
 {
-    $rules = parent::rules();
-
-    $new_rules=[
-        [['file'],'file', 'skipOnEmpty'=>true, 'extensions'=>'png, jpg']
-    ];
+    public $file;
     
-    $rules  =ArrayHelper::merge($rules, $new_rules);
-    return $rules;
+    public function rules()
+    {
+        $rules = parent::rules();
+
+        $new_rules=[
+            [['file'],'file', 'skipOnEmpty'=>true, 'extensions'=>'png, jpg']
+        ];
+        
+        $rules  =ArrayHelper::merge($rules, $new_rules);
+        return $rules;
+    }
 }
 ?>
 ```
