@@ -1,7 +1,6 @@
 <?php
-$adminPanel = require __DIR__ . '/admin-panel.php';
-
+// $module = require __DIR__ . '/module.php';
 
 return [
-    'admin-panel' => $adminPanel,
+    // 'module' => $module
 ];

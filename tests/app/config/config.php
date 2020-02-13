@@ -2,6 +2,7 @@
 
 $components = require __DIR__ . '/componets/config.php';
 $modules = require __DIR__ . '/modules/config.php';
+
 /**
  * Application configuration shared by all test types
  */
@@ -13,7 +14,6 @@ return [
         '@npm'   => '@vendor/npm-asset',
         '@webroot' => dirname(__DIR__).'/web',
         '@webroot/assets' => dirname(__DIR__).'/web/assets',
-        '@web' => '/',
         '@app' => dirname(__DIR__),
         '@frontend' => dirname(__DIR__),
     ],
@@ -23,23 +23,17 @@ return [
         array_merge($components,
             [
                 'urlManager' => [
-                    'showScriptName' => true,
                     'enablePrettyUrl' => true,
-                    'showScriptName' => false
-                ],
-                'user' => [
-                    'identityClass' => 'devskyfly\yiiModuleAdminPanel\models\auth\User',
-                    'enableAutoLogin' => true,
+                    'showScriptName' => false,
+                    'enableStrictParsing' => false
                 ],
                 'errorHandler' => [
                     'errorAction' => 'site/error',
                 ],
                 'request' => [
                     'cookieValidationKey' => 'test',
-                    'enableCsrfValidation' => false,
+                    'enableCsrfValidation' => false
                 ]
         ]),
-    'modules' => 
-        array_merge($modules,
-        [])
+    'modules' => array_merge($modules, [])
 ];

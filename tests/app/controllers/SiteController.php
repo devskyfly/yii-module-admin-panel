@@ -1,8 +1,6 @@
 <?php
 namespace app\controllers;
 
-use devskyfly\yiiModuleAdminPanel\actions\auth\LoginAction;
-use devskyfly\yiiModuleAdminPanel\actions\auth\LogoutAction;
 use yii\web\Controller;
 
 class SiteController extends Controller
@@ -10,16 +8,9 @@ class SiteController extends Controller
     public function actions()
     {
         return [
-            'login'=>[
-                'class'=>LoginAction::class
-            ],
-            'logout'=>[
-                'class'=>LogoutAction::class
-            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            
         ];
     }
 
