@@ -1,8 +1,6 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\migrations\helpers\contentPanel;
 
-use yii\db\Migration;
-
 class ExtensionMigrationHelper extends AbstractMigrationHelper
 {
     public function getFieldsDefinition()

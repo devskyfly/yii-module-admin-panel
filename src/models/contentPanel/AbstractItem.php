@@ -212,30 +212,29 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
         $result=true;
         $transaction=$this->db->beginTransaction();
         try{
-            
             $result=$this->save();
-            foreach ($this->extensions as $name=>$extension){
+            foreach ($this->extensions as $name=>$extension) {
                 $extension->initByItem($this,$name);
-                if($extension->validate()){
+                if ($extension->validate()) {
                     $result=$result&&$extension->save();
-                }else{
-                    ArrayHelper::merge($this->errors,$extension->errors);
+                } else {
+                    ArrayHelper::merge($this->errors, $extension->errors);
                 }
             }
-            if(Obj::isA(Yii::$app, yii\web\Application::class)){
+            if (Obj::isA(Yii::$app, yii\web\Application::class)) {
                 $request=Yii::$app->request;
-                if(!Vrbl::isNull($request)){
+                if (!Vrbl::isNull($request)) {
                     foreach ($this->binders as $name=>$bind_cls){
                         $bind_cls::clear($this->id);
                         $bind_short_cls=(new \ReflectionClass($bind_cls))->getShortName();
                         $request_binders=$request->post($bind_short_cls,[]);
-                        if(!Vrbl::isEmpty($request_binders)){
-                            foreach($request_binders['slave_id'] as $item){
-                                if(Vrbl::isEmpty($item)){continue;}
+                        if (!Vrbl::isEmpty($request_binders)) {
+                            foreach ($request_binders['slave_id'] as $item) {
+                                if (Vrbl::isEmpty($item)) {continue;}
                                 $bind=new $bind_cls();
                                 $bind->master_id=$this->id;
                                 $bind->slave_id=Nmbr::toIntegerStrict($item);
-                                if($bind->validate()){
+                                if ($bind->validate()) {
                                     $result=$result&&$bind->insert();
                                 }
                             }
@@ -338,12 +337,12 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
      */
     public function rules()
     {
-        $rules=parent::rules();
+        $rules = parent::rules();
         $new_rules=[
             [["active","create_date_time","change_date_time"],"required"],
             [["active","create_date_time","change_date_time","sort"],"string"]
         ];
-        $rules=ArrayHelper::merge($rules, $new_rules);
+        $rules = ArrayHelper::merge($rules, $new_rules);
         return $rules;
     }
     

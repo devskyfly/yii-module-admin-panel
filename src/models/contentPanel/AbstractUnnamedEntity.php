@@ -7,7 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\base\Event;
 
 /**
- * This class represent entity
+ * This class represents entity
  * 
  * @author devskyfly
  * @property string $_section__id
@@ -36,7 +36,8 @@ abstract class AbstractUnnamedEntity extends AbstractItem
     public static function getSectionCls()
     {
         $cls=static::sectionCls();
-        if((!Cls::isSubClassOf($cls, AbstractSection::class))&&(!Vrbl::isEmpty($cls))){
+        if ((!Cls::isSubClassOf($cls, AbstractSection::class))
+            && (!Vrbl::isEmpty($cls))) {
             throw new \InvalidArgumentException('$cls is not '.AbstractSection::class.' class.');
         }
         return $cls;
@@ -45,7 +46,6 @@ abstract class AbstractUnnamedEntity extends AbstractItem
     /**********************************************************************/
     /** INIT **/
     /**********************************************************************/
-    
     
     public function init()
     {
