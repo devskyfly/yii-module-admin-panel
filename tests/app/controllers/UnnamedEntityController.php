@@ -1,8 +1,10 @@
-### Реализация класса AbstractContentPanelController
-
-```php
 <?php
-class EntityController extends AbstractContentPanelController
+
+namespace app\controllers;
+
+use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
+
+class UnnamedEntityController extends AbstractContentPanelController
 {
     //Classes
 
@@ -91,5 +93,3 @@ class EntityController extends AbstractContentPanelController
         return "Сущность с секцией";
     }
 }
-?>
-```

@@ -1,12 +1,8 @@
-## Миграция
-
-Унаследовать от PageMigrationHelper.
-
 ## Реализация класса FileExtension
 
 ```php
 <?php
-class EntityExtension extends AbstractItemExtension
+class FileExtension extends AbstractFile
 {
     protected static function itemCls()
     {
@@ -28,17 +24,16 @@ class Entity extends AbstractEntity
     {
         $rules = parent::rules();
 
-        $new_rules=[
-            [['file'],'file', 'skipOnEmpty'=>true, 'extensions'=>'png, jpg']
+        $new_rules = [
+            [['file'], 'file', 'skipOnEmpty'=>true, 'extensions'=>'png,jpg']
         ];
         
-        $rules  =ArrayHelper::merge($rules, $new_rules);
+        $rules = ArrayHelper::merge($rules, $new_rules);
         return $rules;
     }
 }
 ?>
 ```
-
 
 ## Реализация класса AbstractFileTransferController
 
@@ -66,3 +61,5 @@ FileUpload::widget([
     "attribute"=>'file'
 ]);
 ```
+
+## [Миграция extends FileMigrationHelper](../migration-helper.md);

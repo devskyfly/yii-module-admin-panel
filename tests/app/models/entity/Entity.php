@@ -1,7 +1,8 @@
-## Реализация класса AbstractEntity | AbstractUnnamedEntity
-
-```php
 <?php
+namespace app\models\entity;
+
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
+
 class Entity extends AbstractEntity
 {
     public static function sectionCls()
@@ -26,10 +27,6 @@ class Entity extends AbstractEntity
     
     public static function selectListRoute()
     {
-        return "module/entity-name/section-select-list";
+        return "/entity/section-select-list";
     }
 }
-?>
-```
-
-## [Миграция extends EntityMigrationHelper | UnnamedEntityMigrationHelper](migration-helper.md);
