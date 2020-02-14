@@ -2,9 +2,24 @@
 namespace app\models\entity;
 
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
+use yii\helpers\ArrayHelper;
 
 class Entity extends AbstractEntity
 {
+    public $file;
+    
+    public function rules()
+    {
+        $rules = parent::rules();
+
+        $new_rules = [
+            [['file'], 'file', 'skipOnEmpty'=>true, 'extensions'=>'png,jpg']
+        ];
+        
+        $rules = ArrayHelper::merge($rules, $new_rules);
+        return $rules;
+    }
+
     public static function sectionCls()
     {
         return Section::class;
@@ -12,10 +27,9 @@ class Entity extends AbstractEntity
     
     public function extensions()
     {
-        return [];
-        /*return [
-            'page'=>EntityPageExtension::class
-        ];*/
+        return [
+            'file' => FileExtension::class
+        ];
     }
 
     public function binders(){

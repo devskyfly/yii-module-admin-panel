@@ -7,6 +7,7 @@ use app\models\entity\EntityFilter;
 use app\models\entity\Section;
 use devskyfly\php56\types\Obj;
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\FileUpload;
 use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\ItemSelector;
 
 class EntityController extends AbstractContentPanelController
@@ -51,6 +52,11 @@ class EntityController extends AbstractContentPanelController
                        'value'=>'Y', 
                        'uncheck'=>'N', 
                        'checked'=>$item->active=='Y'?true:false])
+                    .FileUpload::widget([
+                    "form"=>$form,
+                    "item"=>$item,
+                    "attribute"=>'file'
+                    ])
                ],
                /*[
                    "label" => "seo",

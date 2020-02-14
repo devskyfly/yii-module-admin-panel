@@ -32,11 +32,11 @@ class FileUpload extends Widget
     {
         parent::init();
         
-        if(!Obj::isA($this->form,ActiveForm::class)){
+        if(!Obj::isA($this->form, ActiveForm::class)){
             throw new \InvalidArgumentException('Property $form is not '.ActiveForm::class.' type.');
         }
         
-        if(!Obj::isA($this->item,AbstractItem::class)){
+        if(!Obj::isA($this->item, AbstractItem::class)){
             throw new \InvalidArgumentException('Property $item is not '.AbstractItem::class.' type.');
         }
         
@@ -50,8 +50,8 @@ class FileUpload extends Widget
         $form=$this->form;
         $item=$this->item;
         $attribute=$this->attribute;
-        $file=$item->extensions[$attribute];
+        $file = $item->extensions[$attribute];
         
-        return $this->render('file-upload', compact("form","item","attribute","file"));
+        return $this->render('file-upload', compact("form", "item", "attribute", "file"));
     }
 }
