@@ -1,9 +1,12 @@
 <?php
+
+use app\assets\AppAsset;
 use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $content string */
 ?>
+<?AppAsset::register($this);?>
 <?php $this->beginPage() ?>
 <html>
 <head>
@@ -12,7 +15,9 @@ use yii\helpers\Html;
 </head>
 <body>
 <?php $this->beginBody() ?>
+    <div class="container-fluid">
     <?= $content ?>
+    </div>
 <?php $this->endBody() ?>
 </body>
 </html>

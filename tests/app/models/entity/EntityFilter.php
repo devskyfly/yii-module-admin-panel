@@ -10,6 +10,6 @@ class EntityFilter extends Entity implements FilterInterface
     
     public function rules()
     {
-        return [[["data","active"],"string"]];
+        return [[["active"],"string"]];
     }
 }

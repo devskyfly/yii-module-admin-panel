@@ -1,10 +1,10 @@
 <?php
-namespace app\models\entity;
+namespace app\models\unnamedEntity;
 
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterTrait;
 
-class UnnamedEntityExtensionFilter extends UnnamedEntityExtension implements FilterInterface
+class UnnamedEntityFilter extends UnnamedEntity implements FilterInterface
 {
     use FilterTrait;
     

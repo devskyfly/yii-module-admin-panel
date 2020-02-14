@@ -5,7 +5,9 @@ namespace app\controllers;
 use app\models\entity\Entity;
 use app\models\entity\EntityFilter;
 use app\models\entity\Section;
+use devskyfly\php56\types\Obj;
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
+use devskyfly\yiiModuleAdminPanel\widgets\contentPanel\ItemSelector;
 
 class EntityController extends AbstractContentPanelController
 {
@@ -45,16 +47,19 @@ class EntityController extends AbstractContentPanelController
                    ])
                    .$form->field($item, 'create_date_time')
                    .$form->field($item, 'change_date_time')
-                   .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'?true:false])
+                   .$form->field($item,'active')->checkbox([
+                       'value'=>'Y', 
+                       'uncheck'=>'N', 
+                       'checked'=>$item->active=='Y'?true:false])
                ],
-               [
+               /*[
                    "label" => "seo",
                    "content" => $form->field($item->extensions['page'], 'title')
                    .$form->field($item->extensions['page'], 'keywords')
                    .$form->field($item->extensions['page'], 'description')
                    .$form->field($item->extensions['page'], 'preview_text')
                    .$form->field($item->extensions['page'], 'detail_text')
-               ]
+               ]*/
            ];
        };
    }
@@ -76,16 +81,20 @@ class EntityController extends AbstractContentPanelController
                    ])
                    .$form->field($item, 'create_date_time')
                    .$form->field($item, 'change_date_time')
-                   .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'true:false])
+                   .$form->field($item,'active')->checkbox([
+                       'value'=>'Y', 
+                       'uncheck'=>'N', 
+                       'checked'=>$item->active=='Y'?true:false
+                    ])
                ],
-               [
+               /*[
                    "label" => "seo",
                    "content" => $form->field($item->extensions['page'],'title')
                    .$form->field($item->extensions['page'], 'keywords')
                    .$form->field($item->extensions['page'], 'description')
                    .$form->field($item->extensions['page'], 'preview_text')
                    .$form->field($item->extensions['page'], 'detail_text')
-               ]
+               ]*/
            ];
        };
    }

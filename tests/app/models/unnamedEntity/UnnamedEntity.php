@@ -1,9 +1,9 @@
 <?php
-namespace app\models\entity;
+namespace app\models\unnamedEntity;
 
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
 
-class UnnamedEntityExtension extends AbstractUnnamedEntity
+class UnnamedEntity extends AbstractUnnamedEntity
 {
     public static function sectionCls()
     {

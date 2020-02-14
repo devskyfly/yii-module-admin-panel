@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\entityWithoutSection\EntityWithoutSection;
+use app\models\entityWithoutSection\EntityWithoutSectionFilter;
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
 
 class EntityWithoutSectionController extends AbstractContentPanelController
@@ -10,18 +12,18 @@ class EntityWithoutSectionController extends AbstractContentPanelController
 
     public static function sectionCls()
     {
-        return Section::class;
+        return null;
     }
     
     
     public static function entityCls()
     {
-        return Entity::class;
+        return EntityWithoutSection::class;
     }
     
     public static function entityFilterCls()
     {
-        return EntityFilter::class;
+        return EntityWithoutSectionFilter::class;
     }
     
     //Views
@@ -30,66 +32,25 @@ class EntityWithoutSectionController extends AbstractContentPanelController
         return function($form,$item)
         {
             return [
-                [
-                    "label" => "main",
-                    "content" =>
-                    $form->field($item, 'name')
-                    .ItemSelector::widget([
-                        "form" => $form,
-                        "master_item" => $item,
-                        "slave_item_cls" => $item::sectionCls(),
-                        "property" => "_section__id"
-                    ])
-                    .$form->field($item, 'create_date_time')
-                    .$form->field($item, 'change_date_time')
-                    .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'?true:false])
-                ],
-                [
-                    "label" => "seo",
-                    "content" => $form->field($item->extensions['page'], 'title')
-                    .$form->field($item->extensions['page'], 'keywords')
-                    .$form->field($item->extensions['page'], 'description')
-                    .$form->field($item->extensions['page'], 'preview_text')
-                    .$form->field($item->extensions['page'], 'detail_text')
-                ]
+                "label" => "main",
+                   "content" =>
+                   $form->field($item, 'name')
+                   .$form->field($item, 'create_date_time')
+                   .$form->field($item, 'change_date_time')
+                   .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'?true:false])
+               
             ];
         };
     }
     
     public function sectionEditorViews()
     {
-        return function($form, $item)
-        {
-             return [
-                [
-                    "label" => "main",
-                    "content" =>
-                    $form->field($item,'name')
-                    .ItemSelector::widget([
-                        "form" => $form,
-                        "master_item" => $item,
-                        "slave_item_cls" => Obj::getClassName($item),
-                        "property" => "__id"
-                    ])
-                    .$form->field($item, 'create_date_time')
-                    .$form->field($item, 'change_date_time')
-                    .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'true:false])
-                ],
-                [
-                    "label" => "seo",
-                    "content" => $form->field($item->extensions['page'],'title')
-                    .$form->field($item->extensions['page'], 'keywords')
-                    .$form->field($item->extensions['page'], 'description')
-                    .$form->field($item->extensions['page'], 'preview_text')
-                    .$form->field($item->extensions['page'], 'detail_text')
-                ]
-            ];
-        };
+        return null;
     }
     
     //Title
     public function itemLabel()
     {
-        return "Сущность с секцией";
+        return "Сущность без секции";
     }
 }

@@ -1,4 +1,5 @@
 <?php
+global $yiiApp;
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'test');
 
@@ -9,9 +10,11 @@ require(__DIR__ . '/vendor/yiisoft/yii2/Yii.php');
 $config = require __DIR__ . '/tests/app/config/console.php';
 
 // создание и конфигурация приложения, а также вызов метода для обработки входящего запроса
-$yiiApp = (new yii\web\Application($config));
+$yiiApp = (new yii\console\Application($config));
+
 
 use devskyfly\robocmd\DevTestTrait;
+use yii\helpers\BaseConsole;
 
 class RoboFile extends \Robo\Tasks
 {
@@ -23,8 +26,20 @@ class RoboFile extends \Robo\Tasks
     }
 
     public function testsClearDatabase()
-    {
-        $this->_exec(getcwd().'/yii admin-panel/service/db/clear');
+    {   
+        global $yiiApp;
+        $db = $yiiApp->db;
+        $dbSchema = $db->schema;
+        $tables = $dbSchema->getTableNames();
+
+        BaseConsole::stdout("Clear db:".PHP_EOL);
+        foreach ($tables as $table) {
+            if ($table != "migration") {
+                $db->createCommand()->truncateTable($table)->execute();
+                BaseConsole::stdout($table.PHP_EOL);
+            };
+        }
+
     }
 
 }

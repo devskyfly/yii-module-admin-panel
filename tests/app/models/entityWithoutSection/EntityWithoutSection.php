@@ -1,5 +1,5 @@
 <?php
-namespace app\models\entity;
+namespace app\models\entityWithoutSection;
 
 use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
 

@@ -1,22 +1,23 @@
 <?php
 namespace devskyfly\yiiModuleAdminPanel\controllers\contentPanel;
 
+use Yii;
 use devskyfly\php56\core\Cls;
 use devskyfly\php56\types\Nmbr;
 use devskyfly\php56\types\Str;
 use devskyfly\php56\types\Vrbl;
-use Yii;
+use devskyfly\yiiModuleAdminPanel\Module;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
+use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractEntity;
-use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractSection;
-use devskyfly\yiiModuleAdminPanel\models\contentPanel\AbstractUnnamedEntity;
-use devskyfly\yiiModuleAdminPanel\models\contentPanel\FilterInterface;
-use devskyfly\yiiModuleAdminPanel\Module;
+
 
 /**
  * Provide common way on view and edit of entities and sections
@@ -26,6 +27,36 @@ use devskyfly\yiiModuleAdminPanel\Module;
  */
 abstract class AbstractContentPanelController extends Controller
 {
+     /**
+     * 
+     * {@inheritDoc}
+     * @see \yii\base\BaseObj::init()
+     * @throws \InvalidArgumentException;
+     */
+    public function init()
+    {
+        $this->entity_cls = static::getEntityCls();
+        $this->entity_filter_cls = static::getEntityFilterCls();
+        $this->section_cls = static::getSectionCls();
+        
+        $this->entity_editor_views = $this->entityEditorViews();
+        $this->section_editor_views = $this->sectionEditorViews();
+        
+        $this->entity_columns = ArrayHelper::merge(
+            $this->entityColumnsForEdit(),
+            $this->entityColumns(), 
+            $this->entityCustomColumns()
+        );
+        
+        $this->entity_select_list_columns = ArrayHelper::merge(
+            $this->entityColumnsForSelectList(),
+            $this->entityColumns(),
+            $this->entityCustomColumns()
+        );
+        
+        $this->setViewPath();
+    }
+
     /**
      * Contain entity class to have access to static methods of class
      * 
@@ -256,51 +287,13 @@ abstract class AbstractContentPanelController extends Controller
     {
         $module = Module::getInstance();
         
-        if(Vrbl::isNull($module)){
+        if (Vrbl::isNull($module)) {
             throw new \Exception('admin-panel module is not loaded.');
         }
         
-        $view_path=$module->getAbsoluteViewPath();
+        $view_path = $module->getAbsoluteViewPath();
         parent::setViewPath($view_path);
     }
-    
-    /**********************************************************************/
-    /** INIT **/
-    /**********************************************************************/
-    
-    /**
-     * 
-     * {@inheritDoc}
-     * @see \yii\base\BaseObj::init()
-     * @throws \InvalidArgumentException;
-     */
-    public function init()
-    {
-        $this->entity_cls=static::getEntityCls();
-        $this->entity_filter_cls=static::getEntityFilterCls();
-        $this->section_cls=static::getSectionCls();
-        
-        $this->entity_editor_views=$this->entityEditorViews();
-        $this->section_editor_views=$this->sectionEditorViews();
-        
-        $this->entity_columns=ArrayHelper::merge(
-            $this->entityColumnsForEdit(),
-            $this->entityColumns(), 
-            $this->entityCustomColumns()
-        );
-        
-        $this->entity_select_list_columns=ArrayHelper::merge(
-            $this->entityColumnsForSelectList(),
-            $this->entityColumns(),
-            $this->entityCustomColumns()
-        );
-        
-        $this->setViewPath();
-    }
-    
-    /**********************************************************************/
-    /** ACTIONS **/
-    /**********************************************************************/
     
     /**
      * Give opportunity to view sections and entities lists
@@ -335,13 +328,14 @@ abstract class AbstractContentPanelController extends Controller
      */
     public function actionEntitySelectList($parent_section_id=null,$page=null)
     {
-        if((!Vrbl::isNull($parent_section_id))
-            &&(!Str::isString($parent_section_id))){
+        if ((!Vrbl::isNull($parent_section_id))
+            &&(!Str::isString($parent_section_id))) {
                 throw new \InvalidArgumentException('Param parent_section_id is not string type.');
         }
         $page=Nmbr::toInteger($page);
-        if((!Vrbl::isNull($page))
-            &&(!Nmbr::IsInteger($page))){
+        
+        if ((!Vrbl::isNull($page))
+            &&(!Nmbr::IsInteger($page))) {
                 throw new \InvalidArgumentException('Param page is not integer type.');
         }
         
@@ -363,7 +357,7 @@ abstract class AbstractContentPanelController extends Controller
         }
         
         $views=$this->entity_editor_views;
-        $request=Yii::$app->request;
+        $request = Yii::$app->request;
         if($request->isPost){
             $post=$request->post();
             $item->loadLikeItem($post);

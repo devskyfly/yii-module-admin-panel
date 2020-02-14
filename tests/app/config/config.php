@@ -9,6 +9,7 @@ $modules = require __DIR__ . '/modules/config.php';
 return [
     'id' => 'functional-tests',
     'basePath' => dirname(__DIR__),
+    'bootstrap' => ['admin-panel'],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',

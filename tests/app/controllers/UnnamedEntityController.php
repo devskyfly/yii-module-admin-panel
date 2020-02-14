@@ -2,6 +2,8 @@
 
 namespace app\controllers;
 
+use app\models\unnamedEntity\UnnamedEntity;
+use app\models\unnamedEntity\UnnamedEntityFilter;
 use devskyfly\yiiModuleAdminPanel\controllers\contentPanel\AbstractContentPanelController;
 
 class UnnamedEntityController extends AbstractContentPanelController
@@ -10,18 +12,17 @@ class UnnamedEntityController extends AbstractContentPanelController
 
     public static function sectionCls()
     {
-        return Section::class;
+        return null;
     }
-    
     
     public static function entityCls()
     {
-        return Entity::class;
+        return UnnamedEntity::class;
     }
     
     public static function entityFilterCls()
     {
-        return EntityFilter::class;
+        return UnnamedEntityFilter::class;
     }
     
     //Views
@@ -33,24 +34,9 @@ class UnnamedEntityController extends AbstractContentPanelController
                 [
                     "label" => "main",
                     "content" =>
-                    $form->field($item, 'name')
-                    .ItemSelector::widget([
-                        "form" => $form,
-                        "master_item" => $item,
-                        "slave_item_cls" => $item::sectionCls(),
-                        "property" => "_section__id"
-                    ])
-                    .$form->field($item, 'create_date_time')
+                    $form->field($item, 'create_date_time')
                     .$form->field($item, 'change_date_time')
                     .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'?true:false])
-                ],
-                [
-                    "label" => "seo",
-                    "content" => $form->field($item->extensions['page'], 'title')
-                    .$form->field($item->extensions['page'], 'keywords')
-                    .$form->field($item->extensions['page'], 'description')
-                    .$form->field($item->extensions['page'], 'preview_text')
-                    .$form->field($item->extensions['page'], 'detail_text')
                 ]
             ];
         };
@@ -58,38 +44,12 @@ class UnnamedEntityController extends AbstractContentPanelController
     
     public function sectionEditorViews()
     {
-        return function($form, $item)
-        {
-             return [
-                [
-                    "label" => "main",
-                    "content" =>
-                    $form->field($item,'name')
-                    .ItemSelector::widget([
-                        "form" => $form,
-                        "master_item" => $item,
-                        "slave_item_cls" => Obj::getClassName($item),
-                        "property" => "__id"
-                    ])
-                    .$form->field($item, 'create_date_time')
-                    .$form->field($item, 'change_date_time')
-                    .$form->field($item,'active')->checkbox(['value'=>'Y', 'uncheck'=>'N', 'checked'=>$item->active=='Y'true:false])
-                ],
-                [
-                    "label" => "seo",
-                    "content" => $form->field($item->extensions['page'],'title')
-                    .$form->field($item->extensions['page'], 'keywords')
-                    .$form->field($item->extensions['page'], 'description')
-                    .$form->field($item->extensions['page'], 'preview_text')
-                    .$form->field($item->extensions['page'], 'detail_text')
-                ]
-            ];
-        };
+        return null;
     }
     
     //Title
     public function itemLabel()
     {
-        return "Сущность с секцией";
+        return "Реестр";
     }
 }
