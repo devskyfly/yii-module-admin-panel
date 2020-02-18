@@ -3,6 +3,7 @@
 class EntityCest
 {
     public $setSize = 50;
+    
     public function _before(FunctionalTester $I)
     {
 
@@ -26,7 +27,6 @@ class EntityCest
     }
 
     /**
-     * Undocumented function
      *
      * @param FunctionalTester $I
      * @depends seeList
@@ -38,11 +38,12 @@ class EntityCest
             $I->amOnPage("/entity");
             $I->click("Создать элемент");
             $I->amOnPage('/entity/entity-create');
+            
             foreach ($item as $key => $val) {
                 $I->fillField($key, $val);
                 $I->click("Создать");
             }
-            $I->see("Обновить");
+            //$I->see("Обновить");
        }
     }
 }
