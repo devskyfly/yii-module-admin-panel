@@ -52,11 +52,11 @@ class EntityController extends AbstractContentPanelController
                        'value'=>'Y', 
                        'uncheck'=>'N', 
                        'checked'=>$item->active=='Y'?true:false])
-                    /*.FileUpload::widget([
+                    .FileUpload::widget([
                     "form"=>$form,
                     "item"=>$item,
                     "attribute"=>'file'
-                    ])*/
+                    ])
                ],
                /*[
                    "label" => "seo",
