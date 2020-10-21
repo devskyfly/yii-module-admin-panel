@@ -28,7 +28,7 @@ class Entity extends AbstractEntity
     public function extensions()
     {
         return [
-            //'file' => FileExtension::class
+            'file' => FileExtension::class
         ];
     }
 

@@ -3,7 +3,7 @@
 class EntityCest
 {
     public $setSize = 50;
-    
+
     public function _before(FunctionalTester $I)
     {
 
@@ -14,7 +14,8 @@ class EntityCest
         for ($i = 1; $i < $this->setSize; $i++) {
             $item = [
                 "Entity[active]" => "Y",
-                "Entity[name]" => "Name $i"
+                "Entity[name]" => "Name $i",
+                "Entity[file]" => codecept_data_dir().'/img.jpg'
             ];
             yield $item;
         }
@@ -40,7 +41,12 @@ class EntityCest
             $I->amOnPage('/entity/entity-create');
             
             foreach ($item as $key => $val) {
-                $I->fillField($key, $val);
+                if ($key == "Entity[file]") {
+                    $I->attachFile($key, $val);
+                } else {
+                    $I->fillField($key, $val);
+                }
+                
                 $I->click("Создать");
             }
             //$I->see("Обновить");
