@@ -142,7 +142,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
     public function insertLikeItem()
     {
         $this->trigger(static::EVENT_BEFORE_INSERT_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_BEFORE_INSERT_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
+        //Event::trigger(static::class, static::EVENT_BEFORE_INSERT_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
         
         $result=true;
         $transaction=static::getDb()->beginTransaction();
@@ -190,7 +190,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             //return false;
         }
         $this->trigger(static::EVENT_AFTER_INSERT_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_AFTER_INSERT_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
+        //Event::trigger(static::class, static::EVENT_AFTER_INSERT_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
         
         return $result;
     }
@@ -207,7 +207,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             return  $this->insertLikeItem();
         }
         $this->trigger(static::EVENT_BEFORE_SAVE_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_BEFORE_SAVE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
+        //Event::trigger(static::className(), static::EVENT_BEFORE_SAVE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
 
         $result=true;
         $transaction=$this->db->beginTransaction();
@@ -252,7 +252,7 @@ abstract class AbstractItem extends ActiveRecord implements SearchInterface
             throw $e;
         }
         $this->trigger(static::EVENT_AFTER_SAVE_LIKE_ITEM);
-        Event::trigger(static::className(), static::EVENT_AFTER_SAVE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
+        //Event::trigger(static::className(), static::EVENT_AFTER_SAVE_LIKE_ITEM, new ItemEventMessage(['obj'=>$this]));
 
         return $result;
     }
