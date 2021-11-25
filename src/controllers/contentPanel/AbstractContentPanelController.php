@@ -275,6 +275,7 @@ abstract class AbstractContentPanelController extends Controller
      */
     public function init()
     {
+        parent::init();
         $this->entity_cls=static::getEntityCls();
         $this->entity_filter_cls=static::getEntityFilterCls();
         $this->section_cls=static::getSectionCls();
